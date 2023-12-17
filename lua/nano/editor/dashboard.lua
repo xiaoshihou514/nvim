@@ -3,24 +3,22 @@ local api = vim.api
 local ns = api.nvim_create_namespace("dashboard")
 local project_shown = 5
 local shown = 20
-local M = {}
 local header = {
-    -- https://patorjk.com/software/taag/#p=display&f=Speed&t=NanoVim
-    [[_____   __                   ___    ______            ]],
-    [[___  | / /_____ _______________ |  / /__(_)______ ___ ]],
-    [[__   |/ /_  __ `/_  __ \  __ \_ | / /__  /__  __ `__ \]],
-    [[_  /|  / / /_/ /_  / / / /_/ /_ |/ / _  / _  / / / / /]],
-    [[/_/ |_/  \__,_/ /_/ /_/\____/_____/  /_/  /_/ /_/ /_/ ]],
-    [[                                                      ]],
+    [[_____   __                 _____            ]],
+    [[___  | / /_____________   ____(_)______ ___ ]],
+    [[__   |/ /_  _ \  __ \_ | / /_  /__  __ `__ \]],
+    [[_  /|  / /  __/ /_/ /_ |/ /_  / _  / / / / /]],
+    [[/_/ |_/  \___/\____/_____/ /_/  /_/ /_/ /_/ ]],
+    [[                                            ]],
 }
 local shortcuts = {
     { desc = " Recent", key = "r", action = "Telescope oldfiles" },
-    { desc = "󰏗 Plugins", key = "l", action = "NanoPack" },
+    { desc = "󰏗 Plugins", key = "P", action = "NanoPack" },
     {
         desc = " Config",
         key = "c",
         action = function()
-            -- require("telescope.builtin").find_files({ cwd = "~/.config/nvim-main" })
+            require("telescope.builtin").find_files({ cwd = "~/.config/nvim-main" })
         end,
     },
     {
@@ -29,7 +27,7 @@ local shortcuts = {
         action = function()
             local patterns = {
                 ".git",
-                ".luarc.json",
+                "lazy-lock.json",
                 "Cargo.toml",
                 "*.cabal",
                 "go.mod",
@@ -53,7 +51,7 @@ local shortcuts = {
                 end
             }, function(item)
                 if not item then return end
-                -- require("telescope.builtin").find_files({ cwd = item })
+                require("telescope.builtin").find_files({ cwd = item })
             end)
         end
     },
@@ -94,15 +92,12 @@ local function set_opts()
 end
 
 local bind = function(lhs, rhs)
-    vim.keymap.set("n", lhs, rhs, { buffer = 0 })
+    bind("n", lhs, rhs, { buffer = 0 })
 end
 
-M.new = function(loadtime)
+return function(load_time)
     -- init
     local buf = api.nvim_create_buf(false, true)
-    if vim.bo.ft == "nanopack" then
-        vim.cmd("quit")
-    end
     local win = api.nvim_get_current_win()
     api.nvim_win_set_buf(win, buf)
     set_opts()
@@ -121,8 +116,8 @@ M.new = function(loadtime)
     end
 
     -- plugin info, nvim version
-    local time = "neovim loaded in " .. loadtime .. "ms"
-    table.insert(buftext, get_pad(time) .. time)
+    local startuptime = ("neovim loaded in %sms"):format(load_time)
+    table.insert(buftext, get_pad(startuptime) .. startuptime)
     table.insert(hls, { "Comment", #buftext - 1, 0, -1 })
     local ver = vim.version()
     local version = "NVIM v"
@@ -191,7 +186,7 @@ M.new = function(loadtime)
         end
     end
     local recent, i = {}, 1
-    while #recent < shown - match and i <= #files do
+    while #recent < shown - match and i < #files do
         local f = files[i]:gsub(vim.env.HOME, "~")
         if #f > maxlen then
             maxlen = #f
@@ -204,7 +199,7 @@ M.new = function(loadtime)
     -- padding
     maxlen = maxlen + 2
     local file_pad = string.rep(" ", (vim.o.co - maxlen) / 2)
-    local keys = "asdfjkgehwbnmyuiovtxz"
+    local keys = "asdfjklgehwbnmyuiovtxz"
     -- add
     local pos = { #buftext + 1, #file_pad }
     local count = 1
@@ -216,7 +211,7 @@ M.new = function(loadtime)
             { "DashboardShortCut", #buftext - 1, #file_pad + maxlen, #file_pad + maxlen + 1 }
         )
         bind(key, function()
-            -- require("telescope.builtin").find_files({ cwd = proj })
+            require("telescope.builtin").find_files({ cwd = proj })
         end)
         count = count + 1
     end
@@ -246,5 +241,3 @@ M.new = function(loadtime)
     end, hls)
     vim.opt_local.modifiable = false
 end
-
-return M

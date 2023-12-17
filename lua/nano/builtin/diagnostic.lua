@@ -17,12 +17,6 @@ vim.diagnostic.config({
     virtual_text = false,
 })
 
-require("lspconfig.ui.windows").default_options.border = "single"
-require("lspconfig.ui.windows").default_options.winhighlight = "FloatBorder:Normal"
-
-local function bind(mode, key, rhs)
-    vim.keymap.set(mode, key, rhs, { noremap = true, silent = true })
-end
 bind("n", "]d", vim.diagnostic.goto_next)
 bind("n", "[d", vim.diagnostic.goto_prev)
 bind("n", "gr", vim.lsp.buf.rename)

@@ -58,7 +58,7 @@ local kind_icons = {
     Unknown = " ",
 }
 
-return {
+require("epo").setup({
     fuzzy = false,
     debounce = 50,
     signature = true,
@@ -67,4 +67,4 @@ return {
     kind_format = function(k)
         return kind_icons[k]
     end
-}
+})

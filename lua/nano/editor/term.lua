@@ -44,8 +44,6 @@ local function open_term_win(buf)
         style = "minimal",
         border = "single",
     })
-    set("number", false, { win = w })
-    set("relativenumber", false, { win = w })
     set("winhl", "Normal:TermBg", { win = w })
     set("scrolloff", 0, { win = w })
     set("filetype", "floatterm", { buf = buf })
@@ -53,10 +51,10 @@ end
 
 local function create_new_term(cmd)
     local buf = api.nvim_create_buf(true, false)
-    vim.keymap.set({ "t", "n" }, "gt", function()
+    bind({ "t", "n" }, "gt", function()
         change_term(1)
     end, { buffer = buf })
-    vim.keymap.set({ "t", "n" }, "gT", function()
+    bind({ "t", "n" }, "gT", function()
         change_term(-1)
     end, { buffer = buf })
     open_term_win(buf)

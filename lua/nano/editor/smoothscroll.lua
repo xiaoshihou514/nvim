@@ -6,8 +6,11 @@ local function smooth_scroll(key, getcount)
     if scroll_win_id ~= -1 then
         return
     end
+    -- put a mark at where we started
+    api.nvim_input("m'")
     scroll_win_id = api.nvim_get_current_win()
     local count = getcount(scroll_win_id)
+    ---@diagnostic disable-next-line: undefined-field
     local timer = vim.uv.new_timer()
     local function scroll_callback()
         if count > 0 and api.nvim_get_current_win() == scroll_win_id then
@@ -24,15 +27,26 @@ local function smooth_scroll(key, getcount)
     timer:set_repeat(interval)
 end
 
-local function cj()
+bind({ "n", "x" }, "<C-d>", function()
     smooth_scroll("gj", function(win_id)
         return api.nvim_win_get_height(win_id) / 2
     end)
-end
-local function ck()
+end, { noremap = true })
+
+bind({ "n", "x" }, "<C-u>", function()
     smooth_scroll("gk", function(win_id)
         return api.nvim_win_get_height(win_id) / 2
     end)
-end
-vim.keymap.set({ "n", "x" }, "<C-d>", cj, { noremap = true })
-vim.keymap.set({ "n", "x" }, "<C-u>", ck, { noremap = true })
+end, { noremap = true })
+
+bind({ "n", "x" }, "<C-f>", function()
+    smooth_scroll("gj", function(win_id)
+        return api.nvim_win_get_height(win_id)
+    end)
+end, { noremap = true })
+
+bind({ "n", "x" }, "<C-b>", function()
+    smooth_scroll("gk", function(win_id)
+        return api.nvim_win_get_height(win_id)
+    end)
+end, { noremap = true })

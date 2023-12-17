@@ -84,6 +84,7 @@ local groups = {
     Ignore = { fg = p.shade_1 },
     LspCodeLens = { fg = p.shade_5 },
     WinSeparator = { fg = p.shade_4 },
+    QuickFixLine = { fg = p.cyan },
 
     -- Diagnostic
     DiagnosticOk = { fg = p.green },
@@ -123,6 +124,7 @@ local groups = {
     -- Lang: Lua
     luaTable = { fg = p.shade_4 },
     luaFunction = { link = "Keyword" },
+    ["@lsp.typemod.property.declaration.lua"] = { link = "Comment" }, -- type annotation
 
     -- Lang: Haskell
     hsImport = { link = "Keyword" },
@@ -145,6 +147,10 @@ local groups = {
     fishOption = { link = "Text" },
     fishParameter = { link = "Text" },
     fishVariable = { link = "Special" },
+
+    -- Lang: Vimdoc
+    ["@parameter.vimdoc"] = { link = "Keyword" },
+    ["@text.reference.vimdoc"] = { link = "helpHyperTextJump" },
 
     -- My highlights
     Indentline = { fg = p.shade_2 },

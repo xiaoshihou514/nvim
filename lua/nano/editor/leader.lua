@@ -49,4 +49,4 @@ local function leader_wait()
     await_input(leader)
 end
 
-vim.keymap.set("n", "<leader>", leader_wait)
+bind("n", "<leader>", leader_wait)

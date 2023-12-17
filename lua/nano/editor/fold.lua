@@ -114,4 +114,4 @@ local function peek()
     })
 end
 
-vim.keymap.set("n", "zp", peek, { noremap = true, silent = true, desc = "Peek this fold" })
+bind("n", "zp", peek, { noremap = true, silent = true, desc = "Peek this fold" })

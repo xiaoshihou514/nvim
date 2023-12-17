@@ -9,7 +9,9 @@ local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 local actions = require("telescope.actions")
 
+---@diagnostic disable-next-line: duplicate-set-field
 vim.ui.input = function(opts, on_confirm)
+    local mode = vim.fn.mode()
     -- setup window according to spec
     local buf = api.nvim_create_buf(true, false)
     local win = api.nvim_open_win(buf, true, {
@@ -65,28 +67,34 @@ vim.ui.input = function(opts, on_confirm)
     if opts.default then
         api.nvim_buf_set_lines(buf, 0, -1, false, { opts.default })
     end
-    vim.keymap.set({ "i", "n" }, "<Esc>", function()
+    bind({ "i", "n" }, "<Esc>", function()
         api.nvim_buf_delete(buf, { force = true })
-        api.nvim_input("<Esc>l")
+        if mode == "n" then
+            api.nvim_input("<Esc>l")
+        end
         on_confirm(nil)
     end, { buffer = buf })
-    vim.keymap.set({ "i", "n" }, "<cr>", function()
+    bind({ "i", "n" }, "<cr>", function()
         local text = api.nvim_buf_get_lines(buf, 0, -1, false)[1]
         api.nvim_buf_delete(buf, { force = true })
-        api.nvim_input("<Esc>l")
+        if mode == "n" then
+            api.nvim_input("<Esc>l")
+        end
         on_confirm(text)
     end, { buffer = buf })
-    vim.keymap.set("i", "<Tab>", function()
+    bind("i", "<Tab>", function()
         if vim.fn.pumvisible() == 1 then
             return api.nvim_replace_termcodes("<C-n>", true, false, true)
         else
             return api.nvim_replace_termcodes("<C-x><C-u>", true, false, true)
         end
     end, { noremap = true, expr = true, buffer = buf })
-    vim.keymap.set("i", "<S-Tab>", "<C-p>", { noremap = true, buffer = buf })
-    api.nvim_input("A")
+    bind("i", "<S-Tab>", "<C-p>", { noremap = true, buffer = buf })
+    api.nvim_input("<End>")
+    vim.cmd.startinsert()
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 vim.ui.select = function(items, opts, on_choice)
     local telescope_opts = {
         prompt_title = opts.prompt or "",

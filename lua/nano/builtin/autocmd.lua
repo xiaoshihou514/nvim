@@ -1,5 +1,4 @@
 local api = vim.api
-local utils = require("config.utils")
 local augroup = api.nvim_create_augroup("Xiaoshihou", {})
 local function autocmd(ev, opts)
     opts.group = augroup
@@ -36,7 +35,22 @@ autocmd("BufEnter", {
     desc = "Go to project root",
     callback = function()
         if
-            vim.tbl_contains(utils.util_ft, vim.bo.filetype)
+            vim.tbl_contains({
+                "help",
+                "dashboard",
+                "lazy",
+                "mason",
+                "TelescopePrompt",
+                "nofile",
+                "lspinfo",
+                "floatterm",
+                "elegant",
+                "dapui_scopes",
+                "dapui_stacks",
+                "dapui_console",
+                "dapui_watches",
+                "",
+            }, vim.bo.filetype)
         then
             return
         end
@@ -44,7 +58,7 @@ autocmd("BufEnter", {
         -- try to find a file that's supposed to be in the root
         local patterns = {
             ".git",
-            "lazy-lock.json",
+            ".luarc.json",
             "Cargo.toml",
             "*.cabal",
             "go.mod",

@@ -3,7 +3,7 @@
 --         config.install_info.url:gsub("https://github.com/", "https://ghproxy.com/https://github.com/")
 -- end
 
-return {
+require("treesitter").setup({
     ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
     auto_install = false,
     ignore_install = {},
@@ -18,4 +18,4 @@ return {
         end,
         additional_vim_regex_highlighting = false,
     },
-}
+})
