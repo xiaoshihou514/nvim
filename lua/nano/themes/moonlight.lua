@@ -85,6 +85,7 @@ local groups = {
     LspCodeLens = { fg = p.shade_5 },
     WinSeparator = { fg = p.shade_4 },
     QuickFixLine = { fg = p.cyan },
+    LspInlayHint = { fg = p.shade_3 },
 
     -- Diagnostic
     DiagnosticOk = { fg = p.green },

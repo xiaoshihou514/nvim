@@ -1,15 +1,7 @@
-local ft = {
-    lsp = { "lua", "rust", "haskell", "tex", "plaintex", "bib", "c", "cpp", "python", "kotlin", "groovy" },
-    dap = { "haskell", "kotlin" },
-    ts = { "bash", "fish", "c", "haskell", "kotlin", "lua", "markdown", "python", "query", "vim", "vimdoc" },
-    src = { "lua", "vim", "rust", "html", "json", "yaml", "c", "cpp", "python", "haskell", "kotlin", "bash", "fish", "haskell", "lhaskell" },
-    fmt_lint = { "lua", "rust", "html", "markdown", "json", "yaml", "tex", "plaintex", "bib", "c", "cpp", "python", "fish", "haskell", "kotlin" },
-}
-
 local M = {
     plugins = {
         -- comment
-        { "numToStr/Comment.nvim",                      event = "BufWinEnter", config = "comment" },
+        { "numToStr/Comment.nvim",                      event = "BufReadPost", config = "comment" },
         -- autopair
         { "windwp/nvim-autopairs",                      event = "InsertEnter", config = "autopair" },
         -- telescope stuff
@@ -32,29 +24,31 @@ local M = {
             config = "mason"
         },
         -- completion
-        { "nvimdev/epo.nvim",                        event = "LspAttach",   config = "epo" },
+        { "nvimdev/epo.nvim",                        event = "BufReadPost", config = "epo" },
         -- hl color codes
-        { "echasnovski/mini.hipatterns",             event = "BufWinEnter", config = "hipatterns" },
+        { "echasnovski/mini.hipatterns",             event = "BufReadPost", config = "hipatterns" },
         -- scrollbar
-        { "lewis6991/satellite.nvim",                event = "BufWinEnter", config = "satellite" },
+        { "lewis6991/satellite.nvim",                event = "BufReadPost", config = "satellite" },
         -- formatting + linting
-        { "nvimdev/guard.nvim",                      ft = ft.fmt_lint,      config = "guard" },
+        { "nvimdev/guard.nvim",                      lazy = true,           config = "guard" },
         -- code context
-        { "nvim-treesitter/nvim-treesitter-context", ft = ft.src,           config = "tresitter-context" },
+        { "nvim-treesitter/nvim-treesitter-context", event = "BufReadPost", config = "tresitter-context" },
         -- install ts parsers easily
-        { "nvim-treesitter/nvim-treesitter",         ft = ft.ts,            build = "TSUpdate",          config = "treesitter", },
+        { "nvim-treesitter/nvim-treesitter",         event = "BufReadPost", build = "TSUpdate",          config = "treesitter", },
         -- lsp quickstart
-        { "neovim/nvim-lspconfig",                   ft = ft.lsp,           config = "lspconfig" },
+        { "neovim/nvim-lspconfig",                   lazy = true,           config = "lspconfig" },
         -- dap stuff
-        { "mfussenegger/nvim-dap",                   ft = ft.dap,           config = "dap" },
-        { "rcarriga/nvim-dap-ui",                    ft = ft.dap,           config = "dap-ui" },
+        { "mfussenegger/nvim-dap",                   lazy = true,           config = "dap" },
+        { "rcarriga/nvim-dap-ui",                    lazy = true,           config = "dap-ui" },
+        -- language specific
+        { "mrcjkb/haskell-tools.nvim",               lazy = true },
         -- MUST HAVE
         { "seandewar/bad-apple.nvim",                cmd = { "BadApple" } },
     },
     ---@type { name: string, full_name: string, path: string, build: string }
-    all = {},
+    all_pkgs = {},
     ---@type { name: string, full_name: string, path: string, build: string }
-    unavailable = {},
+    unavailable_pkgs = {},
     ---@type { name: string, event: string, time: integer }
     loaded = {},
     ---@type table<string, string>
@@ -86,7 +80,7 @@ local function open_float()
         noautocmd = true,
     })
     api.nvim_set_option_value("modifiable", false, { buf = buf })
-    bind("n", "q", "<cmd>bdelete<cr>", { buffer = buf })
+    vim.keymap.set("n", "q", "<cmd>bdelete<cr>", { buffer = buf })
 
     -- the buffer modifying function we will use
     local function insert_line(row, line)
@@ -108,7 +102,7 @@ function M.install()
     -- title
     insert_line(-1, "  Installing:")
     -- tasks view
-    insert_line(-1, "  Tasks: 0 / " .. #M.unavailable)
+    insert_line(-1, "  Tasks: 0 / " .. #M.unavailable_pkgs)
     -- progress bar
     insert_line(-1, "  " .. string.rep("―", bar_length))
     -- another padding
@@ -118,7 +112,7 @@ function M.install()
         finished_count = 0,
     }
 
-    for i, missing in ipairs(M.unavailable) do
+    for i, missing in ipairs(M.unavailable_pkgs) do
         -- displayed itemm
         insert_line(5 + i, "  " .. missing.full_name)
         vim.fn.mkdir(missing.path, "p")
@@ -152,16 +146,17 @@ function M.install()
             })
             -- update progress bar
             api.nvim_buf_add_highlight(buf, ns, "Directory", 4,
-                2 + math.floor((state.finished_count / #M.unavailable) * bar_length) * 3,
-                2 + math.ceil(((state.finished_count + 1) / #M.unavailable) * bar_length) * 3
+                2 + math.floor((state.finished_count / #M.unavailable_pkgs) * bar_length) * 3,
+                2 + math.ceil(((state.finished_count + 1) / #M.unavailable_pkgs) * bar_length) * 3
             )
             state.finished_count = state.finished_count + 1
             -- updating task count
             api.nvim_set_option_value("modifiable", true, { buf = buf })
-            api.nvim_buf_set_lines(buf, 3, 4, false, { "  Tasks: " .. state.finished_count .. " / " .. #M.unavailable })
+            api.nvim_buf_set_lines(buf, 3, 4, false,
+                { "  Tasks: " .. state.finished_count .. " / " .. #M.unavailable_pkgs })
             api.nvim_set_option_value("modifiable", false, { buf = buf })
             -- close ui if finished
-            if state.finished_count == #M.unavailable then
+            if state.finished_count == #M.unavailable_pkgs then
                 vim.defer_fn(function()
                     vim.cmd.bdelete(buf)
                 end, 1000)
@@ -184,15 +179,15 @@ function M.ensure()
             url = url_prefix .. full_name,
             build = plugin.build
         }
-        table.insert(M.all, pkg)
+        table.insert(M.all_pkgs, pkg)
         if vim.fn.isdirectory(pkg.path) == 0 then
-            table.insert(M.unavailable, pkg)
+            table.insert(M.unavailable_pkgs, pkg)
         end
     end, M.plugins)
     if vim.fn.isdirectory(packpath) == 0 then
         vim.fn.mkdir(packpath, "p")
     end
-    if #M.unavailable > 0 then
+    if #M.unavailable_pkgs > 0 then
         M.install()
     end
 end
@@ -209,7 +204,7 @@ function M.update()
     -- title
     insert_line(-1, "  Updating:")
     -- tasks view
-    insert_line(-1, "  Tasks: 0 / " .. #M.all)
+    insert_line(-1, "  Tasks: 0 / " .. #M.all_pkgs)
     -- progress bar
     insert_line(-1, "  " .. string.rep("―", bar_length))
     -- another padding
@@ -220,7 +215,7 @@ function M.update()
         finished_count = 0,
     }
 
-    for i, plugin in ipairs(M.all) do
+    for i, plugin in ipairs(M.all_pkgs) do
         -- displayed itemm
         insert_line(5 + i, "  " .. plugin.full_name)
 
@@ -257,14 +252,14 @@ function M.update()
 
             -- update progress bar
             api.nvim_buf_add_highlight(buf, ns, "Directory", 4,
-                2 + math.floor((state.finished_count / #M.all) * bar_length) * 3,
-                2 + math.ceil(((state.finished_count + 1) / #M.all) * bar_length) * 3
+                2 + math.floor((state.finished_count / #M.all_pkgs) * bar_length) * 3,
+                2 + math.ceil(((state.finished_count + 1) / #M.all_pkgs) * bar_length) * 3
             )
             state.finished_count = state.finished_count + 1
 
             -- updating task count
             api.nvim_set_option_value("modifiable", true, { buf = buf })
-            api.nvim_buf_set_lines(buf, 3, 4, false, { "  Tasks: " .. state.finished_count .. " / " .. #M.all })
+            api.nvim_buf_set_lines(buf, 3, 4, false, { "  Tasks: " .. state.finished_count .. " / " .. #M.all_pkgs })
             api.nvim_set_option_value("modifiable", false, { buf = buf })
         end))
     end
@@ -277,21 +272,20 @@ function M.load_status()
         vim.cmd.bdelete(buf)
         M.update()
     end)
-    -- title
-    insert_line(-1, ("  Loaded (%s/%s):"):format(#M.loaded, #M.all))
     -- loaded
-    for i, plugin in ipairs(M.loaded) do
-        insert_line(2 + i, ("  ● %s %s ms %s"):format(plugin.name, plugin.time, plugin.event))
-        api.nvim_buf_add_highlight(buf, ns, "Directory", 2 + i, 6, 6 + #plugin.name)
+    for i, l in ipairs(M.loaded) do
+        insert_line(2 + i, ("  ● %s %s ms %s"):format(l.name, l.time, l.event))
+        api.nvim_buf_add_highlight(buf, ns, "Directory", 1 + i, 6, 6 + #l.name)
     end
     insert_line(-1, "")
-    local cnt, line_start = 0, 4 + #M.loaded
-    for name, load_cond in pairs(M.not_loaded) do
-        insert_line(-1, ("  ○ %s %s"):format(name, load_cond))
+    local cnt, line_start = 0, 3 + #M.loaded
+    for name, nl in pairs(M.not_loaded) do
+        insert_line(-1, ("  ○ %s %s"):format(name, nl))
         api.nvim_buf_add_highlight(buf, ns, "Directory", line_start + cnt, 6, 6 + #name)
         cnt = cnt + 1
     end
-    insert_line(line_start, ("  Not Loaded (%s/%s):"):format(cnt, #M.all))
+    insert_line(line_start, ("  Not Loaded (%s/%s):"):format(cnt, #M.loaded + cnt))
+    insert_line(2, ("  Loaded (%s/%s):"):format(#M.loaded, #M.loaded + cnt))
 end
 
 local loader = require("nano.loader")
@@ -300,38 +294,58 @@ loader.load_state(M.loaded, M.not_loaded)
 
 local function create_load_order(plugin)
     local name = vim.split(plugin[1], "/")[2]
-    if plugin.ft then
-        M.not_loaded[name] = (" %s"):format(#plugin.ft)
-    elseif plugin.event then
+
+    if plugin.event then
         M.not_loaded[name] = " " .. plugin.event
     elseif plugin.cmd then
         M.not_loaded[name] = " " .. table.concat(plugin.cmd, "  ")
     end
-    if plugin.ft then
-        loader.on_ft(plugin.ft, name, plugin.config)
-    elseif plugin.event then
+
+    if plugin.event then
         loader.on_event(plugin.event, name, plugin.config)
     elseif plugin.cmd then
         loader.on_cmd(plugin.cmd, name, plugin.config)
+    elseif not plugin.lazy then
+        local time = perf.record(function()
+            vim.cmd.packadd(name)
+            if plugin.config then
+                require("nano.config." .. plugin.config)
+            end
+        end)
+        table.insert(M.loaded, {
+            event = " start",
+            time = time,
+            name = plugin[1],
+        })
     else
-        coroutine.resume(coroutine.create(function()
-            local time = perf.record(function()
-                vim.cmd.packadd(name)
-                if plugin.config then
-                    require("nano.config." .. plugin.config)
-                end
-            end)
-            table.insert(M.loaded, {
-                event = " start",
-                time = time,
-                name = plugin[1],
-            })
-        end))
+        M.not_loaded[name] = " Lazy"
     end
 end
 
 function M.lazy_load()
     vim.tbl_map(create_load_order, M.plugins)
+end
+
+function M.lazy_load_modules()
+    require("nano.builtin.options") -- breaks with UIEnter for some reason
+    loader.module_on_event("builtin.debug", "UIEnter")
+    loader.module_on_event("builtin.diagnostic", "UIEnter")
+    loader.module_on_event("builtin.autocmd", "UIEnter")
+
+    loader.module_on_event("themes.moonlight", "UIEnter")
+
+    loader.module_on_event("module.elegant", "BufReadPost")
+    loader.module_on_event("module.fold", "BufReadPost")
+    loader.module_on_event("module.indentline", "BufReadPost")
+    loader.module_on_event("module.leader", "UIEnter")
+    loader.module_on_event("module.notify", "UIEnter")
+    loader.module_on_event("module.smoothscroll", "BufReadPost")
+    loader.module_on_event("module.squirrel", "BufReadPost")
+    loader.module_on_event("module.statusline", "UIEnter")
+    loader.module_on_event("module.term", "BufReadPost")
+
+    -- TODO
+    loader.load_lang_modules()
 end
 
 api.nvim_create_user_command("NanoPack", M.load_status, {})

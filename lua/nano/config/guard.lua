@@ -1,13 +1,6 @@
 local lint = require("guard.lint")
 local ft = require("guard.filetype")
 
--- ft("lua"):fmt({
---     cmd = "stylua",
---     args = { "-", "--indent-type", "Spaces" },
---     stdin = true,
--- })
-
-ft("lua"):fmt("lsp")
 
 ft("fish"):fmt({
     cmd = 'fish_indent',

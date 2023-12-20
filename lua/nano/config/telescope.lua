@@ -38,3 +38,5 @@ bind("n", "<leader>si", "<cmd>Telescope highlights<cr>", { silent = true })
 bind("n", "<leader>sr", "<cmd>Telescope lsp_references<cr>", { silent = true })
 bind("n", "<leader>sc", "<cmd>lua require('telescope.builtin').colorscheme({enable_preview=true})<cr>",
     { silent = true })
+
+require("nano.module.elegant")

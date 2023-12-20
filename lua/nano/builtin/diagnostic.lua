@@ -1,8 +1,3 @@
-vim.fn.sign_define("DiagnosticSignError", { texthl = "DiagnosticSignError", text = "" })
-vim.fn.sign_define("DiagnosticSignWarn", { texthl = "DiagnosticSignWarn", text = "" })
-vim.fn.sign_define("DiagnosticSignHint", { texthl = "DiagnosticSignHint", text = "" })
-vim.fn.sign_define("DiagnosticSignInfo", { texthl = "DiagnosticSignInfo", text = "" })
-
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
     -- Use a sharp border with `FloatBorder` highlights
     border = "single",
@@ -11,10 +6,17 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 vim.diagnostic.config({
     float = { border = "single" },
     severity_sort = true,
-    signs = true,
     underline = true,
     update_in_insert = false,
     virtual_text = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+        }
+    }
 })
 
 bind("n", "]d", vim.diagnostic.goto_next)

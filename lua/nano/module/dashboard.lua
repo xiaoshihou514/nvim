@@ -18,7 +18,7 @@ local shortcuts = {
         desc = " Config",
         key = "c",
         action = function()
-            require("telescope.builtin").find_files({ cwd = "~/.config/nvim-main" })
+            require("telescope.builtin").find_files({ cwd = "~/.config/nanovim" })
         end,
     },
     {

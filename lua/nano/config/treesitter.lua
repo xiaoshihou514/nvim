@@ -3,7 +3,7 @@
 --         config.install_info.url:gsub("https://github.com/", "https://ghproxy.com/https://github.com/")
 -- end
 
-require("treesitter").setup({
+require("nvim-treesitter.configs").setup({
     ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
     auto_install = false,
     ignore_install = {},

@@ -4,10 +4,10 @@ local perf = require("nano.perf")
 vim.api.nvim_create_autocmd("UIEnter", {
     once = true,
     callback = function()
+        require("nano.builtin.keys")
+        local dashboard = require("nano.module.dashboard")
         if vim.fn.argc() == 0 then
-            require("nano.editor.dashboard")(perf.cputime())
-        else
-            require("nano.editor.dashboard")
+            dashboard(perf.cputime())
         end
     end
 })
@@ -16,4 +16,4 @@ require("nano.pack").ensure()
 -- (lazy) load plugins
 require("nano.pack").lazy_load()
 -- (lazy) load builtin modules
-require("nano.loader").lazy_load()
+require("nano.pack").lazy_load_modules()

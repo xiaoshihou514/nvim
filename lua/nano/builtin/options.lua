@@ -31,3 +31,4 @@ vim.opt.pumheight = 15            -- prevents massive pummenu
 vim.opt.virtualedit = "block"     -- select whatever in visual block mode
 vim.opt.shell = "/bin/fish"       -- shell
 vim.o.stal = 0                    -- disable tabline
+vim.o.foldlevelstart = 999        -- do not collapse my folds
