@@ -1,3 +1,5 @@
+local actions = require("telescope.actions")
+
 require("telescope").setup({
     defaults = {
         layout_strategy = "horizontal",
@@ -17,12 +19,16 @@ require("telescope").setup({
         },
         mappings = {
             i = {
-                ["<C-x>"] = require("telescope.actions").select_vertical,
-                ["<C-o>"] = require("telescope.actions").select_horizontal,
+                ["<C-x>"] = actions.select_vertical,
+                ["<C-o>"] = actions.select_horizontal,
+                ["<C-t>"] = actions.select_tab,
+                ["<C-e>"] = actions.close,
             },
             n = {
-                ["<C-x>"] = require("telescope.actions").select_vertical,
-                ["<C-o>"] = require("telescope.actions").select_horizontal,
+                ["<C-x>"] = actions.select_vertical,
+                ["<C-o>"] = actions.select_horizontal,
+                ["<C-t>"] = actions.select_tab,
+                ["<C-e>"] = actions.close,
             },
         },
     },
@@ -36,7 +42,6 @@ bind("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { silent = true })
 bind("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", { silent = true })
 bind("n", "<leader>si", "<cmd>Telescope highlights<cr>", { silent = true })
 bind("n", "<leader>sr", "<cmd>Telescope lsp_references<cr>", { silent = true })
-bind("n", "<leader>sc", "<cmd>lua require('telescope.builtin').colorscheme({enable_preview=true})<cr>",
-    { silent = true })
-
-require("nano.module.elegant")
+bind("n", "<leader>sc", [[
+    <cmd>lua require('telescope.builtin').colorscheme({enable_preview=true})<cr>
+]], { silent = true })

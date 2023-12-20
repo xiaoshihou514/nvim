@@ -80,5 +80,5 @@ bind("n", "<leader>;", "<cmd>lua require('nano.module.dashboard')()<cr>")
 bind("n", "<leader>ba", "<cmd>$tabnew<cr>")
 bind("n", "<leader>bl", "<cmd>source %<cr>")
 
-bind("n", "<leader>tf", "<cmd>FloatTerm<cr>")
-bind("n", "<leader>TF", "<cmd>FloatTerm!<cr>")
+bind("n", "<leader>t", "<cmd>FloatTerm<cr>")
+bind("n", "<leader>tt", "<cmd>FloatTerm!<cr>")

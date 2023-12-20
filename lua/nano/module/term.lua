@@ -1,14 +1,14 @@
 -- terminal utils
 local api, set = vim.api, vim.api.nvim_set_option_value
 local M = {}
--- scratch_sessions:
+-- sessions:
 -- {
 --     [id] = {
 --         buf: buffer number
 --         cmd: command
 --     }
 -- }
-M.scratch_sessions = {}
+M.sessions = {}
 M.last = -1
 
 local function change_term(offset)
@@ -16,13 +16,13 @@ local function change_term(offset)
         return
     end
     local buf = api.nvim_get_current_buf()
-    for id, term in ipairs(M.scratch_sessions) do
+    for id, term in ipairs(M.sessions) do
         if term.buf == buf then
-            local next_id = (id + offset) % #M.scratch_sessions
+            local next_id = (id + offset) % #M.sessions
             if next_id == 0 then
-                next_id = #M.scratch_sessions
+                next_id = #M.sessions
             end
-            vim.cmd("buffer " .. M.scratch_sessions[next_id].buf)
+            vim.cmd("buffer " .. M.sessions[next_id].buf)
             M.last = next_id
             return
         end
@@ -58,26 +58,27 @@ local function create_new_term(cmd)
         change_term(-1)
     end, { buffer = buf })
     open_term_win(buf)
-    local id = #M.scratch_sessions + 1
+    local id = #M.sessions + 1
     M.last = id
-    M.scratch_sessions[id] = {
+    M.sessions[id] = {
         buf = buf,
         cmd = cmd,
     }
+    vim.opt_local.winbar = "  Term " .. id
     vim.fn.termopen(cmd, {
         cwd = vim.fn.getcwd(),
         on_exit = function()
             -- if exited the indexing will be broken, but idk
             vim.cmd("bd %")
             M.last = -1
-            M.scratch_sessions[id] = nil
+            table.remove(M.sessions, id)
         end,
     })
     vim.cmd.startinsert()
 end
 
 local function restore(id)
-    local term = M.scratch_sessions[id]
+    local term = M.sessions[id]
     open_term_win(term.buf)
     vim.cmd.startinsert()
     M.last = id
@@ -108,7 +109,4 @@ api.nvim_create_user_command("FloatTerm", function(opts)
     M.open({ new = opts.bang, cmd = vim.o.shell })
 end, { nargs = 0, bang = true })
 
-api.nvim_create_user_command("Flip", function(opts)
-    M.flip()
-end, { nargs = 0 })
 return M
