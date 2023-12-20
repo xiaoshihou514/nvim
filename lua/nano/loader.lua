@@ -55,7 +55,7 @@ end
 
 function M.on_cmd(cmds, name, config)
     for _, cmd in ipairs(cmds) do
-        api.nvim_create_user_command(cmd, function()
+        api.nvim_create_user_command(cmd, function(opts)
             api.nvim_del_user_command(cmd)
             local time = perf.record(function()
                 vim.cmd.packadd(name)
@@ -69,8 +69,12 @@ function M.on_cmd(cmds, name, config)
                 name = name,
             })
             not_loaded[name] = nil
-            vim.cmd(cmd)
-        end, {})
+            vim.cmd({
+                cmd = cmd,
+                args = opts.fargs,
+                bang = opts.bang
+            })
+        end, { nargs = "*"})
     end
 end
 
@@ -215,6 +219,9 @@ local function guard_cb(ft)
         guard.events.watch_ft(ft)
         lint_events[1] = "User GuardFmt"
     end
+    if not conf.linter then
+        return
+    end
 
     for i, _ in ipairs(conf.linter) do
         if conf.linter[i].stdin then
@@ -225,15 +232,24 @@ local function guard_cb(ft)
     end
 end
 
+local function ensure(tools)
+    local missing = vim.iter.filter(function(t)
+        return vim.fn.executable(t) ~= 1
+    end, tools)
+    if #missing > 0 then
+        api.nvim_command("MasonInstall " .. table.concat(missing, " "):sub(0,-1))
+    end
+end
+
 function M.load_lang_modules()
     for ft, setup in pairs(require("nano.lang")) do
         api.nvim_create_autocmd("Filetype", {
             group = group,
             pattern = ft,
             once = true,
-            callback = function()
-                setup(load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
-            end
+            callback = vim.schedule_wrap(function()
+                setup(ensure, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
+            end)
         })
     end
 end

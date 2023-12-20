@@ -54,16 +54,9 @@ local function statusline(data)
         end
     end
 
-    -- file name
     if bufname == "" then
         return laststatus
-    else
-        s:append("%=%f")
-        if vim.bo.modifiable and vim.bo.modified then
-            s:append("•", "Function")
-        end
     end
-
 
     s:append("%=")
     -- Code intelligence info

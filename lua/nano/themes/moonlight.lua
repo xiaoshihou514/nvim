@@ -42,8 +42,8 @@ local groups = {
     PmenuThumb = { bg = p.shade_1 },
     TabLine = { bg = p.bg },
     TabLineSel = { bg = p.shade_2 },
-    WinBar = { bg = p.bg },
-    WinBarNC = { bg = p.bg },
+    WinBar = { bg = p.bg, fg = p.shade_4, bold = true },
+    WinBarNC = { bg = p.bg, fg = p.shade_3 },
     Visual = { bg = p.shade_2 },
     NormalFloat = { bg = p.shade_1 },
     FloatTitle = { fg = p.fg },
@@ -104,6 +104,34 @@ local groups = {
     DiagnosticFloatingWarn = { fg = p.orange },
     DiagnosticFloatingError = { fg = p.red },
 
+    -- My highlights
+    Indentline = { fg = p.shade_2 },
+    DashboardHeader = { fg = p.yellow },
+    DashboardShortcut = { fg = p.blue, bold = true },
+    DashboardFooter = { fg = p.green, italic = true },
+
+    -- Plugins
+    MiniHipatternsFixme = { bg = p.shade_2, fg = p.red },
+    MiniHipatternsHack = { bg = p.shade_2, fg = p.orange },
+    MiniHipatternsNote = { bg = p.shade_2, fg = p.blue },
+
+    TreesitterContext = { bg = p.shade_1 },
+
+    DapUIType = { link = "Type" },
+    DapUISource = { fg = p.purple },
+    DapUIStepInto = { fg = p.blue },
+    DapUIStepOut = { fg = p.yellow },
+    DapUIStepOver = { fg = p.blue },
+    DapUIStepBack = { fg = p.yellow },
+    DapUIStop = { fg = p.red },
+    DapUIRestart = { fg = p.yellow },
+    DapUIPlayPause = { fg = p.green },
+    DapUIScope = { fg = p.cyan },
+    DapUICurrentFrameName = { fg = p.green },
+    DapUIStoppedThread = { fg = p.blue },
+    DapUIDecoration = { fg = p.blue },
+    DapUIWatchesEmpty = { fg = p.shade_4 },
+
     -- syntax
     -- blue keywords, purple types, magenta consts, green strings
     -- yellow functions
@@ -152,34 +180,6 @@ local groups = {
     -- Lang: Vimdoc
     ["@parameter.vimdoc"] = { link = "Keyword" },
     ["@text.reference.vimdoc"] = { link = "helpHyperTextJump" },
-
-    -- My highlights
-    Indentline = { fg = p.shade_2 },
-    DashboardHeader = { fg = p.yellow },
-    DashboardShortcut = { fg = p.blue, bold = true },
-    DashboardFooter = { fg = p.green, italic = true },
-
-    -- Plugins
-    MiniHipatternsFixme = { bg = p.shade_2, fg = p.red },
-    MiniHipatternsHack = { bg = p.shade_2, fg = p.orange },
-    MiniHipatternsNote = { bg = p.shade_2, fg = p.blue },
-
-    TreesitterContext = { bg = p.shade_1 },
-
-    DapUIType = { link = "Type" },
-    DapUISource = { fg = p.purple },
-    DapUIStepInto = { fg = p.blue },
-    DapUIStepOut = { fg = p.yellow },
-    DapUIStepOver = { fg = p.blue },
-    DapUIStepBack = { fg = p.yellow },
-    DapUIStop = { fg = p.red },
-    DapUIRestart = { fg = p.yellow },
-    DapUIPlayPause = { fg = p.green },
-    DapUIScope = { fg = p.cyan },
-    DapUICurrentFrameName = { fg = p.green },
-    DapUIStoppedThread = { fg = p.blue },
-    DapUIDecoration = { fg = p.blue },
-    DapUIWatchesEmpty = { fg = p.shade_4 },
 }
 
 for group, hl in pairs(groups) do

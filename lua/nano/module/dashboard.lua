@@ -2,7 +2,7 @@
 local api = vim.api
 local ns = api.nvim_create_namespace("dashboard")
 local project_shown = 5
-local shown = 20
+local shown = 19
 local header = {
     [[_____   __                 _____            ]],
     [[___  | / /_____________   ____(_)______ ___ ]],
@@ -84,7 +84,7 @@ local function set_opts()
         filetype = "dashboard",
         wrap = false,
         signcolumn = "no",
-        winbar = "",
+        winbar = " ",
     }
     for opt, val in pairs(opts) do
         vim.opt_local[opt] = val

@@ -1,10 +1,10 @@
-return function(_, load_guard, load_dap, _, guard_cb)
+return function(ensure, _, load_guard, load_dap, _, guard_cb)
     local ft, lint = unpack(load_guard())
     local dap = load_dap()
-    local haskell = ft("haskell")
+    ensure({ "haskell-debug-adapter", "ormolu" })
     vim.cmd.packadd("haskell-tools.nvim")
 
-    haskell:fmt({
+    ft("haskell"):fmt({
         cmd = "ormolu",
         args = { "--color", "never", "--stdin-input-file" },
         stdin = true,
@@ -62,4 +62,5 @@ return function(_, load_guard, load_dap, _, guard_cb)
     }
 
     guard_cb("haskell")
+    require("haskell-tools").lsp.start()
 end
