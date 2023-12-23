@@ -1,4 +1,4 @@
-return function(ensure, load_lsp, load_guard, _, lsp_cb, guard_cb)
+return function(ensure, _, load_lsp, load_guard, _, lsp_cb, guard_cb)
     local lspconfig, capabilities = unpack(load_lsp())
     local ft, _ = unpack(load_guard())
     ensure({ "lua-language-server" })

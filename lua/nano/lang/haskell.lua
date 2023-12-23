@@ -1,8 +1,8 @@
-return function(ensure, _, load_guard, load_dap, _, guard_cb)
+return function(ensure, load, _, load_guard, load_dap, _, guard_cb)
     local ft, lint = unpack(load_guard())
     local dap = load_dap()
     ensure({ "haskell-debug-adapter", "ormolu" })
-    vim.cmd.packadd("haskell-tools.nvim")
+    load("haskell-tools.nvim")
 
     ft("haskell"):fmt({
         cmd = "ormolu",

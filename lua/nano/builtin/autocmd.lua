@@ -90,7 +90,7 @@ autocmd("BufWritePost", {
 
 autocmd("BufWritePost", {
     desc = "autosource colorschme",
-    pattern = "nano/themes/*",
+    pattern = "colors/*.lua",
     command = "source %"
 })
 

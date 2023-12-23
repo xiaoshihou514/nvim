@@ -8,13 +8,6 @@ end
 local is_formatting = false
 
 local function statusline(data)
-    local s = { val = "" }
-    function s:append(text, hl)
-        self.val = self.val .. string.format("%%#%s#%s %%*", hl or "StatusLine", text)
-    end
-
-    local bufpath = api.nvim_buf_get_name(0)
-    local bufname = fn.fnamemodify(bufpath, ":t")
     local ft = vim.bo.ft
 
     if ft == "dashboard" then
@@ -22,11 +15,22 @@ local function statusline(data)
         return string.format("%%#%s#%s %%*", "StatusLine", string.rep(" ", vim.o.columns - 1))
     end
 
-    s:append(" ")
+    local s = { val = "" }
+    function s:append(text, hl)
+        self.val = self.val .. string.format("%%#%s#%s %%* ", hl or "StatusLine", text)
+    end
+
+    s:append("")
     -- tab info
     local tabs = api.nvim_list_tabpages()
     if #tabs > 1 then
-        s:append(1 + vim.fn.index(tabs, api.nvim_get_current_tabpage()) .. ":" .. #tabs .. " ")
+        s:append(1 + vim.fn.index(tabs, api.nvim_get_current_tabpage()) .. ":" .. #tabs)
+    end
+
+    -- search info
+    if vim.v.hlsearch == 1 then
+        local stat = fn.searchcount()
+        s:append(stat.current .. "/" .. stat.total, "Function")
     end
 
     -- Macro recording status
@@ -54,7 +58,8 @@ local function statusline(data)
         end
     end
 
-    if bufname == "" then
+    -- prevents info from disappearing when opening some util buffers
+    if fn.fnamemodify(api.nvim_buf_get_name(0), ":t") == "" then
         return laststatus
     end
 
@@ -71,10 +76,10 @@ local function statusline(data)
     if vim.tbl_isempty(lsp) then
         local ok, parser = pcall(vim.treesitter.get_parser)
         if ok and parser then
-            s:append(parser:lang() .. " ", "Directory")
+            s:append(parser:lang(), "Directory")
         end
     else
-        s:append(" [" .. table.concat(lsp, ",") .. "] ", "Keyword")
+        s:append("[" .. table.concat(lsp, ",") .. "]", "Keyword")
     end
 
     -- Guard info
@@ -87,7 +92,7 @@ local function statusline(data)
                 is_formatting = false
             end
         end
-        s:append(is_formatting and " " or " ", "Comment")
+        s:append(is_formatting and "" or "", "Comment")
     end
 
     laststatus = s.val

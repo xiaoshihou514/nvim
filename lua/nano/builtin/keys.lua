@@ -30,6 +30,7 @@ bind({ "i", "c" }, "<C-p>", "<Up>")
 bind({ "i", "c" }, "<C-f>", "<Right>")
 bind({ "i", "c" }, "<C-b>", "<Left>")
 bind({ "i", "c" }, "<C-a>", "<Home>")
+bind("i", "<C-e>", "<End>")
 -- better indent
 bind("v", "<", "<gv")
 bind("v", ">", ">gv")

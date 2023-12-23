@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("UIEnter", {
     callback = function()
         require("nano.builtin.keys")
         local dashboard = require("nano.module.dashboard")
+        vim.cmd.colorscheme("moonlight")
         if vim.fn.argc() == 0 then
             dashboard(perf.cputime())
         end

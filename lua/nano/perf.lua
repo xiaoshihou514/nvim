@@ -16,12 +16,12 @@ end
 
 local M = {}
 
-M.pnano = assert(ffi.new("nanotime[?]", 1))
-M.CLOCK_PROCESS_CPUTIME_ID = jit.os == "OSX" and 12 or 2
+local pnano = assert(ffi.new("nanotime[?]", 1))
+local CLOCK_PROCESS_CPUTIME_ID = jit.os == "OSX" and 12 or 2
 
 function M.cputime()
-    ffi.C.clock_gettime(M.CLOCK_PROCESS_CPUTIME_ID, M.pnano)
-    return tonumber(M.pnano[0].tv_sec) * 1e3 + tonumber(M.pnano[0].tv_nsec) / 1e6
+    ffi.C.clock_gettime(CLOCK_PROCESS_CPUTIME_ID, pnano)
+    return tonumber(pnano[0].tv_sec) * 1e3 + tonumber(pnano[0].tv_nsec) / 1e6
 end
 
 function M.record(f)

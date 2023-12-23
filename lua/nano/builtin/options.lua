@@ -32,4 +32,4 @@ vim.opt.virtualedit = "block"     -- select whatever in visual block mode
 vim.opt.shell = "/bin/fish"       -- shell
 vim.o.stal = 0                    -- disable tabline
 vim.o.foldlevelstart = 999        -- do not collapse my folds
-vim.o.winbar = "%=%f %m%="        -- winbar
+vim.o.winbar = "%=%r %f %m%="     -- winbar

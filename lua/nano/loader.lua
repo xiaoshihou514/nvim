@@ -13,20 +13,18 @@ end
 -- These are for loading packages
 function M.on_event(event, name, config)
     local cb = function()
-        coroutine.resume(coroutine.create(function()
-            local time = perf.record(function()
-                vim.cmd.packadd(name)
-                if config then
-                    require("nano.config." .. config)
-                end
-            end)
-            table.insert(loaded, {
-                event = not_loaded[name],
-                time = time,
-                name = name,
-            })
-            not_loaded[name] = nil
-        end))
+        local time = perf.record(function()
+            vim.cmd.packadd(name)
+            if config then
+                require("nano.config." .. config)
+            end
+        end)
+        table.insert(loaded, {
+            event = not_loaded[name],
+            time = time,
+            name = name,
+        })
+        not_loaded[name] = nil
     end
     if event == "BufWinEnter" then
         api.nvim_create_autocmd("BufWinEnter", {
@@ -74,24 +72,22 @@ function M.on_cmd(cmds, name, config)
                 args = opts.fargs,
                 bang = opts.bang
             })
-        end, { nargs = "*"})
+        end, { nargs = "*" })
     end
 end
 
 -- for loading modules
 function M.module_on_event(name, event)
     local cb = function()
-        coroutine.resume(coroutine.create(function()
-            local time = perf.record(function()
-                require("nano." .. name)
-            end)
-            table.insert(loaded, {
-                event = not_loaded[name],
-                time = time,
-                name = name,
-            })
-            not_loaded[name] = nil
-        end))
+        local time = perf.record(function()
+            require("nano." .. name)
+        end)
+        table.insert(loaded, {
+            event = not_loaded[name],
+            time = time,
+            name = name,
+        })
+        not_loaded[name] = nil
     end
     not_loaded[name] = " " .. event
     if event == "BufWinEnter" then
@@ -237,18 +233,31 @@ local function ensure(tools)
         return vim.fn.executable(t) ~= 1
     end, tools)
     if #missing > 0 then
-        api.nvim_command("MasonInstall " .. table.concat(missing, " "):sub(0,-1))
+        api.nvim_command("MasonInstall " .. table.concat(missing, " "):sub(0, -1))
     end
 end
 
-function M.load_lang_modules()
+local function load(package)
+    local time = perf.record(function()
+        vim.cmd.packadd(package)
+        pcall(require, "nano.config." .. package)
+    end)
+    table.insert(loaded, {
+        event = not_loaded[package],
+        time = time,
+        name = package,
+    })
+    not_loaded[package] = nil
+end
+
+function M.lazy_load_lang_modules()
     for ft, setup in pairs(require("nano.lang")) do
         api.nvim_create_autocmd("Filetype", {
             group = group,
             pattern = ft,
             once = true,
             callback = vim.schedule_wrap(function()
-                setup(ensure, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
+                setup(ensure, load, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
             end)
         })
     end

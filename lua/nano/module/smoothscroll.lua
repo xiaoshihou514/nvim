@@ -2,6 +2,7 @@
 local scroll_win_id = -1
 local interval = 12
 local api = vim.api
+
 local function smooth_scroll(key, getcount)
     if scroll_win_id ~= -1 then
         return

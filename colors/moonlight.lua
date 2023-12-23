@@ -109,6 +109,12 @@ local groups = {
     DashboardHeader = { fg = p.yellow },
     DashboardShortcut = { fg = p.blue, bold = true },
     DashboardFooter = { fg = p.green, italic = true },
+    NotifyTrace = { fg = p.shade_5 },
+    NotifyDebug = { fg = p.fg },
+    NotifyInfo = { link = "DiagnosticInfo" },
+    NotifyWarn = { link = "DiagnosticWarn" },
+    NotifyError = { link = "DiagnosticError" },
+    NotifyOff = { fg = p.shade_2 },
 
     -- Plugins
     MiniHipatternsFixme = { bg = p.shade_2, fg = p.red },

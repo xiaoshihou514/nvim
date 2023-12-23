@@ -1,4 +1,4 @@
-return function(ensure, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
+return function(ensure, _, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
     local lspconfig, capabilities = unpack(load_lsp())
     local ft, lint = unpack(load_guard())
     local dap = load_dap()

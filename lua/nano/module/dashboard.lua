@@ -4,12 +4,13 @@ local ns = api.nvim_create_namespace("dashboard")
 local project_shown = 5
 local shown = 19
 local header = {
-    [[_____   __                 _____            ]],
-    [[___  | / /_____________   ____(_)______ ___ ]],
-    [[__   |/ /_  _ \  __ \_ | / /_  /__  __ `__ \]],
-    [[_  /|  / /  __/ /_/ /_ |/ /_  / _  / / / / /]],
-    [[/_/ |_/  \___/\____/_____/ /_/  /_/ /_/ /_/ ]],
-    [[                                            ]],
+    --  https://patorjk.com/software/taag/#p=display&f=Speed&t=NanoVim
+    [[_____   __                   ___    ______            ]],
+    [[___  | / /_____ _______________ |  / /__(_)______ ___ ]],
+    [[__   |/ /_  __ `/_  __ \  __ \_ | / /__  /__  __ `__ \]],
+    [[_  /|  / / /_/ /_  / / / /_/ /_ |/ / _  / _  / / / / /]],
+    [[/_/ |_/  \__,_/ /_/ /_/\____/_____/  /_/  /_/ /_/ /_/ ]],
+    [[                                                      ]]
 }
 local shortcuts = {
     { desc = " Recent", key = "r", action = "Telescope oldfiles" },
@@ -116,7 +117,7 @@ return function(load_time)
     end
 
     -- plugin info, nvim version
-    local startuptime = ("neovim loaded in %sms"):format(load_time)
+    local startuptime = ("NanoVim loaded in %sms"):format(load_time)
     table.insert(buftext, get_pad(startuptime) .. startuptime)
     table.insert(hls, { "Comment", #buftext - 1, 0, -1 })
     local ver = vim.version()
@@ -150,7 +151,7 @@ return function(load_time)
     files = vim.tbl_filter(function(f)
         -- is a file, not a help file, and not in /tmp
         return vim.uv.fs_stat(f)
-            and not f:match("/share/nvim/runtime/")
+            and not f:match("/doc/.+%.txt$")
             and not f:match("^/tmp")
     end, files)
     local match = 0

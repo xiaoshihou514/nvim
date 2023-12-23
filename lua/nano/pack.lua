@@ -24,7 +24,7 @@ local M = {
             config = "mason"
         },
         -- completion
-        { "nvimdev/epo.nvim",                        event = "BufReadPost", config = "epo" },
+        { "nvimdev/epo.nvim",                        event = "BufWinEnter", config = "epo" },
         -- hl color codes
         { "echasnovski/mini.hipatterns",             event = "BufReadPost", config = "hipatterns" },
         -- scrollbar
@@ -332,20 +332,17 @@ function M.lazy_load_modules()
     loader.module_on_event("builtin.diagnostic", "UIEnter")
     loader.module_on_event("builtin.autocmd", "UIEnter")
 
-    loader.module_on_event("themes.moonlight", "UIEnter")
-
-    loader.module_on_event("module.elegant", "BufReadPost")
-    loader.module_on_event("module.fold", "BufReadPost")
-    loader.module_on_event("module.indentline", "BufReadPost")
+    loader.module_on_event("module.elegant", "UIEnter")
+    loader.module_on_event("module.fold", "UIEnter")
+    loader.module_on_event("module.indentline", "UIEnter")
     loader.module_on_event("module.leader", "UIEnter")
     loader.module_on_event("module.notify", "UIEnter")
-    loader.module_on_event("module.smoothscroll", "BufReadPost")
-    loader.module_on_event("module.squirrel", "BufReadPost")
+    loader.module_on_event("module.smoothscroll", "UIEnter")
+    loader.module_on_event("module.squirrel", "UIEnter")
     loader.module_on_event("module.statusline", "UIEnter")
-    loader.module_on_event("module.term", "BufReadPost")
+    loader.module_on_event("module.term", "UIEnter")
 
-    -- TODO
-    loader.load_lang_modules()
+    loader.lazy_load_lang_modules()
 end
 
 api.nvim_create_user_command("NanoPack", M.load_status, {})

@@ -1,3 +1,5 @@
+local bind = vim.keymap.set
+
 bind({ "n", "i" }, "<TAB>", function()
     if vim.snippet.jumpable(1) then
         return "<cmd>lua vim.snippet.jump(1)<cr>"
