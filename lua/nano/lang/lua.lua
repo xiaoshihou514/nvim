@@ -11,7 +11,6 @@ return function(ensure, _, load_lsp, load_guard, _, lsp_cb, guard_cb)
                 diagnostics = {
                     enable = true,
                     globals = { "vim" },
-                    disable = { "missing-fields", "no-unknown", },
                 },
                 runtime = {
                     version = "LuaJIT",

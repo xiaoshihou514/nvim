@@ -1,13 +1,6 @@
--- hugely debloated version of dressing.nvim (1k LOC -> 123 LOC)
-
 local api, set = vim.api, vim.api.nvim_set_option_value
 local ns = api.nvim_create_namespace("elegant")
 local group = api.nvim_create_augroup("Elegant", {})
-
-local pickers = require "telescope.pickers"
-local finders = require "telescope.finders"
-local conf = require("telescope.config").values
-local actions = require("telescope.actions")
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.ui.input = function(opts, on_confirm)
@@ -92,46 +85,4 @@ vim.ui.input = function(opts, on_confirm)
     bind("i", "<S-Tab>", "<C-p>", { noremap = true, buffer = buf })
     api.nvim_input("<End>")
     vim.cmd.startinsert()
-end
-
----@diagnostic disable-next-line: duplicate-set-field
-vim.ui.select = function(items, opts, on_choice)
-    local telescope_opts = {
-        prompt_title = opts.prompt or "",
-        previewer = false,
-        sorter = conf.generic_sorter({}),
-        finder = finders.new_table({
-            results = items,
-            entry_maker = function(item)
-                local fmt = opts.format_item or vim.inspect
-                local formatted = fmt(item)
-                return {
-                    display = formatted,
-                    ordinal = formatted,
-                    value = item,
-                }
-            end,
-        }),
-        attach_mappings = function(buf)
-            actions.select_default:replace(function()
-                local selection = require("telescope.actions.state").get_selected_entry()
-                -- to prevent calling it twice
-                local cb = on_choice
-                on_choice = function() end
-                actions.close(buf)
-                if not selection then
-                    cb(nil, nil)
-                else
-                    cb(items[selection.index], selection.index)
-                end
-            end)
-            actions.close:enhance({
-                post = function()
-                    on_choice(nil, nil)
-                end,
-            })
-            return true
-        end,
-    }
-    pickers.new(require("telescope.themes").get_dropdown(), telescope_opts):find()
 end

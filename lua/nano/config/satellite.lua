@@ -1,7 +1,6 @@
 require("satellite").setup({
     current_only = true,
     excluded_filetypes = {
-        "help",
         "mason",
         "nofile",
         "text",

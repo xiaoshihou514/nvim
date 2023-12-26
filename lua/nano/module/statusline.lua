@@ -28,9 +28,13 @@ local function statusline(data)
     end
 
     -- search info
+    ---@diagnostic disable-next-line: undefined-field
     if vim.v.hlsearch == 1 then
-        local stat = fn.searchcount()
-        s:append(stat.current .. "/" .. stat.total, "Function")
+        local search = fn.searchcount()
+        if search.total > 0 then
+            local current = search.current
+            s:append(current == 0 and "*" or current .. "/" .. search.total, "Function")
+        end
     end
 
     -- Macro recording status
@@ -76,6 +80,7 @@ local function statusline(data)
     if vim.tbl_isempty(lsp) then
         local ok, parser = pcall(vim.treesitter.get_parser)
         if ok and parser then
+            ---@diagnostic disable-next-line: undefined-field
             s:append(parser:lang(), "Directory")
         end
     else

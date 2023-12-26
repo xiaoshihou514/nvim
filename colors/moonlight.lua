@@ -29,8 +29,9 @@ local groups = {
     Normal = { bg = p.bg, fg = p.fg },
     Cursor = { bg = p.shade_4 },
     CursorLine = { bg = p.shade_1 },
-    Search = { reverse = true },
-    IncSearch = { bg = p.shade_3 },
+    Search = { bg = p.shade_2 },
+    IncSearch = { bg = p.shade_2 },
+    CurSearch = { bg = p.yellow, fg = p.bg },
     LineNr = { fg = p.shade_2 },
     CursorLineNr = { fg = p.shade_3 },
     MatchParen = { bg = p.shade_2 },
@@ -117,6 +118,7 @@ local groups = {
     NotifyOff = { fg = p.shade_2 },
 
     -- Plugins
+    MiniHipatternsTodo = { link = "Todo" },
     MiniHipatternsFixme = { bg = p.shade_2, fg = p.red },
     MiniHipatternsHack = { bg = p.shade_2, fg = p.orange },
     MiniHipatternsNote = { bg = p.shade_2, fg = p.blue },
@@ -160,12 +162,15 @@ local groups = {
     luaTable = { fg = p.shade_4 },
     luaFunction = { link = "Keyword" },
     ["@lsp.typemod.property.declaration.lua"] = { link = "Comment" }, -- type annotation
+    ["@constructor.lua"] = { link = "Text" },
 
     -- Lang: Haskell
     hsImport = { link = "Keyword" },
     hsSpecialChar = { link = "String" },
     ConId = { link = "Type" },
     hsStructure = { link = "Keyword" },
+    ["@function.haskell"] = { link = "Text" }, -- treesitter doesn't differentiate vars and functions well
+    ["@function.call.haskell"] = { link = "Text" },
 
     -- Lang: C
     cFormat = { link = "Keyword" },
@@ -186,6 +191,10 @@ local groups = {
     -- Lang: Vimdoc
     ["@parameter.vimdoc"] = { link = "Keyword" },
     ["@text.reference.vimdoc"] = { link = "helpHyperTextJump" },
+
+    -- Lang: Markdown
+    ["@text.literal.block.markdown"] = { link = "Keyword" },
+    ["@text.literal.markdown_inline"] = { bold = true },
 }
 
 for group, hl in pairs(groups) do

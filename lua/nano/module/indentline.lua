@@ -54,7 +54,7 @@ local function on_win(_, _, bufnr, _)
 end
 
 local function on_line(_, _, bufnr, row)
-    if vim.o.tabstop < 4 then
+    if vim.bo.shiftwidth < 4 then
         return
     end
     local indent = vim.fn.indent(row + 1)
@@ -66,7 +66,7 @@ local function on_line(_, _, bufnr, row)
         )
     end
 
-    for i = 0, indent - 2, vim.bo[bufnr].shiftwidth do
+    for i = 0, indent - 2, vim.bo.shiftwidth do
         if i >= vim.fn.winsaveview().leftcol then
             api.nvim_buf_set_extmark(bufnr, ns, row, 0, {
                 virt_text = { { "│", "IndentLine" } },

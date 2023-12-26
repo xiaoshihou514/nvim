@@ -206,10 +206,11 @@ return function(load_time)
     local count = 1
     for _, proj in ipairs(projects) do
         local key = keys:sub(count, count)
-        table.insert(buftext, file_pad .. proj .. string.rep(" ", maxlen - #proj) .. key)
+        table.insert(buftext, file_pad .. proj .. string.rep("·", maxlen - #proj) .. key)
+        table.insert(hls, { "Comment", #buftext - 1, #file_pad + #proj, #file_pad + 2 * maxlen - #proj - 1 })
         table.insert(
             hls,
-            { "DashboardShortCut", #buftext - 1, #file_pad + maxlen, #file_pad + maxlen + 1 }
+            { "DashboardShortCut", #buftext - 1, #file_pad + 2 * maxlen - #proj, #file_pad + 2 * maxlen - #proj + 1 }
         )
         bind(key, function()
             require("telescope.builtin").find_files({ cwd = proj })
@@ -219,10 +220,11 @@ return function(load_time)
     table.insert(buftext, "")
     for _, file in ipairs(recent) do
         local key = keys:sub(count, count)
-        table.insert(buftext, file_pad .. file .. string.rep(" ", maxlen - #file) .. key)
+        table.insert(buftext, file_pad .. file .. string.rep("·", maxlen - #file) .. key)
+        table.insert(hls, { "Comment", #buftext - 1, #file_pad + #file, #file_pad + 2 * maxlen - #file - 1 })
         table.insert(
             hls,
-            { "DashboardShortCut", #buftext - 1, #file_pad + maxlen, #file_pad + maxlen + 1 }
+            { "DashboardShortCut", #buftext - 1, #file_pad + 2 * maxlen - #file, #file_pad + 2 * maxlen - #file + 1 }
         )
         bind(key, "<cmd>edit " .. file .. "<cr>")
         count = count + 1
