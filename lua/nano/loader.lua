@@ -115,7 +115,6 @@ function M.module_on_event(name, event)
     })
 end
 
--- TODO HACK
 local loaded_lsp, loaded_guard, loaded_dap = false, false, false
 local default_cap
 local guard = {}

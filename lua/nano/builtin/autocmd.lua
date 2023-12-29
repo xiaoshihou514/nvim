@@ -8,7 +8,7 @@ end
 autocmd("TextYankPost", {
     desc = "Highlight yanking region when yanking inplicitly using y*",
     callback = function()
-        vim.highlight.on_yank()
+        vim.highlight.on_yank({ higroup = "OnYank" })
     end,
 })
 

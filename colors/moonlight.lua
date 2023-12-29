@@ -1,7 +1,7 @@
-vim.cmd("hi clear")
 vim.g.colors_name = "moonlight"
 vim.o.background = "dark"
 
+-- palette
 local p = {
     -- design: low saturation, use lightness to create contrast
     bg      = "#1F2224", -- OKHSL: 237,6,15
@@ -30,7 +30,7 @@ local groups = {
     Cursor = { bg = p.shade_4 },
     CursorLine = { bg = p.shade_1 },
     Search = { bg = p.shade_2 },
-    IncSearch = { bg = p.shade_2 },
+    IncSearch = { bg = p.yellow, fg = p.bg },
     CurSearch = { bg = p.yellow, fg = p.bg },
     LineNr = { fg = p.shade_2 },
     CursorLineNr = { fg = p.shade_3 },
@@ -110,11 +110,12 @@ local groups = {
     DashboardHeader = { fg = p.yellow },
     DashboardShortcut = { fg = p.blue, bold = true },
     DashboardFooter = { fg = p.green, italic = true },
-    NotifyTrace = { fg = p.shade_5 },
-    NotifyDebug = { fg = p.fg },
-    NotifyInfo = { link = "DiagnosticInfo" },
-    NotifyWarn = { link = "DiagnosticWarn" },
+    OnYank = { bg = p.shade_3 },
+    NotifyDebug = { fg = p.blue },
     NotifyError = { link = "DiagnosticError" },
+    NotifyWarn = { link = "DiagnosticWarn" },
+    NotifyInfo = { link = "Text" },
+    NotifyTrace = { link = "Text" },
     NotifyOff = { fg = p.shade_2 },
 
     -- Plugins

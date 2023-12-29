@@ -1,6 +1,6 @@
 -- personal statusline
 local fn, api = vim.fn, vim.api
-local laststatus = string.format("%%#%s#%s %%*", "StatusLine", string.rep(" ", vim.o.columns - 1))
+local laststatus = string.format("%%#%s#%s%%%%* ", "StatusLine", string.rep(" ", vim.o.columns - 1))
 local function get_lsp_diagnostic_count(diag_type)
     local result = vim.diagnostic.get(0, { severity = diag_type })
     return result and #result or 0
@@ -31,9 +31,9 @@ local function statusline(data)
     ---@diagnostic disable-next-line: undefined-field
     if vim.v.hlsearch == 1 then
         local search = fn.searchcount()
-        if search.total > 0 then
+        if search.total and search.total > 0 then
             local current = search.current
-            s:append(current == 0 and "*" or current .. "/" .. search.total, "Function")
+            s:append(current == 0 and "" or current .. "/" .. search.total, "Function")
         end
     end
 
