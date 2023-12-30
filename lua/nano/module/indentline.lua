@@ -66,13 +66,15 @@ local function on_line(_, _, bufnr, row)
         )
     end
 
+    ---@diagnostic disable-next-line: undefined-field
+    local leftcol = vim.fn.winsaveview().leftcol
     for i = 0, indent - 2, vim.bo.shiftwidth do
-        if i >= vim.fn.winsaveview().leftcol then
+        if i >= leftcol then
             api.nvim_buf_set_extmark(bufnr, ns, row, 0, {
                 virt_text = { { "│", "IndentLine" } },
                 virt_text_pos = "overlay",
                 hl_mode = "combine",
-                virt_text_win_col = i,
+                virt_text_win_col = i - leftcol,
                 priority = 2, -- don't overwrite text
                 ephemeral = true,
             })

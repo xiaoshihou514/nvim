@@ -15,7 +15,13 @@ local hls = {
     [vim.log.levels.WARN] = "NotifyWarn",
     [vim.log.levels.OFF] = "NotifyOff",
 }
----@type table<integer, { win: integer, width: integer, height: integer, offset: integer, level:integer }>
+---@class PopupState
+---@field win integer
+---@field width integer
+---@field height integer
+---@field offset integer
+---@field level integer
+---@type PopupState[]
 local displayed = {}
 local ns = api.nvim_create_namespace("NanoNotify")
 
@@ -61,8 +67,7 @@ end
 
 ---@class NotifyOpts
 ---@field modify_existing? boolean
----@field modify? integer
----@field close_after? boolean
+---@field clear? boolean
 ---@param opts NotifyOpts
 vim.notify = function(msg, level, opts)
     local lines = vim.split(msg, "\n")
@@ -85,9 +90,18 @@ vim.notify = function(msg, level, opts)
         formatted[1] = title[level] .. formatted[1]
     end
 
+    -- if clear is true we close all other windows
+    if opts.clear then
+        for sbuf, popup in pairs(displayed) do
+            api.nvim_win_close(popup.win, true)
+            api.nvim_buf_delete(sbuf, { force = true })
+            displayed[sbuf] = nil
+        end
+    end
+
     -- if modify_existing we try to find an existing buffer
     if opts.modify_existing then
-        local buf = opts.modify
+        local buf = opts.modify_existing
         if not displayed[buf] then
             return -1
         end
@@ -101,9 +115,7 @@ vim.notify = function(msg, level, opts)
 
         local old_height = existing.height
         local width = math.min(msg_max_len, line_max_len)
-        if opts.close_after then
-            register_callback(existing, buf)
-        end
+        register_callback(existing, buf)
         -- if dimension did not change at all, we don't need to do anything
         if old_height == #formatted and existing.height == width then
             return buf

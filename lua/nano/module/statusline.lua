@@ -117,6 +117,8 @@ local events = {
     "DiagnosticChanged",
     "RecordingEnter",
     "RecordingLeave",
+    "CmdlineEnter",
+    "CmdlineLeave",
     "User GuardFmt",
 }
 local stl_group = api.nvim_create_augroup("StatusLine", {})

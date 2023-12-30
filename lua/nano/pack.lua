@@ -1,4 +1,12 @@
 local M = {
+    ---@class PluginSpec
+    ---@field [1] string
+    ---@field event? string
+    ---@field cmd? string[]
+    ---@field config string
+    ---@field build? string
+    ---@field lazy? boolean
+    ---@type PluginSpec[]
     plugins = {
         -- comment
         { "numToStr/Comment.nvim",                      event = "BufReadPost", config = "comment" },
@@ -45,11 +53,26 @@ local M = {
         -- MUST HAVE
         { "seandewar/bad-apple.nvim",                cmd = { "BadApple" } },
     },
-    ---@type { name: string, full_name: string, path: string, build: string }
+    ---@class Package
+    ---@field name string
+    ---@field full_name string
+    ---@field path string
+    ---@field build string
+    ---@type Package[]
     all_pkgs = {},
-    ---@type { name: string, full_name: string, path: string, build: string }
+    ---@class Installation
+    ---@field name string
+    ---@field full_name string
+    ---@field path string
+    ---@field url string
+    ---@field build string
+    ---@type Installation[]
     unavailable_pkgs = {},
-    ---@type { name: string, event: string, time: integer }
+    ---@class LoadInfo
+    ---@field name string
+    ---@field event string
+    ---@field time integer
+    ---@type LoadInfo[]
     loaded = {},
     ---@type table<string, string>
     not_loaded = {},
