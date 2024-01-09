@@ -227,15 +227,6 @@ local function guard_cb(ft)
     end
 end
 
-local function ensure(tools)
-    local missing = vim.iter.filter(function(t)
-        return vim.fn.executable(t) ~= 1
-    end, tools)
-    if #missing > 0 then
-        api.nvim_command("MasonInstall " .. table.concat(missing, " "):sub(0, -1))
-    end
-end
-
 local function load(package)
     local time = perf.record(function()
         vim.cmd.packadd(package)
@@ -256,7 +247,7 @@ function M.lazy_load_lang_modules()
             pattern = ft,
             once = true,
             callback = vim.schedule_wrap(function()
-                setup(ensure, load, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
+                setup(load, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
             end)
         })
     end

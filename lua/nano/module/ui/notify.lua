@@ -27,16 +27,17 @@ local ns = api.nvim_create_namespace("NanoNotify")
 
 local function make_popup_opts(level, width, height, offset)
     local is_oneliner = height == 1
+    local title_str = title[level] or tostring(level)
     return {
         relative = "editor",
         anchor = "SE",
-        width = is_oneliner and #title[level] + width or math.max(width, #title[level] + 1),
+        width = is_oneliner and #title_str + width or math.max(width, #title_str + 1),
         height = height,
         row = vim.o.lines - offset,
         col = vim.o.columns,
         style = "minimal",
         border = not is_oneliner and { " ", " ", " ", " " } or "none",
-        title = not is_oneliner and { { title[level], hls[level] } } or nil,
+        title = not is_oneliner and { { title_str, hls[level] or "NotifyInfo" } } or nil,
     }
 end
 
@@ -70,6 +71,7 @@ end
 ---@field clear? boolean
 ---@param opts NotifyOpts
 vim.notify = function(msg, level, opts)
+    opts = opts or {}
     local lines = vim.split(msg, "\n")
     local formatted = {}
     local msg_max_len = math.floor(vim.o.columns / 3)
@@ -87,7 +89,7 @@ vim.notify = function(msg, level, opts)
         table.insert(formatted, line)
     end
     if #formatted == 1 then
-        formatted[1] = title[level] .. formatted[1]
+        formatted[1] = title[level] or tostring(level) .. formatted[1]
     end
 
     -- if clear is true we close all other windows
@@ -166,7 +168,7 @@ vim.notify = function(msg, level, opts)
 
     -- add highlights
     for i = 0, #formatted - 1, 1 do
-        api.nvim_buf_add_highlight(buf, ns, hls[level], i, 0, -1)
+        api.nvim_buf_add_highlight(buf, ns, hls[level] or "NotifyInfo", i, 0, -1)
     end
     api.nvim_set_option_value("winhl", "Normal:Normal", { win = win })
 

@@ -17,41 +17,27 @@ local M = {
         { "nvim-tree/nvim-web-devicons",                event = "UIEnter" },
         { "nvim-telescope/telescope.nvim",              event = "UIEnter",     config = "telescope" },
         { "nvim-telescope/telescope-file-browser.nvim", event = "UIEnter",     config = "telescope-explorer" },
-        -- mason
-        {
-            "williamboman/mason.nvim",
-            cmd = {
-                "Mason",
-                "MasonInstall",
-                "MasonLog",
-                "MasonUninstall",
-                "MasonUninstallAll",
-                "MasonUpdate",
-            },
-            build = "MasonUpdate",
-            config = "mason"
-        },
         -- completion
-        { "nvimdev/epo.nvim",                        event = "BufWinEnter", config = "epo" },
+        { "nvimdev/epo.nvim",                           event = "BufWinEnter", config = "epo" },
         -- hl color codes
-        { "echasnovski/mini.hipatterns",             event = "BufReadPost", config = "hipatterns" },
+        { "echasnovski/mini.hipatterns",                event = "BufReadPost", config = "hipatterns" },
         -- scrollbar
-        { "lewis6991/satellite.nvim",                event = "BufReadPost", config = "satellite" },
+        { "lewis6991/satellite.nvim",                   event = "BufReadPost", config = "satellite" },
         -- formatting + linting
-        { "nvimdev/guard.nvim",                      lazy = true,           config = "guard" },
+        { "nvimdev/guard.nvim",                         lazy = true,           config = "guard" },
         -- code context
-        { "nvim-treesitter/nvim-treesitter-context", event = "BufReadPost", config = "tresitter-context" },
+        { "nvim-treesitter/nvim-treesitter-context",    event = "BufReadPost", config = "tresitter-context" },
         -- install ts parsers easily
-        { "nvim-treesitter/nvim-treesitter",         event = "BufReadPost", build = "TSUpdate",          config = "treesitter", },
+        { "nvim-treesitter/nvim-treesitter",            event = "BufReadPost", build = "TSUpdate",           config = "treesitter", },
         -- lsp quickstart
-        { "neovim/nvim-lspconfig",                   lazy = true,           config = "lspconfig" },
+        { "neovim/nvim-lspconfig",                      lazy = true,           config = "lspconfig" },
         -- dap stuff
-        { "mfussenegger/nvim-dap",                   lazy = true,           config = "dap" },
-        { "rcarriga/nvim-dap-ui",                    lazy = true,           config = "dap-ui" },
+        { "mfussenegger/nvim-dap",                      lazy = true,           config = "dap" },
+        { "rcarriga/nvim-dap-ui",                       lazy = true,           config = "dap-ui" },
         -- language specific
-        { "mrcjkb/haskell-tools.nvim",               lazy = true },
+        { "mrcjkb/haskell-tools.nvim",                  lazy = true },
         -- MUST HAVE
-        { "seandewar/bad-apple.nvim",                cmd = { "BadApple" } },
+        { "seandewar/bad-apple.nvim",                   cmd = { "BadApple" } },
     },
     ---@class Package
     ---@field name string

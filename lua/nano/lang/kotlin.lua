@@ -1,8 +1,7 @@
-return function(ensure, _, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
+return function(_, load_lsp, load_guard, load_dap, lsp_cb, guard_cb)
     local lspconfig, capabilities = unpack(load_lsp())
     local ft, lint = unpack(load_guard())
     local dap = load_dap()
-    ensure({ "kotlin-language-server", "detekt", "ktlint", "kotlin-debug-adapter" })
 
     lspconfig.kotlin_language_server.setup({
         capabilities = capabilities,
