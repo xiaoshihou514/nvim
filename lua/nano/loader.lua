@@ -163,6 +163,7 @@ local function load_guard()
         guard.lint = require("guard.lint")
         guard.events = require("guard.events")
         guard.format = require("guard.format")
+        bind("n", "gq", "<cmd>GuardFmt<cr>")
         loaded_guard = true
     end
     return {
@@ -224,6 +225,7 @@ local function guard_cb(ft)
             table.insert(lint_events, "InsertLeave")
         end
         guard.lint.register_lint(ft, lint_events)
+        api.nvim_exec_autocmds("Filetype", { pattern = ft, group = "Guard" })
     end
 end
 

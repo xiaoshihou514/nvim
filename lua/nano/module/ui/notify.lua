@@ -27,7 +27,7 @@ local ns = api.nvim_create_namespace("NanoNotify")
 
 local function make_popup_opts(level, width, height, offset)
     local is_oneliner = height == 1
-    local title_str = title[level] or tostring(level)
+    local title_str = title[level] or (level and tostring(level)) or ""
     return {
         relative = "editor",
         anchor = "SE",

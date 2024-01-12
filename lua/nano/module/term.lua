@@ -66,6 +66,8 @@ local function create_new_term(cmd)
     }
     vim.opt_local.winbar = "  Term " .. id
     vim.fn.termopen(cmd, {
+        -- or fish complains about too many envs
+        clear_env = true,
         cwd = vim.fn.getcwd(),
         on_exit = function()
             -- if exited the indexing will be broken, but idk
