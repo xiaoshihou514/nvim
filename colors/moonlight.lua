@@ -4,6 +4,7 @@ vim.o.background = "dark"
 -- palette
 local p = {
     -- design: low saturation, use lightness to create contrast
+    --                             H   S L
     bg      = "#1F2224", -- OKHSL: 237,6,15
     shade_1 = "#323639", -- OKHSL: 237,6,23
     shade_2 = "#44494c", -- OKHSL: 237,6,31
@@ -12,10 +13,12 @@ local p = {
     shade_5 = "#7e858a", -- OKHSL: 237,6,55
     shade_6 = "#939a9f", -- OKHSL: 237,6,63
     fg      = "#a8aeb4", -- OKHSL: 237,6,71
+
     -- brighter warning colors (high lightness)
     yellow  = "#c9bb7f", -- OKHSL: 97,49,76
     orange  = "#d5a37b", -- OKHSL: 60,48,71
     red     = "#d89e98", -- OKHSL: 25,44,71
+
     -- complementary colors, not-so-high lightness
     magenta = "#cb98c3", -- OKHSL: 332,45,70
     purple  = "#876aa8", -- OKHSL: 305,44,51
@@ -195,6 +198,16 @@ local groups = {
 
     -- Lang: Markdown
     ["@text.literal.block.markdown"] = { link = "Keyword" },
+
+    -- Lang: Html
+    ["@tag.html"] = { link = "Operator" },
+    ["@tag.delimiter.html"] = { link = "Operator" },
+    ["@tag.attribute.html"] = { link = "Text" },
+    ["@text.title.html"] = { fg = p.fg, bold = true },
+
+    -- Lang: Javascript
+    ["@punctuation.bracket.javascript"] = { link = "Operator" },
+    ["@punctuation.delimiter.javascript"] = { link = "Operator" },
     ["@text.literal.markdown_inline"] = { bold = true },
 }
 

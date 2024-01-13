@@ -25,11 +25,10 @@ end, { expr = true })
 
 bind("i", "<cr>", function()
     if vim.fn.pumvisible() == 1 then
-        return vim.api.nvim_replace_termcodes("<C-y>", true, true, true)
-    else
-        return require("nvim-autopairs").autopairs_cr()
+        return "<C-y>"
     end
-end, { expr = true, noremap = true, replace_keycodes = false })
+    return "<cr>"
+end, { expr = true, noremap = true })
 
 local kind_icons = {
     Text = "󰉿",

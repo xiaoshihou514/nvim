@@ -10,8 +10,6 @@ local M = {
     plugins = {
         -- comment
         { "numToStr/Comment.nvim",                      event = "BufReadPost", config = "comment" },
-        -- autopair
-        { "windwp/nvim-autopairs",                      event = "InsertEnter", config = "autopair" },
         -- telescope stuff
         { "nvim-lua/plenary.nvim",                      event = "UIEnter" },
         { "nvim-tree/nvim-web-devicons",                event = "UIEnter" },
@@ -21,8 +19,6 @@ local M = {
         { "nvimdev/epo.nvim",                           event = "BufWinEnter", config = "epo" },
         -- hl color codes
         { "echasnovski/mini.hipatterns",                event = "BufReadPost", config = "hipatterns" },
-        -- scrollbar
-        { "lewis6991/satellite.nvim",                   event = "BufReadPost", config = "satellite" },
         -- formatting + linting
         { "nvimdev/guard.nvim",                         lazy = true,           config = "guard" },
         -- code context
@@ -337,6 +333,7 @@ end
 
 function M.lazy_load_modules()
     require("nano.builtin.options") -- breaks with UIEnter for some reason
+    -- my own modules are pretty fast in terms of load time
     loader.module_on_event("builtin.debug", "UIEnter")
     loader.module_on_event("builtin.diagnostic", "UIEnter")
     loader.module_on_event("builtin.autocmd", "UIEnter")
