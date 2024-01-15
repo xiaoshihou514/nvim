@@ -71,6 +71,10 @@ end
 ---@field clear? boolean
 ---@param opts NotifyOpts
 vim.notify = function(msg, level, opts)
+    if msg:match("^s*$") then
+        return
+    end
+    level = level or vim.log.levels.INFO
     opts = opts or {}
     local lines = vim.split(msg, "\n")
     local formatted = {}

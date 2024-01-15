@@ -34,24 +34,7 @@ autocmd("BufWinEnter", {
 autocmd("BufEnter", {
     desc = "Go to project root",
     callback = function()
-        if
-            vim.tbl_contains({
-                "help",
-                "dashboard",
-                "lazy",
-                "mason",
-                "TelescopePrompt",
-                "nofile",
-                "lspinfo",
-                "floatterm",
-                "elegant",
-                "dapui_scopes",
-                "dapui_stacks",
-                "dapui_console",
-                "dapui_watches",
-                "",
-            }, vim.bo.filetype)
-        then
+        if not vim.uv.fs_stat(api.nvim_buf_get_name(0)) then
             return
         end
         local cwd = (api.nvim_buf_get_name(0)):match("(.*)/")

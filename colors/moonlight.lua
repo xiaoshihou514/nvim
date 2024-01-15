@@ -186,6 +186,7 @@ local groups = {
     ktArrow = { link = "Operator" },
     ktComplexInterpolation = { link = "Keyword" },
     ktComplexInterpolationBrace = { link = "Keyword" },
+    ktSpecialChar = { link = "String" },
 
     -- Lang: Fish
     fishOption = { link = "Text" },
@@ -204,11 +205,16 @@ local groups = {
     ["@tag.delimiter.html"] = { link = "Operator" },
     ["@tag.attribute.html"] = { link = "Text" },
     ["@text.title.html"] = { fg = p.fg, bold = true },
+    ["@text.title.1.html"] = { fg = p.fg, bold = true },
+    ["@text.title.2.html"] = { fg = p.fg, bold = true },
 
     -- Lang: Javascript
     ["@punctuation.bracket.javascript"] = { link = "Operator" },
     ["@punctuation.delimiter.javascript"] = { link = "Operator" },
     ["@text.literal.markdown_inline"] = { bold = true },
+
+    -- Lang: Toml
+    tomlTable = { fg = p.blue },
 }
 
 for group, hl in pairs(groups) do

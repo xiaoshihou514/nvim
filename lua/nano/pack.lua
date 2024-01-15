@@ -22,7 +22,7 @@ local M = {
         -- formatting + linting
         { "nvimdev/guard.nvim",                         lazy = true,           config = "guard" },
         -- code context
-        { "nvim-treesitter/nvim-treesitter-context",    event = "BufReadPost", config = "tresitter-context" },
+        { "nvim-treesitter/nvim-treesitter-context",    event = "BufReadPost", config = "treesitter-context" },
         -- install ts parsers easily
         { "nvim-treesitter/nvim-treesitter",            event = "BufReadPost", build = "TSUpdate",           config = "treesitter", },
         -- lsp quickstart
@@ -334,7 +334,6 @@ end
 function M.lazy_load_modules()
     require("nano.builtin.options") -- breaks with UIEnter for some reason
     -- my own modules are pretty fast in terms of load time
-    loader.module_on_event("builtin.debug", "UIEnter")
     loader.module_on_event("builtin.diagnostic", "UIEnter")
     loader.module_on_event("builtin.autocmd", "UIEnter")
 
