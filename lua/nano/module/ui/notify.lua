@@ -71,9 +71,7 @@ end
 ---@field clear? boolean
 ---@param opts NotifyOpts
 vim.notify = function(msg, level, opts)
-    if msg:match("^s*$") then
-        return
-    end
+    if not msg then return end
     level = level or vim.log.levels.INFO
     opts = opts or {}
     local lines = vim.split(msg, "\n")
@@ -93,7 +91,7 @@ vim.notify = function(msg, level, opts)
         table.insert(formatted, line)
     end
     if #formatted == 1 then
-        formatted[1] = title[level] or tostring(level) .. formatted[1]
+        formatted[1] = (title[level] or tostring(level)) .. formatted[1]
     end
 
     -- if clear is true we close all other windows

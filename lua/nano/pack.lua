@@ -8,8 +8,6 @@ local M = {
     ---@field lazy? boolean
     ---@type PluginSpec[]
     plugins = {
-        -- comment
-        { "numToStr/Comment.nvim",                      event = "BufReadPost", config = "comment" },
         -- telescope stuff
         { "nvim-lua/plenary.nvim",                      event = "UIEnter" },
         { "nvim-tree/nvim-web-devicons",                event = "UIEnter" },
@@ -344,6 +342,7 @@ function M.lazy_load_modules()
     loader.module_on_event("module.squirrel", "UIEnter")
     loader.module_on_event("module.statusline", "UIEnter")
     loader.module_on_event("module.term", "UIEnter")
+    loader.module_on_event("module.comment", "UIEnter")
 
     loader.lazy_load_lang_modules()
 end

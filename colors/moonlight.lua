@@ -57,7 +57,7 @@ local groups = {
     FloatThrough = { fg = p.shade_2 },
     ColorColumn = { bg = p.shade_2 },
     Directory = { fg = p.blue },
-    ErrorMsg = { bg = p.red, fg = p.shade_2 },
+    ErrorMsg = { fg = p.red },
     Error = { bg = p.red, fg = p.shade_2 },
     Folded = { bg = p.shade_1 },
     FoldColumn = { bg = p.bg, fg = p.blue },
