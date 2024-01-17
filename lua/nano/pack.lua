@@ -15,8 +15,6 @@ local M = {
         { "nvim-telescope/telescope-file-browser.nvim", event = "UIEnter",     config = "telescope-explorer" },
         -- completion
         { "nvimdev/epo.nvim",                           event = "BufWinEnter", config = "epo" },
-        -- hl color codes
-        { "echasnovski/mini.hipatterns",                event = "BufReadPost", config = "hipatterns" },
         -- formatting + linting
         { "nvimdev/guard.nvim",                         lazy = true,           config = "guard" },
         -- code context
@@ -343,6 +341,7 @@ function M.lazy_load_modules()
     loader.module_on_event("module.statusline", "UIEnter")
     loader.module_on_event("module.term", "UIEnter")
     loader.module_on_event("module.comment", "UIEnter")
+    loader.module_on_event("module.pairs", "UIEnter")
 
     loader.lazy_load_lang_modules()
 end

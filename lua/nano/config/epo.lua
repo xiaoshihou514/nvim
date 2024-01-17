@@ -23,13 +23,6 @@ bind("i", "<C-e>", function()
     return "<End>"
 end, { expr = true })
 
-bind("i", "<cr>", function()
-    if vim.fn.pumvisible() == 1 then
-        return "<C-y>"
-    end
-    return "<cr>"
-end, { expr = true, noremap = true })
-
 local kind_icons = {
     Text = "󰉿",
     Method = "󰆧",

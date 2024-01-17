@@ -122,11 +122,6 @@ local groups = {
     NotifyOff = { fg = p.shade_2 },
 
     -- Plugins
-    MiniHipatternsTodo = { link = "Todo" },
-    MiniHipatternsFixme = { bg = p.shade_2, fg = p.red },
-    MiniHipatternsHack = { bg = p.shade_2, fg = p.orange },
-    MiniHipatternsNote = { bg = p.shade_2, fg = p.blue },
-
     TreesitterContext = { bg = p.shade_1 },
 
     DapUIType = { link = "Type" },
