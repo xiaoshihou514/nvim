@@ -34,10 +34,11 @@ autocmd("BufWinEnter", {
 autocmd("BufEnter", {
     desc = "Go to project root",
     callback = function()
-        if not vim.uv.fs_stat(api.nvim_buf_get_name(0)) then
+        local bufname = api.nvim_buf_get_name(0)
+        if not vim.uv.fs_stat(bufname) then
             return
         end
-        local cwd = (api.nvim_buf_get_name(0)):match("(.*)/")
+        local cwd = vim.fs.dirname(bufname)
         -- try to find a file that's supposed to be in the root
         local patterns = {
             ".git",
@@ -50,7 +51,7 @@ autocmd("BufEnter", {
         }
         local result = vim.fs.find(patterns, { path = cwd, upward = true, stop = vim.env.HOME })
         if not vim.tbl_isempty(result) then
-            vim.cmd.lcd((result[1]):match("(.*)/"))
+            vim.cmd.lcd(vim.fs.dirname(result[1]))
             return
         end
         -- or if it's some wierd filtype try to get root from lsp

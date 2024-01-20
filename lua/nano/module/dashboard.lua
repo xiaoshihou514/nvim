@@ -171,11 +171,11 @@ return function(load_time)
         if match >= project_shown then
             break
         end
-        local dir = file:match("(.*)/")
+        local dir = vim.fs.dirname(file)
         for _, p in ipairs(patterns) do
             local result = vim.fs.find(p, { path = dir, upward = true, stop = vim.env.HOME })
             if not vim.tbl_isempty(result) then
-                local matched = (result[1]):match("(.*)/"):gsub(vim.env.HOME, "~")
+                local matched = vim.fs.dirname(file):gsub(vim.env.HOME, "~")
                 if not vim.tbl_contains(projects, matched) and matched ~= "~" then
                     table.insert(projects, matched)
                     if #matched > maxlen then
