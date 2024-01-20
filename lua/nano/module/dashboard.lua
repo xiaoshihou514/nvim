@@ -14,7 +14,7 @@ local header = {
 }
 local shortcuts = {
     { desc = " Recent", key = "r", action = "Telescope oldfiles" },
-    { desc = "󰏗 Plugins", key = "P", action = "NanoPack" },
+    { desc = "󰏗 Plugins", key = "P", action = "Rocks edit" },
     {
         desc = " Config",
         key = "c",

@@ -8,11 +8,11 @@ local pairs = {
     { "'", "'" },
 }
 
+-- not so intelligent autopair, but good enough
 -- foo|
 -- * presses ( *
 -- foo(|)
 local function make_pair(left_pair, right_pair)
-    -- not so intelligent autopair, but good enough
     bind("i", left_pair, function()
         local cur_line = api.nvim_get_current_line()
         local pos = api.nvim_win_get_cursor(0)[2]
@@ -69,7 +69,7 @@ _G._surround = function()
     end
     local row_, right = unpack(pos)
     -- too lazy to deal with this case
-    if not row == row_ then
+    if row ~= row_ then
         return
     end
     local prefix = cur_line:sub(1, left - 1)

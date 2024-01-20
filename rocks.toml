@@ -1,54 +1,25 @@
 # List of non-Neovim rocks.
 # This includes things like `toml` or other lua packages.
 [rocks]
-
-# configuration related settings
-[config]
-plugins_dir = "nano/config"
+fzy = "1.0"
 
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
 "rocks.nvim" = "2.6.2"
 "rocks-git.nvim" = "1.2.1"
-"rocks-config.nvim" = "1.2.0"
-"telescope.nvim" = { version = "scm", event = "UIEnter" }
-nvim-dap = { version = "0.7.0" }
-"haskell-tools.nvim" = { version = "3.1.3" }
+nvim-dap = "0.7.0" 
+"haskell-tools.nvim" = "3.1.3"  
+nvim-lspconfig = "0.1.7"
 
 [plugins.treesitter]
 git = "nvim-treesitter/nvim-treesitter"
-event = "BufReadPost"
-config = "treesitter"
-
-[plugins.comment]
-git = "numToStr/Comment.nvim"
-event = "BufReadPost"
-config = "comment"
-
-[plugins.file-browser]
-git = "nvim-telescope/telescope-file-browser.nvim"
-event = "UIEnter"
-config = "telescope-explorer"
 
 [plugins.completion]
 git = "nvimdev/epo.nvim"
-event = "BufWinEnter"
-config = "epo"
-
-[plugins.hipatters]
-git = "echasnovski/mini.hipatterns"
-event = "BufReadPost"
-config = "hipatterns"
 
 [plugins.format-lint]
 git = "nvimdev/guard.nvim"
 
-[plugins.ts-context]
-git = "nvim-treesitter/nvim-treesitter-context"
-event = "BufReadPost"
-config = "treesitter-context"
-
 [plugins.bad-apple]
 git = "seandewar/bad-apple.nvim"
-cmd = [ "BadApple" ]
