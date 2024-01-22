@@ -8,26 +8,6 @@ local pairs = {
     { "'", "'" },
 }
 
--- not so intelligent autopair, but good enough
--- foo|
--- * presses ( *
--- foo(|)
-local function make_pair(left_pair, right_pair)
-    bind("i", left_pair, function()
-        local cur_line = api.nvim_get_current_line()
-        local pos = api.nvim_win_get_cursor(0)[2]
-        if pos == #cur_line then
-            return left_pair .. right_pair .. "<Left>"
-        else
-            return left_pair
-        end
-    end, { expr = true })
-end
-
-for _, pair in ipairs(pairs) do
-    make_pair(unpack(pair))
-end
-
 bind("i", "<cr>", function()
     -- accept completion
     if vim.fn.pumvisible() == 1 then

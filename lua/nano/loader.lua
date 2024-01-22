@@ -115,7 +115,7 @@ function M.lazy_load_modules()
 			require("nano.module.statusline")
 			require("nano.module.term")
 			require("nano.module.comment")
-			require("nano.module.pairs")
+			require("nano.module.surround")
 		end,
 	})
 end
