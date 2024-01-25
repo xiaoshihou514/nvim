@@ -102,7 +102,7 @@ ft("kotlin")
         }),
     })
     :append({
-        cmd = "detekt",
+        cmd = "detekt-cli",
         args = { "-i" },
         fname = true,
         parse = lint.from_regex({

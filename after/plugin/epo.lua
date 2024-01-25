@@ -1,5 +1,8 @@
 local bind = vim.keymap.set
 
+_G.lsp_default_cap =
+            vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), require("epo").register_cap())
+
 bind({ "n", "i" }, "<TAB>", function()
     if vim.snippet.jumpable(1) then
         return "<cmd>lua vim.snippet.jump(1)<cr>"

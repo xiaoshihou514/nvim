@@ -1,3 +1,4 @@
+---@diagnostic disable-next-line: inject-field
 vim.g.colors_name = "moonlight"
 vim.o.background = "dark"
 
@@ -120,6 +121,9 @@ local groups = {
     NotifyInfo = { link = "Text" },
     NotifyTrace = { link = "Text" },
     NotifyOff = { fg = p.shade_2 },
+    ShovelPrompt = { fg = p.red },
+    ShovelListPrompt = { fg = p.fg },
+    ShovelSelected = { link = "Visual" },
 
     -- Plugins
     TreesitterContext = { bg = p.shade_1 },
@@ -160,6 +164,7 @@ local groups = {
     -- Lang: Lua
     luaTable = { fg = p.shade_4 },
     luaFunction = { link = "Keyword" },
+    ["@string.regexp.lua"] = { link = "String" },
     ["@lsp.typemod.property.declaration.lua"] = { link = "Comment" }, -- type annotation
     ["@constructor.lua"] = { link = "Text" },
 
