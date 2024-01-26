@@ -11,20 +11,23 @@ lspconfig.lua_ls.setup({
     capabilities = lsp_default_cap,
     settings = {
         Lua = {
-    	diagnostics = {
-    	    enable = true,
-    	    globals = { "vim" },
-    	},
-    	runtime = {
-    	    version = "LuaJIT",
-    	    path = vim.split(package.path, ";"),
-    	},
-    	workspace = {
-    	    library = { vim.env.VIMRUNTIME, },
-    	    checkThirdParty = false,
-    	},
-    	completion = { callSnippet = "Replace" },
+            diagnostics = {
+                enable = true,
+                globals = { "vim" },
+            },
+            runtime = {
+                version = "LuaJIT",
+                path = vim.split(package.path, ";"),
+            },
+            workspace = {
+                library = { vim.env.VIMRUNTIME, },
+                checkThirdParty = false,
+            },
+            completion = { callSnippet = "Replace" },
         },
     },
 })
 
+lspconfig.dartls.setup({
+    capabilities = lsp_default_cap
+})

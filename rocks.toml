@@ -13,6 +13,16 @@ nvim-dap = "0.7.0"
 nvim-lspconfig = "0.1.7"
 "squirrel.nvim" = "1.0.0"
 
+# telescope stuff that I will _eventually_ rewrite
+[plugins.devicons]
+git = "nvim-tree/nvim-web-devicons"
+[plugins.plenary]
+git = "nvim-lua/plenary.nvim"
+[plugins.telescope]
+git = "nvim-telescope/telescope.nvim"
+[plugins.file_browser]
+git = "nvim-telescope/telescope-file-browser.nvim"
+
 [plugins.treesitter]
 git = "nvim-treesitter/nvim-treesitter"
 

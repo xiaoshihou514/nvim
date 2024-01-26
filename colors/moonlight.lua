@@ -194,7 +194,7 @@ local groups = {
     fishVariable = { link = "Special" },
 
     -- Lang: Vimdoc
-    ["@parameter.vimdoc"] = { link = "Keyword" },
+    ["@variable.parameter.vimdoc"] = { link = "Keyword" },
     ["@text.reference.vimdoc"] = { link = "helpHyperTextJump" },
 
     -- Lang: Markdown
@@ -215,6 +215,10 @@ local groups = {
 
     -- Lang: Toml
     tomlTable = { fg = p.blue },
+
+    -- Lang: Dart
+    ["@lsp.type.keyword.dart"] = { link = "Keyword" },
+    ["@lsp.typemod.property.annotation.dart"] = { link = "Special" },
 }
 
 for group, hl in pairs(groups) do

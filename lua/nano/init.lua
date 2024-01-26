@@ -1,3 +1,6 @@
+-- load time tracking module
+local perf = require("nano.perf")
+
 ---@diagnostic disable: inject-field
 -- load rocks.nvim
 local rocks_config = {
@@ -17,26 +20,27 @@ local luarocks_cpath = {
 package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
 vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "*", "*"))
 
--- load time tracking module
-local perf = require("nano.perf")
-
 -- personal modules
 require("nano.builtin.options")
 require("nano.builtin.keys")
-local dashboard = require("nano.module.dashboard")
-vim.cmd.colorscheme("moonlight")
-if vim.fn.argc() == 0 then
-    vim.cmd.rshada()
-    dashboard(perf.cputime())
-    require("nano.builtin.diagnostic")
-    require("nano.builtin.autocmd")
+vim.api.nvim_create_autocmd("UIEnter", {
+    callback = function()
+        local dashboard = require("nano.module.dashboard")
+        vim.cmd.colorscheme("moonlight")
+        if vim.fn.argc() == 0 then
+            vim.cmd.rshada()
+            dashboard(perf.cputime())
+        end
+        require("nano.builtin.diagnostic")
+        require("nano.builtin.autocmd")
 
-    require("nano.module.ui")
-    require("nano.module.fold")
-    require("nano.module.indentline")
-    require("nano.module.smoothscroll")
-    require("nano.module.statusline")
-    require("nano.module.term")
-    require("nano.module.comment")
-    require("nano.module.pairs")
-end
+        require("nano.module.ui")
+        require("nano.module.fold")
+        require("nano.module.indentline")
+        require("nano.module.smoothscroll")
+        require("nano.module.statusline")
+        require("nano.module.term")
+        require("nano.module.comment")
+        require("nano.module.pairs")
+    end
+})
