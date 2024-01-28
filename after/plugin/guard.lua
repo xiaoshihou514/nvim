@@ -122,3 +122,5 @@ require("guard").setup({
     fmt_on_save = true,
     lsp_as_default_formatter = true,
 })
+
+bind("n", "gq", "<cmd>GuardFmt<cr>")
