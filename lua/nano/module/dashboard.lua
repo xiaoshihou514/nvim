@@ -22,6 +22,13 @@ local shortcuts = {
         end,
     },
     {
+        desc = "󰠮 Notes",
+        key = "N",
+        action = function()
+            require("telescope.builtin").find_files({ cwd = "~/Documents/notes" })
+        end,
+    },
+    {
         desc = " Projects",
         key = "p",
         action = function()

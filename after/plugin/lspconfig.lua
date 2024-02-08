@@ -3,8 +3,13 @@ require("lspconfig.ui.windows").default_options.winhighlight = "FloatBorder:Norm
 
 local lspconfig = require("lspconfig")
 
+local on_attach = function(client, buf)
+    vim.lsp.semantic_tokens.start(buf, client.id)
+end
+
 lspconfig.kotlin_language_server.setup({
-    capabilities = lsp_default_cap
+    capabilities = lsp_default_cap,
+    on_attach = on_attach,
 })
 
 lspconfig.lua_ls.setup({
@@ -29,5 +34,11 @@ lspconfig.lua_ls.setup({
 })
 
 lspconfig.dartls.setup({
-    capabilities = lsp_default_cap
+    capabilities = lsp_default_cap,
+    on_attach = on_attach,
+})
+
+lspconfig.clangd.setup({
+    capabilities = lsp_default_cap,
+    on_attach = on_attach,
 })

@@ -44,7 +44,8 @@ local function open_term_win(buf)
         style = "minimal",
         border = "single",
     })
-    set("winhl", "Normal:TermBg", { win = w })
+    -- Don't want FloatNormal here
+    set("winhl", "Normal:Normal", { win = w })
     set("scrolloff", 0, { win = w })
     set("filetype", "floatterm", { buf = buf })
 end
@@ -66,9 +67,6 @@ local function create_new_term(cmd)
     }
     vim.opt_local.winbar = "  Term " .. id
     vim.fn.termopen(cmd, {
-        -- fish would complain about too many envs
-        clear_env = true,
-        env = { LANG = "en_GB.UTF-8" },
         cwd = vim.fn.getcwd(),
         on_exit = function()
             -- if exited the indexing will be broken, but idk

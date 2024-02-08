@@ -1,11 +1,12 @@
 -- load time tracking module
 local perf = require("nano.perf")
 
----@diagnostic disable: inject-field
+---@diagnostic disable: inject-field, param-type-mismatch
 -- load rocks.nvim
+local data_path = vim.fn.stdpath("data")
 local rocks_config = {
-    rocks_path = "/home/xiaoshihou/.local/share/nvim/rocks",
-    luarocks_binary = "/home/xiaoshihou/.local/share/nvim/rocks/bin/luarocks",
+    rocks_path = vim.fs.joinpath(data_path, "rocks"),
+    luarocks_binary = vim.fs.joinpath(data_path, "rocks", "bin", "luarocks"),
 }
 vim.g.rocks_nvim = rocks_config
 local luarocks_path = {

@@ -23,6 +23,9 @@ git = "nvim-telescope/telescope.nvim"
 [plugins.file_browser]
 git = "nvim-telescope/telescope-file-browser.nvim"
 
+[plugins.hipatterns]
+git = "echasnovski/mini.hipatterns"
+
 [plugins.treesitter]
 git = "nvim-treesitter/nvim-treesitter"
 

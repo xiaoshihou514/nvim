@@ -51,7 +51,7 @@ bind("i", "<cr>", function()
             -- (|)          (
             --                  |
             --              )
-            return "<cr><Esc>O<Tab>"
+            return "<cr><Esc>O"
         end
     end
     return "<cr>"
