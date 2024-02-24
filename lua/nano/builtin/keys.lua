@@ -79,8 +79,8 @@ bind("n", "<leader>w", "<cmd>silent w<cr>")
 bind("n", "<leader>h", "<cmd>noh<cr>")
 bind("n", "<leader>;", "<cmd>lua require('nano.module.dashboard')()<cr>")
 
-bind("n", "<leader>ba", "<cmd>$tabnew<cr>")
-bind("n", "<leader>bl", "<cmd>source %<cr>")
+bind("n", "<leader>a", "<cmd>$tabnew<cr>")
+bind("n", "<leader>l", "<cmd>source %<cr>")
 
 bind("n", "<leader>t", "<cmd>FloatTerm<cr>")
 bind("n", "<leader>tt", "<cmd>FloatTerm!<cr>")

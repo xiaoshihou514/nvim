@@ -54,9 +54,6 @@ local function on_win(_, _, bufnr, _)
 end
 
 local function on_line(_, _, bufnr, row)
-    if vim.bo.shiftwidth < 4 then
-        return
-    end
     local indent = vim.fn.indent(row + 1)
     local high, low = api.nvim_buf_line_count(bufnr) - 1, 0
     if indent == 0 and row ~= high then

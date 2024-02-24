@@ -34,7 +34,8 @@ local shortcuts = {
         action = function()
             local patterns = {
                 ".git",
-                "lazy-lock.json",
+                "rocks.toml",
+                "Makefile",
                 "Cargo.toml",
                 "*.cabal",
                 "go.mod",

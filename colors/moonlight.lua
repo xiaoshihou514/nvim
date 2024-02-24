@@ -30,7 +30,7 @@ local p = {
 
 local groups = {
     -- UI Elements
-    Normal = { bg = p.bg, fg = p.fg },
+    Normal = { fg = p.fg },
     Cursor = { bg = p.shade_4 },
     CursorLine = { bg = p.shade_1 },
     Search = { bg = p.shade_2 },
@@ -180,6 +180,9 @@ local groups = {
     -- Lang: C
     cFormat = { link = "Keyword" },
     cSpecial = { link = "Keyword" },
+    cDefine = { link = "Keyword" },
+    ["@type.builtin.c"] = { link = "Type" },
+    ["@constant.builtin.c"] = { link = "Keyword" },
 
     -- Lang: Kotlin
     ktStructure = { link = "Keyword" },
@@ -190,7 +193,10 @@ local groups = {
     ktSpecialChar = { link = "String" },
     ["@type.qualifier.kotlin"] = { link = "Keyword" },
     ["@constructor.kotlin"] = { link = "Text" },
-    ["@punctuation.special.kotlin"] = { link = "String" },
+    ["@punctuation.special.kotlin"] = { link = "Keyword" },
+    ["@variable.builtin.kotlin"] = { link = "Keyword" },
+    ["@attribute.kotlin"] = { link = "Keyword" },
+    ["@function.builtin.kotlin"] = { link = "Keyword" },
 
     -- Lang: Fish
     fishOption = { link = "Text" },
@@ -229,6 +235,9 @@ local groups = {
     ["@lsp.typemod.property.annotation.dart"] = { link = "Special" },
     ["@lsp.mod.interpolation"] = { link = "Special" },
     ["@type.qualifier.dart"] = { link = "Keyword" },
+
+    -- Lang: Groovy
+    ["@punctuation.special.groovy"] = { link = "String" },
 }
 
 for group, hl in pairs(groups) do

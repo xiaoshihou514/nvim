@@ -7,10 +7,12 @@ local on_attach = function(client, buf)
     vim.lsp.semantic_tokens.start(buf, client.id)
 end
 
-lspconfig.kotlin_language_server.setup({
+local default = {
     capabilities = lsp_default_cap,
     on_attach = on_attach,
-})
+}
+
+lspconfig.kotlin_language_server.setup(default)
 
 lspconfig.lua_ls.setup({
     capabilities = lsp_default_cap,
@@ -33,12 +35,10 @@ lspconfig.lua_ls.setup({
     },
 })
 
-lspconfig.dartls.setup({
-    capabilities = lsp_default_cap,
-    on_attach = on_attach,
-})
+lspconfig.dartls.setup(default)
 
-lspconfig.clangd.setup({
-    capabilities = lsp_default_cap,
-    on_attach = on_attach,
-})
+lspconfig.clangd.setup(default)
+
+lspconfig.solargraph.setup(default)
+
+lspconfig.nixd.setup(default)

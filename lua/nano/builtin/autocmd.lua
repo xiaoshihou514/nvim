@@ -43,6 +43,7 @@ autocmd("BufEnter", {
         local patterns = {
             ".git",
             "rocks.toml",
+            "Makefile",
             "Cargo.toml",
             "*.cabal",
             "go.mod",

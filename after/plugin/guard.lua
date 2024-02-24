@@ -115,7 +115,12 @@ ft("kotlin")
 ft("dart"):fmt({
     cmd = "dart",
     args = { "format" },
-    stdint = true
+    stdin = true
+})
+
+ft("nix"):fmt({
+    cmd = "nixpkgs-fmt",
+    stdin = true,
 })
 
 require("guard").setup({
