@@ -123,6 +123,12 @@ ft("nix"):fmt({
     stdin = true,
 })
 
+ft("java"):fmt({
+    fn = function(bufnr, range)
+        vim.lsp.buf.format({ bufnr = bufnr, range = range, async = true })
+    end,
+})
+
 require("guard").setup({
     fmt_on_save = true,
     lsp_as_default_formatter = true,

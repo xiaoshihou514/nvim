@@ -6,15 +6,15 @@ fzy = "1.0"
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.9.0"
+"rocks.nvim" = "2.11.0"
 "rocks-git.nvim" = "1.2.1"
 nvim-dap = "0.7.0" 
-"haskell-tools.nvim" = "3.1.6"
+"haskell-tools.nvim" = "3.1.8"
 nvim-lspconfig = "0.1.7"
 "squirrel.nvim" = "1.0.0"
 nvim-nio = "1.7.0"
 
-# telescope stuff that I will _eventually_ rewrite
+# telescope stuff
 [plugins.devicons]
 git = "nvim-tree/nvim-web-devicons"
 [plugins.plenary]
@@ -24,14 +24,24 @@ git = "nvim-telescope/telescope.nvim"
 [plugins.file_browser]
 git = "nvim-telescope/telescope-file-browser.nvim"
 
+# cmp stuff
+[plugins.cmp]
+git = "hrsh7th/nvim-cmp"
+[plugins.cmp-lsp]
+git = "hrsh7th/cmp-nvim-lsp"
+[plugins.cmp-lsp-signature]
+git = "hrsh7th/cmp-nvim-lsp-signature-help"
+[plugins.cmp-buffer]
+git = "hrsh7th/cmp-buffer"
+
 [plugins.hipatterns]
 git = "echasnovski/mini.hipatterns"
 
+[plugins.jtdls]
+git = "mfussenegger/nvim-jdtls"
+
 [plugins.treesitter]
 git = "nvim-treesitter/nvim-treesitter"
-
-[plugins.completion]
-git = "nvimdev/epo.nvim"
 
 [plugins.format-lint]
 git = "nvimdev/guard.nvim"

@@ -72,10 +72,7 @@ local function statusline(data)
     local lsp = {}
     local clients = vim.lsp.get_clients({ bufnr = 0 })
     vim.tbl_map(function(client)
-        local filetypes = client.config.filetypes
-        if filetypes and vim.fn.index(filetypes, ft) ~= -1 then
-            table.insert(lsp, client.name)
-        end
+        table.insert(lsp, client.name)
     end, clients)
     if vim.tbl_isempty(lsp) then
         local ok, parser = pcall(vim.treesitter.get_parser)

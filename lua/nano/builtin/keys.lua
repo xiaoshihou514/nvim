@@ -15,6 +15,8 @@ bind("n", "k", "gk")
 -- Move text up and down
 bind({ "n", "v" }, "<A-j>", ":m .+1<CR>==")
 bind({ "n", "v" }, "<A-k>", ":m .-2<CR>==")
+-- more sensible :
+bind("n", "<cr>", ":")
 -- Faster indent
 bind("n", ">", ">>")
 bind("n", "<", "<<")
@@ -53,7 +55,7 @@ bind("n", "]e", function()
     vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
 end)
 -- C-a is taken by kitty
-bind("n", "+", "<C-a>")
+bind("n", "=", "<C-a>")
 bind("n", "-", "<C-x>")
 -- abbreviates
 vim.cmd.cnoreabbrev("h vert help")

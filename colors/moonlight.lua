@@ -139,7 +139,11 @@ local groups = {
     DapUICurrentFrameName = { fg = p.green },
     DapUIStoppedThread = { fg = p.blue },
     DapUIDecoration = { fg = p.blue },
-    DapUIWatchesEmpty = { fg = p.shade_4 },
+    CmpItemAbbr = { link = "Normal" },
+    CmpItemAbbrDeprecated = { strikethrough = true },
+    CmpItemAbbrMatch = { link = "Keyword" },
+    CmpItemAbbrMatchFuzzy = { link = "Keyword" },
+    CmpItemKind = { link = "Comment" },
 
     -- syntax
     -- blue keywords, purple types, magenta consts, green strings
@@ -174,7 +178,7 @@ local groups = {
     hsSpecialChar = { link = "String" },
     ConId = { link = "Type" },
     hsStructure = { link = "Keyword" },
-    ["@function.haskell"] = { link = "Text" }, -- treesitter doesn't differentiate vars and functions well
+    ["@function.haskell"] = { link = "Text" }, -- treesitter doesn"t differentiate vars and functions well
     ["@function.call.haskell"] = { link = "Text" },
 
     -- Lang: C
@@ -183,6 +187,7 @@ local groups = {
     cDefine = { link = "Keyword" },
     ["@type.builtin.c"] = { link = "Type" },
     ["@constant.builtin.c"] = { link = "Keyword" },
+    ["@string.escape.c"] = { link = "String" },
 
     -- Lang: Kotlin
     ktStructure = { link = "Keyword" },
@@ -238,6 +243,14 @@ local groups = {
 
     -- Lang: Groovy
     ["@punctuation.special.groovy"] = { link = "String" },
+
+    -- Lang: Java
+    ["@variable.builtin.java"] = { link = "Keyword" },
+    ["@attribute.java"] = { link = "Keyword" },
+    ["@type.builtin.java"] = { link = "Keyword" },
+
+    -- Lang: Makefile
+    ["@string.special.symbol.make"] = { link = "Keyword" },
 }
 
 for group, hl in pairs(groups) do

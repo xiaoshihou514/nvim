@@ -49,13 +49,13 @@ _G._comment_linewise = function()
     end
 end
 
-bind("n", "gcc", function()
+bind("n", "<leader>c", function()
     -- dot repeat magic :D
     api.nvim_set_option_value("operatorfunc", "v:lua._comment_linewise", {})
     return "g@l"
 end, { expr = true })
 
-bind("x", "gc", function()
+bind("x", "<leader>c", function()
     local start = vim.fn.getpos('v')[2] - 1
     local finish = vim.fn.getpos('.')[2] - 1
     start, finish = math.min(start, finish), math.max(start, finish)

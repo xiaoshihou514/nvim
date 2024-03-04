@@ -33,3 +33,5 @@ vim.opt.shell = "/bin/fish"       -- shell
 vim.o.stal = 0                    -- disable tabline
 vim.o.foldlevelstart = 999        -- do not collapse my folds
 vim.o.winbar = "%=%r %f %m%="     -- winbar
+vim.o.smoothscroll = true         -- some wrapping bs
+vim.o.completeopt = 'menuone,noinsert,popup'
