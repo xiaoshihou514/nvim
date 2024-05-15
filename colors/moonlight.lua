@@ -21,7 +21,7 @@ local p = {
     red     = "#d89e98", -- OKHSL: 25,44,71
 
     -- complementary colors, not-so-high lightness
-    magenta = "#cb98c3", -- OKHSL: 332,45,70
+    magenta = "#c59eb4", -- OKHSL: 332,45,70
     purple  = "#876aa8", -- OKHSL: 305,44,51
     blue    = "#51849e", -- OKHSL: 231,44,52
     cyan    = "#42868d", -- OKHSL: 205,54,51 saturation high for better contrast with blue
@@ -178,7 +178,7 @@ local groups = {
     hsSpecialChar = { link = "String" },
     ConId = { link = "Type" },
     hsStructure = { link = "Keyword" },
-    ["@function.haskell"] = { link = "Text" }, -- treesitter doesn"t differentiate vars and functions well
+    ["@function.haskell"] = { link = "Text" }, -- treesitter doesn't differentiate vars and functions well
     ["@function.call.haskell"] = { link = "Text" },
 
     -- Lang: C
@@ -218,6 +218,7 @@ local groups = {
     ["@markup.raw.delimiter.markdown_inline"] = { bold = true },
     ["@markup.raw.block.markdown"] = { link = "Comment" },
     ["@markup.heading"] = { link = "Keyword" },
+    ["@markup.italic.markdown_inline"] = { italic = true },
 
     -- Lang: Html
     ["@tag.html"] = { link = "Operator" },
@@ -231,6 +232,7 @@ local groups = {
     ["@punctuation.bracket.javascript"] = { link = "Operator" },
     ["@punctuation.delimiter.javascript"] = { link = "Operator" },
     ["@text.literal.markdown_inline"] = { bold = true },
+    ["@constant.builtin.java"] = { link = "Keyword" },
 
     -- Lang: Toml
     tomlTable = { fg = p.blue },
@@ -247,7 +249,7 @@ local groups = {
     -- Lang: Java
     ["@variable.builtin.java"] = { link = "Keyword" },
     ["@attribute.java"] = { link = "Keyword" },
-    ["@type.builtin.java"] = { link = "Keyword" },
+    ["@type.builtin.java"] = { link = "Type" },
 
     -- Lang: Makefile
     ["@string.special.symbol.make"] = { link = "Keyword" },

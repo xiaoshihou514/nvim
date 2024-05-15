@@ -53,14 +53,14 @@ cmp.setup({
         ["<C-e>"] = cmp.mapping.abort(),
         ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<Tab>"] = cmp.mapping(function(fallback)
-            if vim.snippet.jumpable(1) then
+            if vim.snippet.active({ direction = 1 }) then
                 vim.snippet.jump(1)
             else
                 fallback()
             end
         end, { "i", "s", }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if vim.snippet.jumpable(-1) then
+            if vim.snippet.active({ direction = -1 }) then
                 vim.snippet.jump(-1)
             else
                 fallback()

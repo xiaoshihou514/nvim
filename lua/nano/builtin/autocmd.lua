@@ -35,6 +35,7 @@ autocmd("BufEnter", {
     desc = "Go to project root",
     callback = function()
         local bufname = api.nvim_buf_get_name(0)
+        ---@diagnostic disable-next-line: undefined-field
         if not vim.uv.fs_stat(bufname) then
             return
         end
@@ -78,28 +79,4 @@ autocmd("BufWritePost", {
     desc = "autosource colorschme",
     pattern = "colors/*.lua",
     command = "source %"
-})
-
-autocmd("LspAttach", {
-    desc = "enable inlay hints",
-    callback = function(args)
-        local bufnr = args.buf
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        vim.lsp.inlay_hint.enable(bufnr, true)
-        ---@diagnostic disable-next-line: need-check-nil, undefined-field
-        if client.supports_method("textDocument/inlayHint") then
-            autocmd("InsertEnter", {
-                buffer = bufnr,
-                callback = function()
-                    vim.lsp.inlay_hint.enable(bufnr, false)
-                end
-            })
-            autocmd("InsertLeave", {
-                buffer = bufnr,
-                callback = function()
-                    vim.lsp.inlay_hint.enable(bufnr, true)
-                end
-            })
-        end
-    end
 })

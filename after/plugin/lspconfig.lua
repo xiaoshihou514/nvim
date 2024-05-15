@@ -42,3 +42,5 @@ lspconfig.clangd.setup(default)
 lspconfig.solargraph.setup(default)
 
 lspconfig.nixd.setup(default)
+
+lspconfig.pyright.setup(default)
