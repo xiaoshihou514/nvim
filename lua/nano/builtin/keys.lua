@@ -15,8 +15,6 @@ bind("n", "k", "gk")
 -- Move text up and down
 bind({ "n", "v" }, "<A-j>", ":m .+1<CR>==")
 bind({ "n", "v" }, "<A-k>", ":m .-2<CR>==")
--- more sensible :
-bind("n", "<cr>", ":")
 -- Faster indent
 bind("n", ">", ">>")
 bind("n", "<", "<<")

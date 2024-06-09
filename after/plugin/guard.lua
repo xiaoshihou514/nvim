@@ -19,6 +19,12 @@ ft("html,markdown,json,yaml"):fmt({
     stdin = true,
 })
 
+ft("lua"):fmt({
+    cmd = "stylua",
+    args = { "-" },
+    stdin = true,
+})
+
 ft("tex,plaintex,bib"):fmt({
     cmd = "latexindent",
     args = { "-g", "/dev/null" },

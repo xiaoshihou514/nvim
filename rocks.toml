@@ -1,19 +1,22 @@
 # List of non-Neovim rocks.
 # This includes things like `toml` or other lua packages.
-[rocks]
-fzy = "1.0"
+# [rocks]
+# fzy = "1.0"
 
 # List of Neovim plugins to install alongside their versions.
 # If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.11.0"
-"rocks-git.nvim" = "1.2.1"
-nvim-dap = "0.7.0" 
+"rocks.nvim" = "2.29.2"
+"rocks-git.nvim" = "1.5.1"
 "haskell-tools.nvim" = "3.1.8"
-nvim-lspconfig = "0.1.7"
 "squirrel.nvim" = "1.0.0"
-nvim-nio = "1.7.0"
-neorg = "8.4.0"
+tree-sitter-c = "scm"
+"rocks-treesitter.nvim" = "scm"
+tree-sitter-cpp = "scm"
+tree-sitter-fish = "scm"
+
+[plugins.dap]
+nvim-dap = "0.7.0" 
 
 # telescope stuff
 [plugins.devicons]
@@ -35,17 +38,28 @@ git = "hrsh7th/cmp-nvim-lsp-signature-help"
 [plugins.cmp-buffer]
 git = "hrsh7th/cmp-buffer"
 
+[plugins.lspconfig]
+git = "neovim/nvim-lspconfig"
+
 [plugins.hipatterns]
 git = "echasnovski/mini.hipatterns"
 
 [plugins.jtdls]
 git = "mfussenegger/nvim-jdtls"
 
-[plugins.treesitter]
-git = "nvim-treesitter/nvim-treesitter"
-
 [plugins.format-lint]
 git = "nvimdev/guard.nvim"
 
 [plugins.bad-apple]
 git = "seandewar/bad-apple.nvim"
+
+[treesitter]
+auto_highlight = "all"
+auto_install = ["lua", "vim", "vimdoc", "query"]
+
+[treesitter.parser_map]
+# You can add custom filetype to parser mappings.
+# Determine the filetype with ':lua =vim.bo[0].filetype'.
+# PKGBUILD = "bash"
+# cls = "latex"
+# sty = "latex"

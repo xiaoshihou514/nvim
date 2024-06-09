@@ -188,6 +188,9 @@ local groups = {
     ["@type.builtin.c"] = { link = "Type" },
     ["@constant.builtin.c"] = { link = "Keyword" },
     ["@string.escape.c"] = { link = "String" },
+    ["cSpecialCharacter"] = { link = "String" },
+    ["@type.builtin.cpp"] = { link = "Type" },
+    ["@constant.c"] = { link = "Variable" },
 
     -- Lang: Kotlin
     ktStructure = { link = "Keyword" },
