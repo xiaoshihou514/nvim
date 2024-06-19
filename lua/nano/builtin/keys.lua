@@ -1,5 +1,5 @@
 _G.bind = function(mode, key, binding, opts)
-    vim.keymap.set(mode, key, binding, opts or {})
+	vim.keymap.set(mode, key, binding, opts or {})
 end
 
 -- Quicker window manipulation
@@ -43,15 +43,8 @@ bind("x", "<A-k>", ":move '<-2<CR>gv-gv")
 bind("i", "qi", "<ESC>")
 bind("v", "qv", "<ESC>")
 bind("t", "qt", "<C-\\><C-n>")
--- add empty line above and below
-bind("n", "[e", function()
-    local line = vim.fn.line(".") - 1
-    vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
-end)
-bind("n", "]e", function()
-    local line = vim.fn.line(".")
-    vim.api.nvim_buf_set_lines(0, line, line, true, { "" })
-end)
+-- paste in insert
+bind("i", "<C-v>", '<C-r>"')
 -- C-a is taken by kitty
 bind("n", "=", "<C-a>")
 bind("n", "-", "<C-x>")
@@ -60,20 +53,20 @@ vim.cmd.cnoreabbrev("h vert help")
 vim.cmd.cnoreabbrev("E edit")
 
 -- misc
-bind("v", "p", '"_dP')                       -- paste without replacing clipboard contents
-bind("n", "<A-v>", "<C-v>")                  -- rebind Ctrl v since I use it as paste
+bind("v", "p", '"_dP') -- paste without replacing clipboard contents
+bind("n", "<A-v>", "<C-v>") -- rebind Ctrl v since I use it as paste
 bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
-bind("n", "!!", ":<Up><cr>")                 -- Run last command
-bind("c", "<C-e>", "<C-f>")                  -- edit commands is now <C-e>
+bind("n", "!!", ":<Up><cr>") -- Run last command
+bind("c", "<C-e>", "<C-f>") -- edit commands is now <C-e>
 
 ---@diagnostic disable: inject-field
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 bind({ "n", "x", "t" }, "<leader>q", function()
-    if not pcall(vim.api.nvim_command, "silent close") then
-        vim.api.nvim_command("quit")
-    end
+	if not pcall(vim.api.nvim_command, "silent close") then
+		vim.api.nvim_command("quit")
+	end
 end)
 bind("n", "<leader>w", "<cmd>silent w<cr>")
 bind("n", "<leader>h", "<cmd>noh<cr>")

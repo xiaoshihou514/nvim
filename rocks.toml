@@ -14,9 +14,12 @@ tree-sitter-c = "scm"
 "rocks-treesitter.nvim" = "scm"
 tree-sitter-cpp = "scm"
 tree-sitter-fish = "scm"
+tree-sitter-toml = "scm"
+vusted = "2.3.4"
+tree-sitter-json = "scm"
+tree-sitter-latex = "scm"
+tree-sitter-asm = "scm"
 
-[plugins.dap]
-nvim-dap = "0.7.0" 
 
 # telescope stuff
 [plugins.devicons]
@@ -40,6 +43,9 @@ git = "hrsh7th/cmp-buffer"
 
 [plugins.lspconfig]
 git = "neovim/nvim-lspconfig"
+
+[plugins.dap]
+git = "mfussenegger/nvim-dap"
 
 [plugins.hipatterns]
 git = "echasnovski/mini.hipatterns"

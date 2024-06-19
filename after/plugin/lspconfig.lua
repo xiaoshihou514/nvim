@@ -4,7 +4,9 @@ require("lspconfig.ui.windows").default_options.winhighlight = "FloatBorder:Norm
 local lspconfig = require("lspconfig")
 
 local on_attach = function(client, buf)
-	vim.lsp.semantic_tokens.start(buf, client.id)
+	if client.server_capabilities.semanticTokensProvider then
+		vim.lsp.semantic_tokens.start(buf, client.id)
+	end
 end
 
 local default = {
@@ -35,12 +37,15 @@ lspconfig.lua_ls.setup({
 	},
 })
 
+-- dart
 lspconfig.dartls.setup(default)
 
+-- c, cpp
 lspconfig.clangd.setup(default)
 
-lspconfig.solargraph.setup(default)
-
+-- nix
 lspconfig.nixd.setup(default)
 
+-- python
 lspconfig.basedpyright.setup(default)
+lspconfig.ruff.setup(default)

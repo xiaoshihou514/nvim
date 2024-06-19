@@ -5,11 +5,10 @@ vim.loader.enable()
 -- disable builtin plugins
 vim.g.loaded_fzf = 1
 vim.g.loaded_gzip = 1
-vim.g.editorconfig = false
 vim.g.loaded_matchit = 1
 vim.g.loaded_tarPlugin = 1
 vim.g.loaded_zipPlugin = 1
--- vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwPlugin = 1
 vim.g.loaded_2html_plugin = 1
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
