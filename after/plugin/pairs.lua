@@ -7,7 +7,6 @@ local pairs = {
     { '"', '"' },
     { "'", "'" },
 }
-
 local asymmetric_pairs = {
     { "(", ")" },
     { "[", "]" },
@@ -96,7 +95,13 @@ _G._surround = function()
             end
         end
         -- else assume they are the same
-        api.nvim_buf_set_lines(0, row - 1, row, true, { prefix .. replacement[1] .. inner .. replacement[2] .. postfix })
+        api.nvim_buf_set_lines(
+            0,
+            row - 1,
+            row,
+            true,
+            { prefix .. replacement[1] .. inner .. replacement[2] .. postfix }
+        )
     end
     -- restore cursor pos
     api.nvim_win_set_cursor(0, prev_pos)

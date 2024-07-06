@@ -1,5 +1,7 @@
 local loaded
-if loaded then return end
+if loaded then
+    return
+end
 loaded = true
 
 local dap = require("dap")

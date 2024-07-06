@@ -59,8 +59,11 @@ local function register_callback(this, buf)
                     popup.offset = popup.offset - 2
                 end
                 api.nvim_win_close(popup.win, true)
-                popup.win = api.nvim_open_win(sbuf, false,
-                    make_popup_opts(popup.level, popup.width, popup.height, popup.offset))
+                popup.win = api.nvim_open_win(
+                    sbuf,
+                    false,
+                    make_popup_opts(popup.level, popup.width, popup.height, popup.offset)
+                )
             end
         end
     end, 3000)
@@ -71,7 +74,9 @@ end
 ---@field clear? boolean
 ---@param opts NotifyOpts
 vim.notify = function(msg, level, opts)
-    if not msg then return end
+    if not msg then
+        return
+    end
     level = level or vim.log.levels.INFO
     opts = opts or {}
     local lines = vim.split(msg, "\n")
@@ -128,8 +133,8 @@ vim.notify = function(msg, level, opts)
         existing.height = #formatted
         existing.width = width
         api.nvim_win_close(existing.win, true)
-        existing.win = api.nvim_open_win(buf, false,
-            make_popup_opts(existing.level, width, existing.height, existing.offset))
+        existing.win =
+            api.nvim_open_win(buf, false, make_popup_opts(existing.level, width, existing.height, existing.offset))
         -- if height did not change, we don't need to update other messages
         if old_height == existing.height then
             return buf
@@ -142,8 +147,11 @@ vim.notify = function(msg, level, opts)
                     popup.offset = popup.offset - 2
                 end
                 api.nvim_win_close(popup.win, true)
-                popup.win = api.nvim_open_win(sbuf, false,
-                    make_popup_opts(popup.level, popup.width, popup.height, popup.offset))
+                popup.win = api.nvim_open_win(
+                    sbuf,
+                    false,
+                    make_popup_opts(popup.level, popup.width, popup.height, popup.offset)
+                )
             end
         end
     end
@@ -153,7 +161,7 @@ vim.notify = function(msg, level, opts)
     local this = {
         height = #formatted,
         width = math.min(msg_max_len, line_max_len),
-        level = level
+        level = level,
     }
     for _, s in pairs(displayed) do
         offset = offset + s.height

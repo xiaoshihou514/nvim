@@ -1,19 +1,66 @@
--- enable lua byte code caching
-vim.loader.enable()
+_G.bind = function(mode, key, binding, opts)
+    vim.keymap.set(mode, key, binding, opts or {})
+end
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
----@diagnostic disable: inject-field
--- disable builtin plugins
-vim.g.loaded_fzf = 1
-vim.g.loaded_gzip = 1
-vim.g.loaded_matchit = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_remote_plugins = 1
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_tutor_mode_plugin = 1
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    -- local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local lazyrepo = "https://mirror.ghproxy.com/github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out, "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
+end
+vim.opt.rtp:prepend(lazypath)
 
-require("personal")
+require("lazy").setup({
+    spec = {
+        require("plugins.cmp"),
+        require("plugins.telescope"),
+        require("plugins.guard"),
+        require("plugins.hipatterns"),
+        require("plugins.treesitter"),
+        require("plugins.squirrel"),
+        require("plugins.lspconfig"),
+        require("plugins.metals"),
+    },
+    defaults = {
+        lazy = false,
+        version = false,
+    },
+    install = { colorscheme = { "habamax" } },
+    checker = { enabled = true },
+    git = {
+        -- url_format = "https://github.com/%s.git",
+        url_format = "https://mirror.ghproxy.com/github.com/%s.git",
+    },
+    performance = {
+        rtp = {
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
+    },
+})
+
+if vim.fn.argc() == 0 then
+    vim.cmd.rshada()
+    require("personal.dashboard")
+end
+
+vim.cmd("colorscheme moonlight")

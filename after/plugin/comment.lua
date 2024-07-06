@@ -2,7 +2,9 @@ local api = vim.api
 
 local function get_cstr()
     local cstr_raw = vim.bo.commentstring
-    if cstr_raw == "" then return end
+    if cstr_raw == "" then
+        return
+    end
     -- "-- %s" -> "-- " nil, "//%s" -> "// " nil
     -- "<!--  %s-->" -> "<!-- ", " -->"
     local cstr_left, cstr_right = cstr_raw:match("(.-)%s*%%s%s*(.-)$")
@@ -34,7 +36,9 @@ end
 
 _G._comment_linewise = function()
     local cl, cl_p, cr, cr_p = get_cstr()
-    if not cl then return end
+    if not cl then
+        return
+    end
     local cur_line = api.nvim_get_current_line()
     local row = api.nvim_win_get_cursor(0)[1] - 1
     local pattern = make_comment_pattern(cl_p, cr_p)
@@ -56,11 +60,13 @@ bind("n", "<leader>c", function()
 end, { expr = true })
 
 bind("x", "<leader>c", function()
-    local start = vim.fn.getpos('v')[2] - 1
-    local finish = vim.fn.getpos('.')[2] - 1
+    local start = vim.fn.getpos("v")[2] - 1
+    local finish = vim.fn.getpos(".")[2] - 1
     start, finish = math.min(start, finish), math.max(start, finish)
     local cl, cl_p, cr, cr_p = get_cstr()
-    if not cl then return end
+    if not cl then
+        return
+    end
     local pattern = make_comment_pattern(cl_p, cr_p)
     -- no one would have a file with 256 indents
     local total_count, comment_count, min_spaces = 0, 0, 256
@@ -91,8 +97,13 @@ bind("x", "<leader>c", function()
             -- we will leave empty lines as is
             if cur_line ~= "" then
                 local line_spaces, line = cur_line:match("^(%s*)(.-)$")
-                api.nvim_buf_set_lines(0, row, row + 1, true,
-                    { spaces .. cl .. string.rep(" ", #line_spaces - min_spaces) .. line .. (cr or "") })
+                api.nvim_buf_set_lines(
+                    0,
+                    row,
+                    row + 1,
+                    true,
+                    { spaces .. cl .. string.rep(" ", #line_spaces - min_spaces) .. line .. (cr or "") }
+                )
             end
         end
     else

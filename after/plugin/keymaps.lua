@@ -1,7 +1,3 @@
-_G.bind = function(mode, key, binding, opts)
-	vim.keymap.set(mode, key, binding, opts or {})
-end
-
 -- Quicker window manipulation
 bind("n", "<C-h>", "<C-w>h")
 bind("n", "<C-l>", "<C-w>l")
@@ -59,14 +55,8 @@ bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
 bind("c", "<C-e>", "<C-f>") -- edit commands is now <C-e>
 
----@diagnostic disable: inject-field
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 bind({ "n", "x", "t" }, "<leader>q", function()
-	if not pcall(vim.api.nvim_command, "silent close") then
-		vim.api.nvim_command("quit")
-	end
+    vim.api.nvim_command("quit")
 end)
 bind("n", "<leader>w", "<cmd>silent w<cr>")
 bind("n", "<leader>h", "<cmd>noh<cr>")

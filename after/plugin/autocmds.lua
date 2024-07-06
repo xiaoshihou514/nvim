@@ -78,5 +78,5 @@ autocmd("BufWritePost", {
 autocmd("BufWritePost", {
     desc = "autosource colorschme",
     pattern = "colors/*.lua",
-    command = "source %"
+    command = "source %",
 })

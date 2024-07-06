@@ -15,15 +15,15 @@ vim.diagnostic.config({
             [vim.diagnostic.severity.WARN] = "",
             [vim.diagnostic.severity.INFO] = "",
             [vim.diagnostic.severity.HINT] = "",
-        }
-    }
+        },
+    },
 })
 
-bind("n", "]d", function ()
-    vim.diagnostic.jump({count = 1})
+bind("n", "]d", function()
+    vim.diagnostic.jump({ count = 1 })
 end)
-bind("n", "[d", function ()
-    vim.diagnostic.jump({count = -1})
+bind("n", "[d", function()
+    vim.diagnostic.jump({ count = -1 })
 end)
 bind("n", "gr", vim.lsp.buf.rename)
 bind("n", "go", vim.lsp.buf.code_action)

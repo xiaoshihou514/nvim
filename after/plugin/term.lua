@@ -101,10 +101,7 @@ M.open = function(opts)
     end
 end
 
-M.flip = function()
-
-end
-
+M.flip = function() end
 
 api.nvim_create_user_command("FloatTerm", function(opts)
     M.open({ new = opts.bang, cmd = vim.o.shell })
