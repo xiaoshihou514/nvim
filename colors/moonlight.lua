@@ -273,6 +273,14 @@ local groups = {
 	-- Lang: Assembly
 	["@function.builtin.asm"] = { link = "Function" },
 	["@variable.builtin.asm"] = { link = "Variable" },
+
+	-- Lang: Zig
+	["@constant.builtin.zig"] = { link = "Constant" },
+	["@lsp.type.namespace.zig"] = { fg = p.cyan },
+
+	-- Lang: Rust
+	["@variable.builtin.rust"] = { link = "Function" },
+	["@lsp.type.enumMember.rust"] = { link = "Type" },
 }
 
 for group, hl in pairs(groups) do

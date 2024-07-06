@@ -19,8 +19,12 @@ vim.diagnostic.config({
     }
 })
 
-bind("n", "]d", vim.diagnostic.goto_next)
-bind("n", "[d", vim.diagnostic.goto_prev)
+bind("n", "]d", function ()
+    vim.diagnostic.jump({count = 1})
+end)
+bind("n", "[d", function ()
+    vim.diagnostic.jump({count = -1})
+end)
 bind("n", "gr", vim.lsp.buf.rename)
 bind("n", "go", vim.lsp.buf.code_action)
 bind("n", "gD", vim.lsp.buf.declaration)

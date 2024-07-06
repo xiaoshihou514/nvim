@@ -1,25 +1,32 @@
-# List of non-Neovim rocks.
-# This includes things like `toml` or other lua packages.
-# [rocks]
-# fzy = "1.0"
+[rocks]
+vusted = "2.3.4"
 
-# List of Neovim plugins to install alongside their versions.
-# If the plugin name contains a dot then you must add quotes to the key name!
 [plugins]
-"rocks.nvim" = "2.29.2"
+"rocks.nvim" = "2.35.0"
 "rocks-git.nvim" = "1.5.1"
-"haskell-tools.nvim" = "3.1.8"
+"rocks-config.nvim" = "2.1.3"
+"haskell-tools.nvim" = "3.1.10"
 "squirrel.nvim" = "1.0.0"
-tree-sitter-c = "scm"
+
 "rocks-treesitter.nvim" = "scm"
+
 tree-sitter-cpp = "scm"
 tree-sitter-fish = "scm"
 tree-sitter-toml = "scm"
-vusted = "2.3.4"
 tree-sitter-json = "scm"
 tree-sitter-latex = "scm"
 tree-sitter-asm = "scm"
+tree-sitter-zig = "scm"
+tree-sitter-rust = "scm"
+tree-sitter-scala = "scm"
 
+[treesitter]
+auto_highlight = "all"
+auto_install = ["lua", "vim", "vimdoc", "query"]
+
+[config]
+plugins_dir = "plugins/"
+auto_setup = false
 
 # telescope stuff
 [plugins.devicons]
@@ -34,12 +41,16 @@ git = "nvim-telescope/telescope-file-browser.nvim"
 # cmp stuff
 [plugins.cmp]
 git = "hrsh7th/nvim-cmp"
+event = "InsertEnter"
 [plugins.cmp-lsp]
 git = "hrsh7th/cmp-nvim-lsp"
+event = "InsertEnter"
 [plugins.cmp-lsp-signature]
 git = "hrsh7th/cmp-nvim-lsp-signature-help"
+event = "InsertEnter"
 [plugins.cmp-buffer]
 git = "hrsh7th/cmp-buffer"
+event = "InsertEnter"
 
 [plugins.lspconfig]
 git = "neovim/nvim-lspconfig"
@@ -49,23 +60,15 @@ git = "mfussenegger/nvim-dap"
 
 [plugins.hipatterns]
 git = "echasnovski/mini.hipatterns"
+event = "BufEnter"
 
 [plugins.jtdls]
 git = "mfussenegger/nvim-jdtls"
+ft = "java"
 
 [plugins.format-lint]
 git = "nvimdev/guard.nvim"
 
 [plugins.bad-apple]
 git = "seandewar/bad-apple.nvim"
-
-[treesitter]
-auto_highlight = "all"
-auto_install = ["lua", "vim", "vimdoc", "query"]
-
-[treesitter.parser_map]
-# You can add custom filetype to parser mappings.
-# Determine the filetype with ':lua =vim.bo[0].filetype'.
-# PKGBUILD = "bash"
-# cls = "latex"
-# sty = "latex"
+cmd = "BadApple"

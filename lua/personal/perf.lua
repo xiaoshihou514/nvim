@@ -1,6 +1,6 @@
 -- https://github.com/folke/lazy.nvim/blob/96584866b9c5e998cbae300594d0ccfd0c464627/lua/lazy/stats.lua#L33-L69
 local ffi = require("ffi")
-if not vim.g.loaded_nano_perf then
+if not vim.g.loaded_perf then
     ffi.cdef([[
             typedef long time_t;
             typedef int clockid_t;
@@ -11,7 +11,7 @@ if not vim.g.loaded_nano_perf then
             int clock_gettime(clockid_t clk_id, struct timespec *tp);
         ]])
     ---@diagnostic disable-next-line: inject-field
-    vim.g.loaded_nano_perf = true
+    vim.g.loaded_perf = true
 end
 
 local M = {}

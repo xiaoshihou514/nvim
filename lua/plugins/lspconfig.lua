@@ -14,31 +14,36 @@ local default = {
 	on_attach = on_attach,
 }
 
-lspconfig.kotlin_language_server.setup(default)
-
+-- lua
 lspconfig.lua_ls.setup({
 	capabilities = lsp_default_cap,
 	settings = {
 		Lua = {
 			diagnostics = {
-				enable = true,
+				unusedLocalExclude = { "_*" },
 				globals = { "vim" },
 			},
-			runtime = {
-				version = "LuaJIT",
-				path = vim.split(package.path, ";"),
-			},
+			runtime = { version = "LuaJIT" },
 			workspace = {
-				library = { vim.env.VIMRUNTIME },
-				checkThirdParty = false,
+				library = {
+					vim.env.VIMRUNTIME .. "/lua",
+					"${3rd}/busted/library",
+					"${3rd}/luv/library",
+				},
+				checkThirdParty = "Disable",
 			},
-			completion = { callSnippet = "Replace" },
+			completion = {
+				callSnippet = "Replace",
+			},
 		},
 	},
 })
 
 -- dart
-lspconfig.dartls.setup(default)
+-- lspconfig.dartls.setup(default)
+
+-- kotlin
+lspconfig.kotlin_language_server.setup(default)
 
 -- c, cpp
 lspconfig.clangd.setup(default)
@@ -49,3 +54,9 @@ lspconfig.nixd.setup(default)
 -- python
 lspconfig.basedpyright.setup(default)
 lspconfig.ruff.setup(default)
+
+-- zig
+lspconfig.zls.setup(default)
+
+-- rust
+lspconfig.rust_analyzer.setup(default)
