@@ -112,7 +112,6 @@ local groups = {
     DiagnosticFloatingError = { fg = p.red },
 
     -- My highlights
-    Indentline = { fg = p.shade_2 },
     DashboardHeader = { fg = p.yellow },
     DashboardShortcut = { fg = p.blue, bold = true },
     DashboardFooter = { fg = p.green, italic = true },
@@ -146,6 +145,8 @@ local groups = {
     CmpItemAbbrMatch = { link = "Keyword" },
     CmpItemAbbrMatchFuzzy = { link = "Keyword" },
     CmpItemKind = { link = "Comment" },
+    Indentline = { fg = p.shade_2 },
+    IndentlineCurrent = { fg = p.shade_4 },
 
     -- syntax
     -- blue keywords, purple types, magenta consts, green strings
@@ -283,6 +284,9 @@ local groups = {
     -- Lang: Rust
     ["@variable.builtin.rust"] = { link = "Function" },
     ["@lsp.type.enumMember.rust"] = { link = "Type" },
+
+    -- Lang: Scala
+    scalaOperator = { link = "Operator" },
 }
 
 for group, hl in pairs(groups) do

@@ -46,23 +46,22 @@ return {
         -- lspconfig.dartls.setup(default)
 
         -- kotlin
-        lspconfig.kotlin_language_server.setup(default)
+        -- lspconfig.kotlin_language_server.setup(default)
 
         -- c, cpp
         lspconfig.clangd.setup(default)
 
         -- nix
-        lspconfig.nixd.setup(default)
+        -- lspconfig.nixd.setup(default)
 
         -- python
-        lspconfig.basedpyright.setup(default)
-        lspconfig.ruff.setup(default)
+        -- lspconfig.basedpyright.setup(default)
+        -- lspconfig.ruff.setup(default)
 
         -- zig
         lspconfig.zls.setup(default)
 
         -- rust
-        lspconfig.rust_analyzer.setup(default)
-    end
+        -- lspconfig.rust_analyzer.setup(default)
+    end,
 }
-

@@ -22,22 +22,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    spec = {
-        require("plugins.cmp"),
-        require("plugins.telescope"),
-        require("plugins.guard"),
-        require("plugins.hipatterns"),
-        require("plugins.treesitter"),
-        require("plugins.squirrel"),
-        require("plugins.lspconfig"),
-        require("plugins.metals"),
-    },
-    defaults = {
-        lazy = false,
-        version = false,
-    },
-    install = { colorscheme = { "habamax" } },
-    checker = { enabled = true },
+    spec = { { import = "plugins" } },
     git = {
         -- url_format = "https://github.com/%s.git",
         url_format = "https://mirror.ghproxy.com/github.com/%s.git",
