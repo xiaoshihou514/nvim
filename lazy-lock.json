@@ -6,6 +6,7 @@
   "indentmini.nvim": { "branch": "main", "commit": "9bac70d4faa758d18d2cb699dda1cbf113e3d87a" },
   "lazy.nvim": { "branch": "main", "commit": "933f0b596c7372daf534373ae9a11e98744b8636" },
   "mini.hipatterns": { "branch": "main", "commit": "aa68eb143ce77a57b6416fb4bd71ee0adba5a517" },
+  "mini.pairs": { "branch": "main", "commit": "927d19cbdd0e752ab1c7eed87072e71d2cd6ff51" },
   "nvim-cmp": { "branch": "main", "commit": "a110e12d0b58eefcf5b771f533fc2cf3050680ac" },
   "nvim-lspconfig": { "branch": "master", "commit": "cf97d2485fc3f6d4df1b79a3ea183e24c272215e" },
   "nvim-metals": { "branch": "main", "commit": "1b87e6bfa4174b5fbaee9ca7ec79d8eae8df7f18" },

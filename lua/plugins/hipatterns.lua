@@ -8,5 +8,5 @@ return {
             },
         })
     end,
-    event = "BufEnter",
+    event = "VeryLazy",
 }

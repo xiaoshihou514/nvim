@@ -1,4 +1,5 @@
 return {
     "nvimdev/indentmini.nvim",
-    opts = {}
+    event = "BufWinEnter",
+    opts = {},
 }

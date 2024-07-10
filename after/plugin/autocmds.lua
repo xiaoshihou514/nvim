@@ -80,3 +80,14 @@ autocmd("BufWritePost", {
     pattern = "colors/*.lua",
     command = "source %",
 })
+
+autocmd("VimLeavePre", {
+    desc = "clean up after metals",
+    callback = function()
+        for _, buf in ipairs(api.nvim_list_bufs()) do
+            if vim.bo[buf].ft == "scala" then
+                api.nvim_command("silent! !kill (psa bloop | awk '{print $2}')")
+            end
+        end
+    end,
+})

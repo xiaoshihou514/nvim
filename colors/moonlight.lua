@@ -287,6 +287,7 @@ local groups = {
 
     -- Lang: Scala
     scalaOperator = { link = "Operator" },
+    scalaUnimplemented = { link = "Function" },
 }
 
 for group, hl in pairs(groups) do

@@ -1,5 +1,6 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    event = "BufWinEnter",
     opts = {
         ensure_installed = { "lua", "vim", "vimdoc", "markdown", "markdown_inline" },
 
