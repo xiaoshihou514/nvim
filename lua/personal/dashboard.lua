@@ -11,6 +11,18 @@ local header = {
     [[_  /|  / /  __/ /_/ /_ |/ / _  / _  / / / / /]],
     [[/_/ |_/  \___/\____/_____/  /_/  /_/ /_/ /_/ ]],
 }
+local patterns = {
+    ".git",
+    "Makefile",
+    "Cargo.toml",
+    "*.cabal",
+    "package.json",
+    "pubspec.yaml",
+    "build.sbt",
+    "project.scala",
+    "go.mod",
+    "CMakeList.txt",
+}
 local shortcuts = {
     { desc = " Recent", key = "r", action = "Telescope oldfiles" },
     {
@@ -31,16 +43,6 @@ local shortcuts = {
         desc = " Projects",
         key = "p",
         action = function()
-            local patterns = {
-                ".git",
-                "rocks.toml",
-                "Makefile",
-                "Cargo.toml",
-                "*.cabal",
-                "go.mod",
-                "CMakeList.txt",
-                "package.json",
-            }
             local base = vim.env.HOME .. "/Playground/"
             local items = vim.iter(vim.fn.uniq(vim.fs.find(patterns, {
                 path = base,
@@ -171,26 +173,16 @@ files = vim.tbl_filter(function(f)
 end, files)
 local match = 0
 local maxlen = 0
-local patterns = {
-    ".git",
-    "lazy-lock.json",
-    "Cargo.toml",
-    "*.cabal",
-    "go.mod",
-    "CMakeList.txt",
-    "package.json",
-}
 -- get directories
 local projects = {}
 for _, file in ipairs(files) do
     if match >= project_shown then
         break
     end
-    local dir = vim.fs.dirname(file)
     for _, p in ipairs(patterns) do
-        local result = vim.fs.find(p, { path = dir, upward = true, stop = vim.env.HOME })
+        local result = vim.fs.find(p, { path = file, upward = true, stop = vim.env.HOME })
         if not vim.tbl_isempty(result) then
-            local matched = vim.fs.dirname(file):gsub(vim.env.HOME, "~")
+            local matched = vim.fs.dirname(result[1]):gsub(vim.env.HOME, "~")
             if not vim.tbl_contains(projects, matched) and matched ~= "~" then
                 table.insert(projects, matched)
                 if #matched > maxlen then

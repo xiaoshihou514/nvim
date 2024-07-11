@@ -34,11 +34,9 @@ return {
         "hrsh7th/cmp-buffer",
     },
     event = "InsertEnter",
-    config = function()
-        _G.lsp_default_cap = require("cmp_nvim_lsp").default_capabilities()
-    end,
     opts = function()
         local cmp = require("cmp")
+        _G.lsp_default_cap = require("cmp_nvim_lsp").default_capabilities()
         return {
             snippet = {
                 expand = function(args)

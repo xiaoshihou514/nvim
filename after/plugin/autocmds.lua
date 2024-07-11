@@ -43,14 +43,15 @@ autocmd("BufEnter", {
         -- try to find a file that's supposed to be in the root
         local patterns = {
             ".git",
-            "rocks.toml",
             "Makefile",
             "Cargo.toml",
             "*.cabal",
-            "go.mod",
-            "CMakeList.txt",
             "package.json",
             "pubspec.yaml",
+            "build.sbt",
+            "project.scala",
+            "go.mod",
+            "CMakeList.txt",
         }
         local result = vim.fs.find(patterns, { path = cwd, upward = true, stop = vim.env.HOME })
         if not vim.tbl_isempty(result) then
