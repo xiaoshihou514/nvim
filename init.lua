@@ -1,6 +1,7 @@
 _G.bind = function(mode, key, binding, opts)
     vim.keymap.set(mode, key, binding, opts or {})
 end
+---@diagnostic disable: inject-field
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -40,11 +41,16 @@ require("lazy").setup({
             },
         },
     },
+    ui = { border = "single" },
 })
 
-if vim.fn.argc() == 0 then
-    vim.cmd.rshada()
-    require("personal.dashboard")
-end
+vim.api.nvim_create_autocmd("UIEnter", {
+    callback = function()
+        if vim.fn.argc() == 0 then
+            vim.cmd.rshada()
+            require("personal.dashboard")
+        end
+    end,
+})
 
 vim.cmd("colorscheme moonlight")

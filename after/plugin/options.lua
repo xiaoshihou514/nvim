@@ -25,18 +25,16 @@ vim.opt.wrap = false -- display lines as one long line
 vim.opt.cmdheight = 0 -- disable cmdheight until used
 vim.opt.shortmess:append("WcCF") -- less noisy notifications
 vim.opt.scrolloff = 5 -- keep cursor within sight
-vim.opt.foldmethod = "expr" -- treesitter syntax aware folding
 vim.opt.foldenable = false -- do not autofold
 vim.opt.pumheight = 15 -- prevents massive pummenu
 vim.opt.virtualedit = "block" -- select whatever in visual block mode
 vim.opt.shell = "/bin/fish" -- shell
-vim.o.stal = 0 -- disable tabline
-vim.o.foldlevelstart = 999 -- do not collapse my folds
-vim.o.winbar = "%=%r %f %m%=" -- winbar
-vim.o.smoothscroll = true -- some wrapping bs
-vim.o.completeopt = "menuone,noinsert,popup"
-vim.o.pumblend = 0
-
----@diagnostic disable: inject-field
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.opt.stal = 0 -- disable tabline
+vim.opt.foldlevelstart = 999 -- do not collapse my folds
+vim.opt.winbar = "%=%r %f %m%=" -- winbar
+vim.opt.smoothscroll = true -- some wrapping bs
+vim.opt.completeopt = "menu,menuone,noselect,popup" -- pum settings
+vim.opt.pumblend = 0 -- no transparency
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folds
+vim.opt.fillchars = "eob: ,fold: " -- no annoying ~ at end of buffer
