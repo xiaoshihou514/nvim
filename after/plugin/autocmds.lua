@@ -13,13 +13,12 @@ autocmd("TextYankPost", {
 })
 
 autocmd("BufReadPost", {
-    desc = "Return to last line pos and center cursor",
+    desc = "Return to last edit pos",
     callback = function()
         local mark = api.nvim_buf_get_mark(0, '"')
         local line_count = api.nvim_buf_line_count(0)
-        if mark[1] > 0 and mark[1] <= line_count then
+        if mark[1] > 0 and mark[2] <= line_count then
             pcall(api.nvim_win_set_cursor, 0, mark)
-            api.nvim_input("z.")
         end
     end,
 })
@@ -41,18 +40,7 @@ autocmd("BufEnter", {
         end
         local cwd = vim.fs.dirname(bufname)
         -- try to find a file that's supposed to be in the root
-        local patterns = {
-            ".git",
-            "Makefile",
-            "Cargo.toml",
-            "*.cabal",
-            "package.json",
-            "pubspec.yaml",
-            "build.sbt",
-            "project.scala",
-            "go.mod",
-            "CMakeList.txt",
-        }
+        local patterns = root_patterns
         local result = vim.fs.find(patterns, { path = cwd, upward = true, stop = vim.env.HOME })
         if not vim.tbl_isempty(result) then
             vim.cmd.lcd(vim.fs.dirname(result[1]))

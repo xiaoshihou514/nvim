@@ -11,18 +11,7 @@ local header = {
     [[_  /|  / /  __/ /_/ /_ |/ / _  / _  / / / / /]],
     [[/_/ |_/  \___/\____/_____/  /_/  /_/ /_/ /_/ ]],
 }
-local patterns = {
-    ".git",
-    "Makefile",
-    "Cargo.toml",
-    "*.cabal",
-    "package.json",
-    "pubspec.yaml",
-    "build.sbt",
-    "project.scala",
-    "go.mod",
-    "CMakeList.txt",
-}
+local patterns = root_patterns
 local shortcuts = {
     { desc = " Recent", key = "r", action = "Telescope oldfiles" },
     {
@@ -157,20 +146,19 @@ end
 
 -- recent files and directories
 table.insert(buftext, "")
-local files = vim.v.oldfiles
-files = vim.tbl_filter(function(f)
+local files = vim.tbl_filter(function(f)
     ---@diagnostic disable-next-line: undefined-field
     return vim.uv.fs_stat(f) ~= nil
         and vim.iter({
-            "/doc/.+%.txt$",
+            "nvim%-nightly",
             "^/tmp",
             "^/usr",
-            ".rustup",
-            ".metals",
+            "%.rustup",
+            "%.metals",
         }):all(function(v, _)
             return not f:match(v)
         end)
-end, files)
+end, vim.v.oldfiles)
 local match = 0
 local maxlen = 0
 -- get directories

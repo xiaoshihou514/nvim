@@ -1,6 +1,7 @@
 return {
     "nvimdev/guard.nvim",
     event = "VeryLazy",
+    dir = "~/Playground/github/guard.nvim/",
     config = function()
         local lint = require("guard.lint")
         local ft = require("guard.filetype")
@@ -16,7 +17,7 @@ return {
             stdin = true,
         })
 
-        ft("html,markdown,json,yaml"):fmt({
+        ft("html,markdown,json,yaml,liquid"):fmt({
             cmd = "prettier",
             args = { "--stdin-filepath" },
             fname = true,

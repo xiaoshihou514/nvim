@@ -23,8 +23,7 @@ vim.opt.number = true -- line numbers
 vim.opt.relativenumber = true -- relative line numbers
 vim.opt.wrap = false -- display lines as one long line
 vim.opt.cmdheight = 0 -- disable cmdheight until used
-vim.opt.shortmess:append("WcC") -- less noisy notifications
-vim.opt_global.shortmess:remove("F") -- for nvim-metals
+vim.opt.shortmess:append("WcCF") -- less noisy notifications
 vim.opt.scrolloff = 5 -- keep cursor within sight
 vim.opt.foldmethod = "expr" -- treesitter syntax aware folding
 vim.opt.foldenable = false -- do not autofold

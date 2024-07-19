@@ -30,8 +30,8 @@ local function statusline(data)
     -- search info
     ---@diagnostic disable-next-line: undefined-field
     if vim.v.hlsearch == 1 then
-        local search = fn.searchcount()
-        if search.total and search.total > 0 then
+        local ok, search = pcall(fn.searchcount)
+        if ok and search.total and search.total > 0 then
             local current = search.current
             s:append(current == 0 and "" or current .. "/" .. search.total, "Function")
         end
@@ -86,7 +86,7 @@ local function statusline(data)
 
     -- Guard info
     local ok, au = pcall(api.nvim_get_autocmds, { group = "Guard", event = "BufWritePre", buffer = 0 })
-    if ok and #au ~= 0 and require("guard.filetype")[vim.bo.ft].formatter then
+    if ok and #au ~= 0 and require("guard.filetype")[ft].formatter then
         if data then
             if data.status == "pending" then
                 is_formatting = true

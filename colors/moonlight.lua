@@ -228,6 +228,12 @@ local groups = {
     ["@markup.raw.block.markdown"] = { link = "Comment" },
     ["@markup.heading"] = { link = "Keyword" },
     ["@markup.italic.markdown_inline"] = { italic = true },
+    markdownH1 = { link = "Keyword" },
+    markdownH2 = { link = "Keyword" },
+    markdownH3 = { link = "Keyword" },
+    markdownH4 = { link = "Keyword" },
+    markdownH5 = { link = "Keyword" },
+    markdownH6 = { link = "Keyword" },
 
     -- Lang: Html
     ["@tag.html"] = { link = "Operator" },
@@ -288,6 +294,12 @@ local groups = {
     -- Lang: Scala
     scalaOperator = { link = "Operator" },
     scalaUnimplemented = { link = "Function" },
+    scalaNameDefinition = { link = "Variable" },
+    scalaSpecial = { link = "Variable" },
+    scalaEscapedChar = { link = "String" },
+
+    -- Lang: Tex
+    texTypeStyle = { link = "Keyword" },
 }
 
 for group, hl in pairs(groups) do
