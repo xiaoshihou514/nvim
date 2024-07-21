@@ -13,19 +13,27 @@ local header = {
 }
 local patterns = root_patterns
 local shortcuts = {
-    { desc = " Recent", key = "r", action = "Telescope oldfiles" },
+    {
+        desc = " Recent",
+        key = "r",
+        action = function()
+            api.nvim_command("Fzf oldfiles")
+        end,
+    },
     {
         desc = " Config",
         key = "c",
         action = function()
-            require("telescope.builtin").find_files({ cwd = "~/.config/nvim" })
+            vim.cmd.lcd("~/.config/nvim")
+            api.nvim_command("Fzf files")
         end,
     },
     {
         desc = "󰠮 Notes",
         key = "N",
         action = function()
-            require("telescope.builtin").find_files({ cwd = "~/Documents/notes" })
+            vim.cmd.lcd("~/Documents/notes")
+            api.nvim_command("Fzf files")
         end,
     },
     {
@@ -52,11 +60,12 @@ local shortcuts = {
                 if not item then
                     return
                 end
-                require("telescope.builtin").find_files({ cwd = item })
+                vim.cmd.lcd(item)
+                api.nvim_command("Fzf files")
             end)
         end,
     },
-    { desc = "󰿅 Quit", key = "q", action = "q" },
+    { desc = "󰿅 Quit", key = "q", action = vim.cmd.quit },
 }
 local footer = {
     [[                                  ]],
@@ -106,7 +115,20 @@ api.nvim_win_set_buf(win, buf)
 set_opts()
 local buftext = vim.deepcopy(header)
 local hls = {}
-local disabled = { "w", "f", "b", "h", "j", "k", "l", "<Up>", "<Down>", "<Left>", "<Right>", "<Enter>" }
+local disabled = {
+    "w",
+    "f",
+    "b",
+    "h",
+    "j",
+    "k",
+    "l",
+    "<Up>",
+    "<Down>",
+    "<Left>",
+    "<Right>",
+    "<Enter>",
+}
 vim.tbl_map(function(k)
     bind(k, "<Nop>")
 end, disabled)
@@ -132,7 +154,7 @@ table.insert(hls, { "Comment", #buftext - 1, 0, -1 })
 local buttons = ""
 for _, btn in ipairs(shortcuts) do
     buttons = string.format("%s%s [%s]  ", buttons, btn.desc, btn.key)
-    local rhs = type(btn.action) == "string" and ("<cmd>%s<cr>"):format(btn.action) or btn.action
+    local rhs = btn.action
     bind(btn.key, rhs)
 end
 buttons = buttons:sub(0, -3)
@@ -202,13 +224,19 @@ local count = 1
 for _, proj in ipairs(projects) do
     local key = keys:sub(count, count)
     table.insert(buftext, file_pad .. proj .. string.rep("·", maxlen - #proj) .. key)
-    table.insert(hls, { "Comment", #buftext - 1, #file_pad + #proj, #file_pad + 2 * maxlen - #proj - 1 })
     table.insert(
         hls,
-        { "DashboardShortCut", #buftext - 1, #file_pad + 2 * maxlen - #proj, #file_pad + 2 * maxlen - #proj + 1 }
+        { "Comment", #buftext - 1, #file_pad + #proj, #file_pad + 2 * maxlen - #proj - 1 }
     )
+    table.insert(hls, {
+        "DashboardShortCut",
+        #buftext - 1,
+        #file_pad + 2 * maxlen - #proj,
+        #file_pad + 2 * maxlen - #proj + 1,
+    })
     bind(key, function()
-        require("telescope.builtin").find_files({ cwd = proj })
+        vim.cmd.lcd(proj)
+        api.nvim_command("Fzf files")
     end)
     count = count + 1
 end
@@ -216,11 +244,16 @@ table.insert(buftext, "")
 for _, file in ipairs(recent) do
     local key = keys:sub(count, count)
     table.insert(buftext, file_pad .. file .. string.rep("·", maxlen - #file) .. key)
-    table.insert(hls, { "Comment", #buftext - 1, #file_pad + #file, #file_pad + 2 * maxlen - #file - 1 })
     table.insert(
         hls,
-        { "DashboardShortCut", #buftext - 1, #file_pad + 2 * maxlen - #file, #file_pad + 2 * maxlen - #file + 1 }
+        { "Comment", #buftext - 1, #file_pad + #file, #file_pad + 2 * maxlen - #file - 1 }
     )
+    table.insert(hls, {
+        "DashboardShortCut",
+        #buftext - 1,
+        #file_pad + 2 * maxlen - #file,
+        #file_pad + 2 * maxlen - #file + 1,
+    })
     bind(key, "<cmd>edit " .. file .. "<cr>")
     count = count + 1
 end

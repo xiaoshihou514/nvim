@@ -1,11 +1,10 @@
-bind("n", "<leader>e", "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>", { silent = true })
-bind("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { silent = true })
-bind("n", "<leader>g", "<cmd>Telescope live_grep<cr>", { silent = true })
-bind("n", "<leader>f", "<cmd>Telescope find_files<cr>", { silent = true })
-bind("n", "<leader>b", "<cmd>Telescope buffers<cr>", { silent = true })
-bind("n", "<leader>sh", "<cmd>Telescope help_tags<cr>", { silent = true })
+bind(
+    "n",
+    "<leader>e",
+    "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>",
+    { silent = true }
+)
 bind("n", "<leader>sk", "<cmd>Telescope keymaps<cr>", { silent = true })
-bind("n", "<leader>si", "<cmd>Telescope highlights<cr>", { silent = true })
 
 return {
     {
@@ -20,7 +19,16 @@ return {
             return {
                 defaults = {
                     preview = false,
-                    borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+                    borderchars = {
+                        "─",
+                        "│",
+                        "─",
+                        "│",
+                        "┌",
+                        "┐",
+                        "┘",
+                        "└",
+                    },
                     mappings = {
                         i = {
                             ["<C-x>"] = actions.select_vertical,
