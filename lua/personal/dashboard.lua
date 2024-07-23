@@ -78,7 +78,7 @@ end
 
 local function set_opts()
     local opts = {
-        bufhidden = "delete",
+        bufhidden = "wipe",
         colorcolumn = "",
         foldcolumn = "0",
         matchpairs = "",
@@ -90,7 +90,7 @@ local function set_opts()
         relativenumber = false,
         spell = false,
         swapfile = false,
-        readonly = false,
+        readonly = true,
         filetype = "dashboard",
         wrap = false,
         signcolumn = "no",

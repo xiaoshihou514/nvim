@@ -1,4 +1,6 @@
 ---@diagnostic disable: lowercase-global
+local api = vim.api
+
 root_patterns = {
     ".git",
     ".editorconfig",

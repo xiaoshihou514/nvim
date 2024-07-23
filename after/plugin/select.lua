@@ -12,7 +12,7 @@ vim.ui.select = function(items, opts, on_choice)
         width = math.ceil(width * 0.5),
     })
     local bufopts = {
-        bufhidden = "delete",
+        bufhidden = "wipe",
         matchpairs = "",
         buflisted = false,
         cursorcolumn = false,
@@ -22,7 +22,6 @@ vim.ui.select = function(items, opts, on_choice)
         relativenumber = false,
         spell = false,
         swapfile = false,
-        readonly = false,
         filetype = "dashboard",
         wrap = false,
         signcolumn = "no",

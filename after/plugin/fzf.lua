@@ -1,6 +1,6 @@
 local api = vim.api
 
-local function open_win()
+local function open_ivy_win()
     local height, width = vim.o.lines, vim.o.columns
     local pad_top = math.ceil(height * 0.2)
     local buf = api.nvim_create_buf(false, true)
@@ -13,7 +13,7 @@ local function open_win()
         border = "none",
     })
     local opts = {
-        bufhidden = "delete",
+        bufhidden = "wipe",
         matchpairs = "",
         buflisted = false,
         cursorcolumn = false,
@@ -23,8 +23,7 @@ local function open_win()
         relativenumber = false,
         spell = false,
         swapfile = false,
-        readonly = false,
-        filetype = "dashboard",
+        filetype = "fzf",
         wrap = false,
         signcolumn = "no",
         scrolloff = 0,
@@ -37,7 +36,7 @@ local function open_win()
 end
 
 local function execute(cmd, data)
-    local win, buf = open_win()
+    local win, buf = open_ivy_win()
     local id = vim.fn.termopen(cmd, {
         clear_env = true,
         env = { FZF_DEFAULT_COMMAND = "fd -H --type f --strip-cwd-prefix" },

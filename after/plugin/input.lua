@@ -17,7 +17,6 @@ vim.ui.input = function(opts, on_confirm)
         style = "minimal",
         border = "single",
         title = opts.prompt or "Input",
-        noautocmd = true,
     })
     set("wrap", false, { win = win })
     set("number", false, { win = win })
@@ -61,7 +60,7 @@ vim.ui.input = function(opts, on_confirm)
         api.nvim_buf_set_lines(buf, 0, -1, false, { opts.default })
     end
     bind({ "i", "n" }, "<Esc>", function()
-        api.nvim_buf_delete(buf, { force = true })
+        api.nvim_win_close(win, true)
         if mode == "n" then
             api.nvim_input("<Esc>l")
         end
@@ -69,7 +68,7 @@ vim.ui.input = function(opts, on_confirm)
     end, { buffer = buf })
     bind({ "i", "n" }, "<cr>", function()
         local text = api.nvim_buf_get_lines(buf, 0, -1, false)[1]
-        api.nvim_buf_delete(buf, { force = true })
+        api.nvim_win_close(win, true)
         if mode == "n" then
             api.nvim_input("<Esc>l")
         end
@@ -83,6 +82,5 @@ vim.ui.input = function(opts, on_confirm)
         end
     end, { noremap = true, expr = true, buffer = buf })
     bind("i", "<S-Tab>", "<C-p>", { noremap = true, buffer = buf })
-    api.nvim_input("<End>")
-    vim.cmd.startinsert()
+    api.nvim_input("A")
 end

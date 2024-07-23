@@ -35,6 +35,7 @@ vim.opt.winbar = "%=%r %f %m%=" -- winbar
 vim.opt.smoothscroll = true -- some wrapping bs
 vim.opt.completeopt = "menu,menuone,noselect,popup" -- pum settings
 vim.opt.pumblend = 0 -- no transparency
+vim.opt.foldtext = "" -- forget about the boring default foldtext
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folds
 vim.opt.fillchars = "eob: ,fold: " -- no annoying ~ at end of buffer
