@@ -1,5 +1,6 @@
 return {
     "neovim/nvim-lspconfig",
+    event = "VeryLazy",
     config = function()
         require("lspconfig.ui.windows").default_options.border = "single"
         require("lspconfig.ui.windows").default_options.winhighlight =
@@ -7,20 +8,17 @@ return {
 
         local lspconfig = require("lspconfig")
 
-        local on_attach = function(client, buf)
-            if client.server_capabilities.semanticTokensProvider then
-                vim.lsp.semantic_tokens.start(buf, client.id)
-            end
-        end
-
+        -- enable semantic highlighting
         local default = {
-            capabilities = lsp_default_cap,
-            on_attach = on_attach,
+            on_attach = function(client, buf)
+                if client.server_capabilities.semanticTokensProvider then
+                    vim.lsp.semantic_tokens.start(buf, client.id)
+                end
+            end,
         }
 
         -- lua
         lspconfig.lua_ls.setup({
-            capabilities = lsp_default_cap,
             settings = {
                 Lua = {
                     diagnostics = {

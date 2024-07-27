@@ -1,5 +1,6 @@
 return {
     "echasnovski/mini.hipatterns",
+    event = "VeryLazy",
     config = function()
         local hipatterns = require("mini.hipatterns")
         hipatterns.setup({
@@ -8,5 +9,4 @@ return {
             },
         })
     end,
-    event = "VeryLazy",
 }

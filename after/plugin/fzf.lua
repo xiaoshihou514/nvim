@@ -13,7 +13,6 @@ local function open_ivy_win()
         border = "none",
     })
     local opts = {
-        bufhidden = "wipe",
         matchpairs = "",
         buflisted = false,
         cursorcolumn = false,
@@ -50,6 +49,7 @@ local function execute(cmd, data)
                 return ln ~= ""
             end, lines)[1]
             api.nvim_win_close(win, true)
+            api.nvim_buf_delete(buf, { force = true })
             api.nvim_command(line)
         end,
     })

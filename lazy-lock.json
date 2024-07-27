@@ -1,5 +1,5 @@
 {
-  "epo.nvim": { "branch": "main", "commit": "76e2fc4b8418f3541e911fdd8ec4bd659358441d" },
+  "guard.nvim": { "branch": "main", "commit": "29344aa846c793982c6fe29eee85137e3ca2c38b" },
   "indentmini.nvim": { "branch": "main", "commit": "9bac70d4faa758d18d2cb699dda1cbf113e3d87a" },
   "lazy.nvim": { "branch": "main", "commit": "933f0b596c7372daf534373ae9a11e98744b8636" },
   "mini.hipatterns": { "branch": "main", "commit": "aa68eb143ce77a57b6416fb4bd71ee0adba5a517" },

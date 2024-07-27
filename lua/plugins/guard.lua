@@ -1,7 +1,6 @@
 return {
     "nvimdev/guard.nvim",
     event = "VeryLazy",
-    dir = "~/Playground/github/guard.nvim/",
     config = function()
         local lint = require("guard.lint")
         local ft = require("guard.filetype")

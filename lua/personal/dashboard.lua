@@ -107,7 +107,7 @@ end
 
 -- init
 if vim.bo.ft == "lazy" then
-    api.nvim_command("quit")
+    vim.cmd.quit()
 end
 local buf = api.nvim_create_buf(false, true)
 local win = api.nvim_get_current_win()
