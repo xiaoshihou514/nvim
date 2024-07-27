@@ -12,7 +12,7 @@ local function smooth_scroll(key, getcount)
     scroll_win_id = api.nvim_get_current_win()
     local count = getcount(scroll_win_id)
     ---@diagnostic disable-next-line: undefined-field
-    local timer = vim.uv.new_timer()
+    local timer = assert(vim.uv.new_timer())
     local function scroll_callback()
         if count > 0 and api.nvim_get_current_win() == scroll_win_id then
             api.nvim_input(key)

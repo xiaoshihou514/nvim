@@ -133,8 +133,11 @@ vim.notify = function(msg, level, opts)
         existing.height = #formatted
         existing.width = width
         api.nvim_win_close(existing.win, true)
-        existing.win =
-            api.nvim_open_win(buf, false, make_popup_opts(existing.level, width, existing.height, existing.offset))
+        existing.win = api.nvim_open_win(
+            buf,
+            false,
+            make_popup_opts(existing.level, width, existing.height, existing.offset)
+        )
         -- if height did not change, we don't need to update other messages
         if old_height == existing.height then
             return buf
@@ -171,7 +174,11 @@ vim.notify = function(msg, level, opts)
     end
     local buf = api.nvim_create_buf(false, true)
     api.nvim_buf_set_lines(buf, 0, -1, false, formatted)
-    local win = api.nvim_open_win(buf, false, make_popup_opts(level, this.width, this.height, offset))
+    local win = api.nvim_open_win(
+        buf,
+        false,
+        make_popup_opts(level, this.width, this.height, offset)
+    )
     this.buf = buf
     this.offset = offset
     this.win = win

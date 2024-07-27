@@ -49,7 +49,13 @@ _G._comment_linewise = function()
     else
         -- not a comment, get spaces and rest of line
         spaces, line = cur_line:match("^(%s*)(.-)$")
-        api.nvim_buf_set_lines(0, row, row + 1, true, { spaces .. cl .. line .. (cr or "") })
+        api.nvim_buf_set_lines(
+            0,
+            row,
+            row + 1,
+            true,
+            { spaces .. cl .. line .. (cr or "") }
+        )
     end
 end
 
@@ -97,13 +103,13 @@ bind("x", "<leader>c", function()
             -- we will leave empty lines as is
             if cur_line ~= "" then
                 local line_spaces, line = cur_line:match("^(%s*)(.-)$")
-                api.nvim_buf_set_lines(
-                    0,
-                    row,
-                    row + 1,
-                    true,
-                    { spaces .. cl .. string.rep(" ", #line_spaces - min_spaces) .. line .. (cr or "") }
-                )
+                api.nvim_buf_set_lines(0, row, row + 1, true, {
+                    spaces
+                        .. cl
+                        .. string.rep(" ", #line_spaces - min_spaces)
+                        .. line
+                        .. (cr or ""),
+                })
             end
         end
     else

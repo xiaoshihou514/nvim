@@ -18,9 +18,17 @@ dap.configurations.kotlin = {
         request = "launch",
         name = "This file",
         mainClass = function()
-            local root = vim.fs.find("src", { path = vim.uv.cwd(), upward = true, stop = vim.env.HOME })[1] or ""
+            local root = vim.fs.find(
+                "src",
+                { path = vim.uv.cwd(), upward = true, stop = vim.env.HOME }
+            )[1] or ""
             local fname = vim.api.nvim_buf_get_name(0)
-            return fname:gsub(root, ""):gsub("main/kotlin/", ""):gsub(".kt", "Kt"):gsub("/", "."):sub(2, -1)
+            return fname
+                :gsub(root, "")
+                :gsub("main/kotlin/", "")
+                :gsub(".kt", "Kt")
+                :gsub("/", ".")
+                :sub(2, -1)
         end,
         projectRoot = vim.fn.getcwd,
         jsonLogFile = "",

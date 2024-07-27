@@ -41,7 +41,8 @@ autocmd("BufEnter", {
         local cwd = vim.fs.dirname(bufname)
         -- try to find a file that's supposed to be in the root
         local patterns = root_patterns
-        local result = vim.fs.find(patterns, { path = cwd, upward = true, stop = vim.env.HOME })
+        local result =
+            vim.fs.find(patterns, { path = cwd, upward = true, stop = vim.env.HOME })
         if not vim.tbl_isempty(result) then
             vim.cmd.lcd(vim.fs.dirname(result[1]))
             return

@@ -1,6 +1,7 @@
 -- personal statusline
 local fn, api = vim.fn, vim.api
-local laststatus = string.format("%%#%s#%s%%%%* ", "StatusLine", string.rep(" ", vim.o.columns - 1))
+local laststatus =
+    string.format("%%#%s#%s%%%%* ", "StatusLine", string.rep(" ", vim.o.columns - 1))
 local function get_lsp_diagnostic_count(diag_type)
     local result = vim.diagnostic.get(0, { severity = diag_type })
     return result and #result or 0
@@ -12,7 +13,11 @@ local function statusline(data)
 
     if ft == "dashboard" then
         -- empty string blended into bg
-        return string.format("%%#%s#%s %%*", "StatusLine", string.rep(" ", vim.o.columns - 1))
+        return string.format(
+            "%%#%s#%s %%*",
+            "StatusLine",
+            string.rep(" ", vim.o.columns - 1)
+        )
     end
 
     local s = { val = "" }
@@ -85,7 +90,10 @@ local function statusline(data)
     end
 
     -- Guard info
-    local ok, au = pcall(api.nvim_get_autocmds, { group = "Guard", event = "BufWritePre", buffer = 0 })
+    local ok, au = pcall(
+        api.nvim_get_autocmds,
+        { group = "Guard", event = "BufWritePre", buffer = 0 }
+    )
     if ok and #au ~= 0 and require("guard.filetype")[ft].formatter then
         if data then
             if data.status == "pending" then

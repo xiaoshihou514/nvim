@@ -37,8 +37,11 @@ return {
             end,
         })
 
-        _G.lsp_default_cap =
-            vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), require("epo").register_cap())
+        _G.lsp_default_cap = vim.tbl_deep_extend(
+            "force",
+            vim.lsp.protocol.make_client_capabilities(),
+            require("epo").register_cap()
+        )
 
         vim.keymap.set("i", "<TAB>", function()
             if vim.fn.pumvisible() == 1 then

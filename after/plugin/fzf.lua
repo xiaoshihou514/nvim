@@ -46,11 +46,11 @@ local function execute(cmd, data)
                 return
             end
             -- HACK
-            local line = vim.iter(lines):rev():find(function(ln)
+            local line = vim.tbl_filter(function(ln)
                 return ln ~= ""
-            end)
+            end, lines)[1]
             api.nvim_win_close(win, true)
-            pcall(api.nvim_command, line)
+            api.nvim_command(line)
         end,
     })
     if data then
@@ -75,8 +75,6 @@ local file_bind = [[
     --bind "ctrl-o:become:echo 'split {1}'"\
     --bind "enter:become:echo 'edit {1}'"
 ]]
-
-local tab = "  |  "
 
 local cmds = {
     oldfiles = function()
@@ -124,25 +122,6 @@ local cmds = {
         --bind "ctrl-o:become:echo 'new | buffer {1}'"\
         ]],
             api.nvim_exec2("buffers", { output = true }).output
-        )
-    end,
-    keymaps = function()
-        execute(
-            "cat | fzf --layout=reverse border=sharp",
-            vim.iter(vim.api.nvim_get_keymap("nicx"))
-                :map(function(map)
-                    return ("%s%s%s%s"):format(
-                        map.mode,
-                        tab
-                            .. map.lhs
-                                :gsub(string.char(9), "<TAB>")
-                                :gsub("", "<C-F>")
-                                :gsub(" ", "<Space>"),
-                        map.rhs and tab .. map.rhs or "",
-                        map.desc and tab .. map.desc or ""
-                    )
-                end)
-                :totable()
         )
     end,
 }
