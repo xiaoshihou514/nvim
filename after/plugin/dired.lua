@@ -15,3 +15,5 @@ api.nvim_create_user_command("Dired", function(opts)
     api.nvim_command("silent! lcd " .. cwd)
     vim.bo.ft = "dired"
 end, { nargs = "?" })
+
+bind("n", "<leader>e", "<cmd>Dired<cr>")
