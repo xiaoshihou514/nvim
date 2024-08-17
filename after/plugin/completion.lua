@@ -2,7 +2,6 @@
 local api, completion, ffi, lsp = vim.api, vim.lsp.completion, require("ffi"), vim.lsp
 local au = api.nvim_create_autocmd
 local ms = vim.lsp.protocol.Methods
-local TextChangedI, InsertCharPre = "TextChangedI", "InsertCharPre"
 
 ffi.cdef([[
   typedef int32_t linenr_T;
@@ -22,7 +21,7 @@ end
 
 -- hack can completion on any triggerCharacters
 local function auto_trigger(bufnr)
-    au(TextChangedI, {
+    au("TextChangedI", {
         buffer = bufnr,
         callback = function(args)
             local client = lsp.get_clients({
@@ -68,7 +67,7 @@ local function is_path_related(line, col)
 end
 
 -- completion for directory and files
-au(InsertCharPre, {
+au("InsertCharPre", {
     callback = function(args)
         local bufnr = args.buf
         local ok = vim.iter({ "terminal", "prompt", "help" }):any(function(v)

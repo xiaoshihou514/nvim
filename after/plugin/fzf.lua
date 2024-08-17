@@ -45,12 +45,17 @@ local function execute(cmd, data)
                 return
             end
             -- HACK
-            local line = vim.tbl_filter(function(ln)
-                return ln ~= ""
-            end, lines)[1]
+            local line = vim.iter(lines):rev():find(function(ln)
+                return ln ~= "" and not ln:match("[[Process exited %d]]")
+            end)
             api.nvim_win_close(win, true)
             api.nvim_buf_delete(buf, { force = true })
-            api.nvim_command(line)
+            -- api.nvim_command(line)
+            local ok, _ = pcall(api.nvim_command, line)
+            if not ok then
+                vim.print(line)
+                vim.print(lines)
+            end
         end,
     })
     if data then

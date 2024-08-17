@@ -1,6 +1,3 @@
----@diagnostic disable: lowercase-global
-local api = vim.api
-
 root_patterns = {
     ".git",
     ".editorconfig",
@@ -16,3 +13,11 @@ root_patterns = {
     "package.json",
     "go.mod",
 }
+
+_G.bind = function(mode, key, binding, opts)
+    vim.keymap.set(mode, key, binding, opts or {})
+end
+
+---@diagnostic disable: inject-field
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
