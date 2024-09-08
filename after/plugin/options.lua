@@ -33,7 +33,7 @@ vim.opt.stal = 0 -- disable tabline
 vim.opt.foldlevelstart = 999 -- do not collapse my folds
 vim.opt.winbar = "%=%r %f %m%=" -- winbar
 vim.opt.smoothscroll = true -- some wrapping bs
-vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup" -- pum settings
+vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup,noselect" -- pum settings
 vim.opt.pumblend = 0 -- no transparency
 vim.opt.foldtext = "" -- forget about the boring default foldtext
 vim.opt.foldmethod = "expr"

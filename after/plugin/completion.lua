@@ -1,6 +1,7 @@
 -- https://github.com/glepnir/nvim/blob/main/lua/internal/completion.lua
-local api, completion, ffi, lsp = vim.api, vim.lsp.completion, require("ffi"), vim.lsp
-local au = api.nvim_create_autocmd
+local api, completion, ffi, lsp, uv =
+    vim.api, vim.lsp.completion, require("ffi"), vim.lsp, vim.uv
+local au, pumvisible, vimstate = api.nvim_create_autocmd, vim.fn.pumvisible, vim.fn.state
 local ms = vim.lsp.protocol.Methods
 
 ffi.cdef([[
@@ -8,34 +9,62 @@ ffi.cdef([[
   char *ml_get(linenr_T lnum);
 ]])
 
-local function has_word_before(triggerCharacters)
-    local lnum, col = unpack(api.nvim_win_get_cursor(0))
-    if col == 0 then
-        return false
+local function debounce(fn, delay)
+    local timer = nil ---[[uv_timer_t]]
+    local function safe_close()
+        if timer and timer:is_active() and not timer:is_closing() then
+            timer:stop()
+            timer:close()
+            timer = nil
+        end
     end
-    local line_text = ffi.string(ffi.C.ml_get(lnum))
-    local char_before_cursor = line_text:sub(col, col)
-    return char_before_cursor:match("[%w_]")
-        and not vim.tbl_contains(triggerCharacters, char_before_cursor)
+    return function(...)
+        local args = { ... }
+        safe_close()
+        ---@diagnostic disable-next-line: undefined-field
+        timer = assert(uv.new_timer())
+        timer:start(
+            delay,
+            0,
+            vim.schedule_wrap(function()
+                safe_close()
+                xpcall(function()
+                    fn(args)
+                end, function(err)
+                    vim.notify(
+                        "Error in debounced trigger function " .. err,
+                        vim.log.levels.ERROR
+                    )
+                end)
+            end)
+        )
+    end
 end
 
--- hack can completion on any triggerCharacters
-local function auto_trigger(bufnr)
-    au("TextChangedI", {
+-- completion on word which not exist in lsp client triggerCharacters
+local function auto_trigger(bufnr, client_id)
+    local debounced_trigger = debounce(completion.trigger, 100)
+    --TODO: do i need TextChangedI for works on delete characters ?
+    au("InsertCharPre", {
         buffer = bufnr,
-        callback = function(args)
-            local client = lsp.get_clients({
-                bufnr = args.buf,
-                method = ms.textDocument_completion,
-            })[1]
+        callback = function()
+            if tonumber(pumvisible()) == 1 or vimstate("m") == "m" then
+                return
+            end
+            local client = lsp.get_client_by_id(client_id)
+            if not client then
+                return
+            end
             local triggerchars = vim.tbl_get(
                 client,
                 "server_capabilities",
                 "completionProvider",
                 "triggerCharacters"
-            )
-            if has_word_before(triggerchars) then
-                completion.trigger()
+            ) or {}
+            if
+                vim.v.char:match("[%w_]") or vim.list_contains(triggerchars, vim.v.char)
+            then
+                debounced_trigger()
             end
         end,
     })
@@ -45,8 +74,13 @@ au("LspAttach", {
     callback = function(args)
         local bufnr = args.buf
         local client_id = args.data.client_id
-        completion.enable(true, client_id, bufnr, { autotrigger = true })
-        auto_trigger(bufnr)
+        completion.enable(true, client_id, bufnr, {
+            autotrigger = false,
+            convert = function(item)
+                return { abbr = item.label:gsub("%b()", "") }
+            end,
+        })
+        auto_trigger(bufnr, client_id)
     end,
 })
 
@@ -69,6 +103,9 @@ end
 -- completion for directory and files
 au("InsertCharPre", {
     callback = function(args)
+        if tonumber(pumvisible()) == 1 or vimstate("m") == "m" then
+            return
+        end
         local bufnr = args.buf
         local ok = vim.iter({ "terminal", "prompt", "help" }):any(function(v)
             return v == vim.bo[bufnr].buftype
@@ -86,5 +123,3 @@ au("InsertCharPre", {
         end
     end,
 })
-
-bind("i", "<C-Space>", vim.lsp.completion.trigger)

@@ -50,12 +50,7 @@ local function execute(cmd, data)
             end)
             api.nvim_win_close(win, true)
             api.nvim_buf_delete(buf, { force = true })
-            -- api.nvim_command(line)
-            local ok, _ = pcall(api.nvim_command, line)
-            if not ok then
-                vim.print(line)
-                vim.print(lines)
-            end
+            pcall(api.nvim_command, line)
         end,
     })
     if data then
@@ -78,6 +73,7 @@ fzf --layout=reverse \
 local file_bind = [[
     --bind "ctrl-x:become:echo 'vsplit {1}'"\
     --bind "ctrl-o:become:echo 'split {1}'"\
+    --bind "ctrl-t:become:echo 'tabe {1}'"\
     --bind "enter:become:echo 'edit {1}'"
 ]]
 

@@ -16,8 +16,13 @@ tree-sitter-toml = "0.0.1"
 tree-sitter-css = "0.0.1"
 tree-sitter-json = "0.0.1"
 tree-sitter-typescript = "0.0.1"
+tree-sitter-scala = "0.0.3"
 
 [config]
 plugins_dir = "plugins/"
 auto_setup = false
 colorscheme = "moonlight"
+
+[treesitter]
+auto_highlight = "all"
+auto_install = "prompt"

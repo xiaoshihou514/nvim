@@ -297,6 +297,7 @@ local groups = {
     scalaNameDefinition = { link = "Variable" },
     scalaSpecial = { link = "Variable" },
     scalaEscapedChar = { link = "String" },
+    ["@variable.builtin.scala"] = { link = "Keyword" },
 
     -- Lang: Tex
     texTypeStyle = { link = "Keyword" },

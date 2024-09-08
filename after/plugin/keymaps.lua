@@ -55,10 +55,8 @@ bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
 bind("c", "<C-e>", "<C-f>") -- edit commands is now <C-e>
 
-bind({ "n", "x", "t" }, "<leader>q", function()
-    vim.api.nvim_command("quit")
-end)
-bind("n", "<leader>w", "<cmd>silent w<cr>")
+bind({ "n", "x", "t" }, "<leader>q", "<cmd>quit<cr>")
+bind("n", "<leader>w", ":write<cr>")
 bind("n", "<leader>h", "<cmd>noh<cr>")
 bind("n", "<leader>;", "<cmd>source ~/.config/nvim/lua/personal/dashboard.lua<cr>")
 
