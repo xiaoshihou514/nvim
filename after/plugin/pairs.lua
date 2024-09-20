@@ -61,6 +61,7 @@ local prev_pos, op
 
 -- only works for single line
 _G._surround = function()
+    prev_pos = api.nvim_win_get_cursor(0)
     local cur_line = api.nvim_get_current_line()
     local pos = api.nvim_buf_get_mark(0, "[")
     if vim.deep_equal(pos, { 0, 0 }) then
@@ -94,7 +95,6 @@ _G._surround = function()
                 break
             end
         end
-        -- else assume they are the same
         api.nvim_buf_set_lines(
             0,
             row - 1,
@@ -106,14 +106,12 @@ _G._surround = function()
     -- restore cursor pos
     api.nvim_win_set_cursor(0, prev_pos)
     prev_pos = nil
-    op = nil
 end
 
 bind("n", "ds", function()
     -- get ourselves into operator pending mode
     api.nvim_set_option_value("operatorfunc", "v:lua._surround", {})
     op = "delete"
-    prev_pos = api.nvim_win_get_cursor(0)
     return "g@i"
 end, { expr = true })
 
@@ -121,6 +119,5 @@ bind("n", "cs", function()
     -- get ourselves into operator pending mode
     api.nvim_set_option_value("operatorfunc", "v:lua._surround", {})
     op = "change"
-    prev_pos = api.nvim_win_get_cursor(0)
     return "g@i"
 end, { expr = true })

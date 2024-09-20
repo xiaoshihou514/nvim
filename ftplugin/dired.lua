@@ -80,7 +80,7 @@ local function disable(mode, key)
     bind(mode, key, "<Nop>", { buffer = true })
 end
 
-local function system(cmd, cwd, view, errormsg)
+local function system(cmd, cwd, view, errormsg, f)
     vim.system(
         cmd,
         {
@@ -89,6 +89,9 @@ local function system(cmd, cwd, view, errormsg)
         vim.schedule_wrap(function(status)
             if status.code ~= 0 then
                 vim.notify(errormsg, 3)
+            end
+            if f and type(f) == "function" then
+                f()
             end
             refresh()
             vim.defer_fn(function()
@@ -171,7 +174,21 @@ bind("n", "r", function()
         end
         if vim.uv.fs_stat(input) then
             ask('Overwrite "' .. input .. '"?', function()
-                system({ "/bin/mv", selected, input }, cwd, view, "Rename failed")
+                system(
+                    { "/bin/mv", selected, input },
+                    cwd,
+                    view,
+                    "Rename failed",
+                    function()
+                        for _, buf in ipairs(api.nvim_list_bufs()) do
+                            if api.nvim_buf_get_name(buf) == input then
+                                api.nvim_buf_call(buf, function()
+                                    vim.cmd("edit! " .. input)
+                                end)
+                            end
+                        end
+                    end
+                )
             end)
         else
             system({ "/bin/mv", selected, input }, cwd, view, "Rename failed")
@@ -320,6 +337,17 @@ bind("n", "p", function()
     vim.g.dired_selected = {}
 end, { buffer = true })
 
+bind("n", "G", function()
+    api.nvim_feedkeys("gg", "n", false)
+    local count = 0
+    for _, l in ipairs(api.nvim_buf_get_lines(0, 0, -1, false)) do
+        if l == "" then
+            break
+        end
+        count = count + 1
+    end
+    api.nvim_feedkeys(count - 1 .. "gj", "n", false)
+end, { buffer = true })
 disable("n", "i")
 disable("n", "a")
 disable("n", "A")

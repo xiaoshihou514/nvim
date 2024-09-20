@@ -1,25 +1,28 @@
-local metals = nil
-local metals_config = nil
-
 return {
     init = function()
-        metals = metals or require("metals")
+        local metals = require("metals")
 
-        if not metals_config then
-            metals_config = metals.bare_config()
-            metals_config.tvp = {
-                icons = {
-                    enabled = true,
-                },
-            }
+        local metals_config = metals.bare_config()
+        metals_config.tvp = {
+            icons = {
+                enabled = true,
+            },
+        }
 
-            metals_config.settings = {
-                enableSemanticHighlighting = false,
-                showImplicitArguments = true,
-                showImplicitConversionsAndClasses = true,
-                showInferredType = true,
-            }
-        end
+        metals_config.settings = {
+            showImplicitArguments = true,
+            showImplicitConversionsAndClasses = true,
+            showInferredType = true,
+        }
+
+        metals_config.init_options = {
+            statusBarProvider = "off",
+            icons = "unicode",
+        }
+
+        metals_config.on_attach = lsp_default_config.on_attach
+
+        metals_config.capabilities = lsp_default_config.capabilities
 
         metals.initialize_or_attach(metals_config)
     end,

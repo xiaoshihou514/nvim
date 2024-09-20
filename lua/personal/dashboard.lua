@@ -90,7 +90,6 @@ local function set_opts()
         relativenumber = false,
         spell = false,
         swapfile = false,
-        readonly = true,
         filetype = "dashboard",
         wrap = false,
         signcolumn = "no",
@@ -270,4 +269,4 @@ api.nvim_win_set_cursor(win, pos)
 vim.tbl_map(function(hl)
     api.nvim_buf_add_highlight(buf, ns, hl[1], hl[2], hl[3], hl[4])
 end, hls)
-vim.opt_local.modifiable = false
+api.nvim_set_option_value("modifiable", false, { buf = 0 })

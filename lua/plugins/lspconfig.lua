@@ -1,23 +1,20 @@
-local lspconfig = nil
-local default = nil
+local lspconfig = require("lspconfig")
 
-return {
-    init = function(server, opts)
-        if not lspconfig then
-            require("lspconfig.ui.windows").default_options.border = "single"
-            require("lspconfig.ui.windows").default_options.winhighlight =
-                "FloatBorder:Normal"
-            lspconfig = require("lspconfig")
-            -- enable semantic highlighting
-            default = {
-                on_attach = function(client, buf)
-                    if client.server_capabilities.semanticTokensProvider then
-                        vim.lsp.semantic_tokens.start(buf, client.id)
-                    end
-                end,
-            }
-        end
-        lspconfig[server].setup(opts or default)
-        vim.cmd("LspStart")
+lspconfig.lua_ls.setup({
+    on_init = function(client)
+        client.config.settings.Lua =
+            vim.tbl_deep_extend("force", client.config.settings.Lua, {
+                runtime = { version = "LuaJIT" },
+                workspace = {
+                    checkThirdParty = false,
+                    library = { vim.env.VIMRUNTIME },
+                },
+            })
     end,
-}
+    on_attach = lsp_default_config.on_attach,
+    settings = {
+        Lua = {},
+    },
+})
+lspconfig.zls.setup(lsp_default_config)
+lspconfig.clangd.setup(lsp_default_config)

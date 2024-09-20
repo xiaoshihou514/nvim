@@ -50,7 +50,6 @@ vim.cmd.cnoreabbrev("E edit")
 
 -- misc
 bind("v", "p", '"_dP') -- paste without replacing clipboard contents
-bind("n", "<A-v>", "<C-v>") -- rebind Ctrl v since I use it as paste
 bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
 bind("c", "<C-e>", "<C-f>") -- edit commands is now <C-e>

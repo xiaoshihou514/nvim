@@ -23,7 +23,7 @@ vim.ui.input = function(opts, on_confirm)
     set("relativenumber", false, { win = win })
     set("winhl", "Normal:Terminal", { win = win })
     set("filetype", "elegant", { buf = buf })
-    set("tabstop", 1, { buf = buf })
+    set("bufhidden", "wipe", { buf = buf })
     if opts.completion then
         _G.elegant_cfu = function(findstart, base)
             if findstart == 1 then
