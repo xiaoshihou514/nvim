@@ -1,8 +1,8 @@
 [rocks]
 
 [plugins]
-"rocks.nvim" = "2.37.0"
-"rocks-config.nvim" = "2.2.0"
+"rocks.nvim" = "2.40.2"
+"rocks-config.nvim" = "3.0.0"
 
 "guard.nvim" = "scm"
 "indentmini.nvim" = "scm"

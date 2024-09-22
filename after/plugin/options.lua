@@ -28,7 +28,7 @@ vim.opt.scrolloff = 5 -- keep cursor within sight
 vim.opt.foldenable = false -- do not autofold
 vim.opt.pumheight = 15 -- prevents massive pummenu
 vim.opt.virtualedit = "block" -- select whatever in visual block mode
-vim.opt.shell = "/bin/fish" -- shell
+vim.opt.shell = "fish" -- shell
 vim.opt.stal = 0 -- disable tabline
 vim.opt.foldlevelstart = 999 -- do not collapse my folds
 vim.opt.winbar = "%=%r %f %m%=" -- winbar

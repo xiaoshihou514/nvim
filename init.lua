@@ -26,7 +26,16 @@ local luarocks_cpath = {
     vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
 }
 package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
-vim.opt.runtimepath:append(vim.fs.joinpath(rocks_config.rocks_path, "lib", "luarocks", "rocks-5.1", "rocks.nvim", "*"))
+vim.opt.runtimepath:append(
+    vim.fs.joinpath(
+        rocks_config.rocks_path,
+        "lib",
+        "luarocks",
+        "rocks-5.1",
+        "rocks.nvim",
+        "*"
+    )
+)
 
 -- show dashboard after init
 vim.api.nvim_create_autocmd("UIEnter", {

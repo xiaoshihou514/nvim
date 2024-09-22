@@ -1,4 +1,5 @@
 local api = vim.api
+local exepath = vim.fn.exepath
 
 local function open_ivy_win()
     local height, width = vim.o.lines, vim.o.columns
@@ -34,11 +35,15 @@ local function open_ivy_win()
     return win, buf
 end
 
+local fd = exepath("fd")
+local fzf = exepath("fzf")
+local bat = exepath("bat")
+
 local function execute(cmd, data)
     local win, buf = open_ivy_win()
     local id = vim.fn.termopen(cmd, {
         clear_env = true,
-        env = { FZF_DEFAULT_COMMAND = "fd -H --type f --strip-cwd-prefix" },
+        env = { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" },
         on_exit = function()
             local ok, lines = pcall(api.nvim_buf_get_lines, buf, 0, -1, false)
             if not ok then
@@ -64,11 +69,10 @@ local function execute(cmd, data)
     end, 10)
 end
 
-local default = [[
-fzf --layout=reverse \
+local default = ([[%s --layout=reverse \
     --border=sharp \
-    --preview='bat --theme=moonlight-ansi --color=always -pp {}'\
-]]
+    --preview='%s --theme=moonlight-ansi --color=always -pp {}'\
+]]):format(fzf, bat)
 
 local file_bind = [[
     --bind "ctrl-x:become:echo 'vsplit {1}'"\
@@ -97,31 +101,31 @@ local cmds = {
         )
     end,
     grep = function()
-        execute([[
-        echo 'Type to start grepping' | fzf \
+        execute(([[echo 'Type to start grepping' | %s \
         --layout=reverse \
         --disabled --ansi \
         --border=sharp \
         --delimiter : \
-        --preview='bat --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
+        --preview='%s --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
         --preview-window '+{2}/2' \
         --bind "change:reload:rg --column --color=always {q} || :" \
         --bind "ctrl-x:become:echo 'vsplit {1} | {2}'"\
         --bind "ctrl-o:become:echo 'split {1} | {2}'"\
         --bind "enter:become:echo 'edit {1} | {2}'"
-        ]])
+        ]]):format(fzf, bat))
     end,
     files = function()
         execute(default .. file_bind)
     end,
     buffers = function()
         execute(
-            [[cat | fzf --layout=reverse \
+            ([[
+        cat | %s \
         --border=sharp \
         --bind "enter:become:echo 'buffer {1}'"\
         --bind "ctrl-x:become:echo 'vnew | buffer {1}'"\
         --bind "ctrl-o:become:echo 'new | buffer {1}'"\
-        ]],
+        ]]):format(fzf),
             api.nvim_exec2("buffers", { output = true }).output
         )
     end,
