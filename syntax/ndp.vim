@@ -16,15 +16,21 @@ syn keyword ndpKeyword forall exists contained
 syn match ndpBoolean /\b$T\|F$\b/ contained
 syn match ndpOperator /[\^~=\-><->\,.()/]/ contained
 
-syn keyword ndpRuleName given ass premise tick contained
-syn match ndpRuleName /forall \+I \+const/ contained
+" IDK, viml!
+syn match ndpRuleName /\<forall\>/ contained containedin=ndpRule
+syn match ndpRuleName /\<I\>/ contained containedin=ndpRule
+syn match ndpRuleName /\<const\>/ contained containedin=ndpRule
+syn keyword ndpRuleName given ass premise tick refl LEM PC MT contained
 syn keyword ndpRuleName forallI forallE existsI existsE contained
 syn match ndpRuleName /[\^E^I~E~I/E/I]/ contained
-syn match ndpRuleName /[=sub]/ contained
+syn match ndpRuleName /[\->I\->E<\->I<\->E]/ contained
+syn match ndpRuleName /[=sub=sym]/ contained
 syn match ndpRuleName /[forall\->E]/ contained
+syn match ndpRuleName /[FEFITI]/ contained
 
 syn match ndpRuleParen /[()]/ contained
-syn match ndpComment /--.*$/ containedin=ndpFormula " HACK
+" HACK: "override" formula and rule highlights
+syn match ndpComment /--.*$/ containedin=ndpFormula,ndpRule
 
 " Highlight section
 hi def link ndpComment Comment
