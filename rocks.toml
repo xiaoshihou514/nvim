@@ -17,6 +17,7 @@ tree-sitter-css = "0.0.1"
 tree-sitter-json = "0.0.1"
 tree-sitter-typescript = "0.0.1"
 tree-sitter-scala = "0.0.3"
+tree-sitter-cpp = "0.0.1"
 
 [config]
 plugins_dir = "plugins/"

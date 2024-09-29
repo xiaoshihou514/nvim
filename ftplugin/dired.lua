@@ -20,6 +20,7 @@ local eza_cmd = {
     "--icons=always",
     "--color=always",
     "--git",
+    "--git-ignore",
     "--long",
 }
 local eza_cmd_with_hidden = {

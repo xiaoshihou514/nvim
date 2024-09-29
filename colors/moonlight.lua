@@ -301,6 +301,9 @@ local groups = {
 
     -- Lang: Tex
     texTypeStyle = { link = "Keyword" },
+
+    -- Lang: Cpp
+    ["@lsp.type.macro.cpp"] = { link = "Special" },
 }
 
 for group, hl in pairs(groups) do
