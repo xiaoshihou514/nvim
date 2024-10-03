@@ -21,20 +21,7 @@ end
 if test $argv[1] = init
     mkdir -p "$HOME/.config/nvim/pack/data/opt/"
 
-else if test $argv[1] = add
-    set url $argv[2..-1]
-    string match -rq '^(?<username>.+)/(?<repo>.+)$' -- $url
-    git submodule add --force \
-        https://github.com/$username/$repo \
-        pack/data/opt/(trim $repo)
-
 else if test $argv[1] = update
     git submodule sync
-    git submodule update
-
-else if test $argv[1] = remove
-    set url $argv[2..-1]
-    string match -rq '^(?<username>.+)/(?<repo>.+)$' -- $url
-    git submodule deinit -f pack/data/opt/(trim $repo)
-
+    git submodule update --recursive --remote
 end

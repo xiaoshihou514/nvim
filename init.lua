@@ -17,14 +17,18 @@ local packpath = vim.fn.stdpath("config") .. "/pack"
 vim.opt.packpath:append(packpath)
 local plugins = packpath .. "/data/opt/"
 
-vim.api.nvim_create_autocmd("UIEnter", {
+vim.api.nvim_create_autocmd("BufRead", {
     callback = function()
         local uv = vim.uv
+        ---@diagnostic disable: undefined-field
         local handle = assert(uv.fs_opendir(plugins, nil, 4096))
         for _, t in ipairs(uv.fs_readdir(handle, nil)) do
             if t.type == "directory" then
                 vim.cmd.packadd(t.name)
-                pcall(require, "plugins." .. t.name)
+                local ok, result = pcall(require, "plugins." .. t.name)
+                if not ok and not result:match("module 'plugins%.(.+)' not found:") then
+                    error(result, vim.log.levels.ERROR)
+                end
             end
         end
     end,
