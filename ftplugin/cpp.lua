@@ -1,5 +1,5 @@
 vim.opt_local.cinkeys:remove(":")
 
-local ft = require("guard.filetype")
+require("plugins.guard")
 
 ft("cpp"):fmt("clang-format")

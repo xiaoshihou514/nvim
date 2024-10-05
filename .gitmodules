@@ -10,6 +10,9 @@
 [submodule "pack/data/opt/mini-hipatterns"]
 	path = pack/data/opt/mini-hipatterns
 	url = https://github.com/echasnovski/mini.hipatterns
+[submodule "pack/data/opt/plenary"]
+	path = pack/data/opt/plenary
+	url = https://github.com/nvim-lua/plenary.nvim
 [submodule "pack/data/opt/squirrel"]
 	path = pack/data/opt/squirrel
 	url = https://github.com/xiaoshihou514/squirrel.nvim
@@ -22,6 +25,3 @@
 [submodule "pack/data/opt/metals"]
 	path = pack/data/opt/metals
 	url = https://github.com/scalameta/nvim-metals
-[submodule "pack/data/opt/plenary"]
-	path = pack/data/opt/plenary
-	url = https://github.com/nvim-lua/plenary.nvim

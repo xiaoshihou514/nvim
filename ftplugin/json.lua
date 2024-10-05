@@ -1,6 +1,6 @@
 vim.opt_local.tabstop = 2
 
-local ft = require("guard.filetype")
+require("plugins.guard")
 
 ft("json"):fmt({
     cmd = "prettier",

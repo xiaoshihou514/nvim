@@ -1,6 +1,6 @@
 vim.opt_local.shiftwidth = 2
 
-local ft = require("guard.filetype")
+require("plugins.guard")
 
 ft("nix"):fmt({
     cmd = "nixpkgs-fmt",

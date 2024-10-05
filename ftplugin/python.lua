@@ -1,4 +1,4 @@
-local ft = require("guard.filetype")
+require("plugins.guard")
 
 ft("python"):fmt({
     cmd = "ruff",

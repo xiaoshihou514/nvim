@@ -4,7 +4,7 @@ if loaded then
 end
 loaded = true
 
-local ft = require("guard.filetype")
+require("plugins.guard")
 local lint = require("guard.lint")
 ft("kotlin"):fmt("ktlint"):lint("ktlint"):append({
     cmd = "detekt-cli",

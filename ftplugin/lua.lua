@@ -1,3 +1,3 @@
-local ft = require("guard.filetype")
+require("plugins.guard")
 
 ft("lua"):fmt("stylua")

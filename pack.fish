@@ -8,13 +8,23 @@ function trim
     echo $temp
 end
 
+set github "https://github.com"
+# set github "https://ghp.ci/https://github.com"
+
 if test (count $argv) -eq 0
-    mkdir -p "$HOME/.config/nvim/pack/data/opt/"
+    rm -rf pack .gitmodules
+    touch .gitmodules
+    git add .gitmodules
+    mkdir -p pack/data/opt/
     for pkg in (cat ./package.list)
-        string match -rq '^(?<username>.+)/(?<repo>.+)$' -- $pkg
-        git submodule add --force \
-            https://github.com/$username/$repo \
-            pack/data/opt/(trim $repo)
+        string match -rq '^(?<username>[^/]+)/(?<repo>[^/]+)$' -- $pkg
+        if test $status -eq 0
+            git submodule add --force \
+                $github/$username/$repo \
+                pack/data/opt/(trim $repo)
+        else
+            echo Cannot parse package $pkg
+        end
     end
     return
 end

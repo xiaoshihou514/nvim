@@ -1,7 +1,7 @@
 vim.opt_local.wrap = true
 vim.opt_local.spell = true
 
-local ft = require("guard.filetype")
+require("plugins.guard")
 
 ft("markdown"):fmt({
     cmd = "prettier",

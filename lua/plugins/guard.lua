@@ -1,3 +1,12 @@
+local loaded
+if loaded then
+    return
+end
+loaded = true
+
+vim.cmd.packadd("guard")
 vim.cmd.packadd("guard-collection")
 
-bind("n", "gq", "<cmd>GuardFmt<cr>")
+_G.ft = require("guard.filetype")
+
+bind("n", "gq", "<cmd>Guard fmt<cr>")
