@@ -1,4 +1,5 @@
 local api = vim.api
+local history = {}
 local title = {
     [vim.log.levels.DEBUG] = " Debug: ",
     [vim.log.levels.ERROR] = " Error: ",
@@ -69,16 +70,12 @@ local function register_callback(this, buf)
     end, 3000)
 end
 
----@class NotifyOpts
----@field modify_existing? boolean
----@field clear? boolean
----@param opts NotifyOpts
-vim.notify = function(msg, level, opts)
+---@diagnostic disable-next-line: duplicate-set-field
+vim.notify = function(msg, level, _)
     if not msg then
         return
     end
     level = level or vim.log.levels.INFO
-    opts = opts or {}
     local lines = vim.split(msg, "\n")
     local formatted = {}
     local msg_max_len = math.floor(vim.o.columns / 3)
@@ -98,66 +95,7 @@ vim.notify = function(msg, level, opts)
     if #formatted == 1 then
         formatted[1] = (title[level] or tostring(level)) .. formatted[1]
     end
-
-    -- if clear is true we close all other windows
-    if opts.clear then
-        for sbuf, popup in pairs(displayed) do
-            api.nvim_win_close(popup.win, true)
-            api.nvim_buf_delete(sbuf, { force = true })
-            displayed[sbuf] = nil
-        end
-    end
-
-    -- if modify_existing we try to find an existing buffer
-    if opts.modify_existing then
-        local buf = opts.modify_existing
-        if not displayed[buf] then
-            return -1
-        end
-        local existing = displayed[buf]
-        existing.level = level
-        api.nvim_buf_set_lines(buf, 0, -1, false, formatted)
-        for i = 0, #formatted - 1, 1 do
-            api.nvim_buf_add_highlight(buf, ns, hls[level], i, 0, -1)
-        end
-        api.nvim_set_option_value("winhl", "Normal:Normal", { win = existing.win })
-
-        local old_height = existing.height
-        local width = math.min(msg_max_len, line_max_len)
-        register_callback(existing, buf)
-        -- if dimension did not change at all, we don't need to do anything
-        if old_height == #formatted and existing.height == width then
-            return buf
-        end
-        -- else we would at least have to refresh the existing window
-        existing.height = #formatted
-        existing.width = width
-        api.nvim_win_close(existing.win, true)
-        existing.win = api.nvim_open_win(
-            buf,
-            false,
-            make_popup_opts(existing.level, width, existing.height, existing.offset)
-        )
-        -- if height did not change, we don't need to update other messages
-        if old_height == existing.height then
-            return buf
-        end
-        -- else we adjust messages above the current one
-        for sbuf, popup in pairs(displayed) do
-            if popup.offset > existing.offset then
-                popup.offset = popup.offset - old_height + existing.height
-                if existing.height ~= 1 then
-                    popup.offset = popup.offset - 2
-                end
-                api.nvim_win_close(popup.win, true)
-                popup.win = api.nvim_open_win(
-                    sbuf,
-                    false,
-                    make_popup_opts(popup.level, popup.width, popup.height, popup.offset)
-                )
-            end
-        end
-    end
+    table.insert(history, (title[level] or tostring(level)) .. msg)
 
     -- open win at corner
     local offset = 1
@@ -194,3 +132,7 @@ vim.notify = function(msg, level, opts)
     register_callback(this, buf)
     return buf
 end
+
+api.nvim_create_user_command("Messages", function ()
+    vim.print(table.concat(history, "\n\n"))
+end, {})
