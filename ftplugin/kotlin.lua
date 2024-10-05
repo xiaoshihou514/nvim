@@ -4,8 +4,20 @@ if loaded then
 end
 loaded = true
 
-local dap = require("dap")
+local ft = require("guard.filetype")
+local lint = require("guard.lint")
+ft("kotlin"):fmt("ktlint"):lint("ktlint"):append({
+    cmd = "detekt-cli",
+    args = { "-i" },
+    fname = true,
+    parse = lint.from_regex({
+        source = "detekt",
+        regex = ":(%d+):(%d+):%s(.+)%s%[(.+)%]",
+        groups = { "lnum", "col", "message", "code" },
+    }),
+})
 
+local dap = require("dap")
 dap.adapters.kotlin = {
     type = "executable",
     command = "kotlin-debug-adapter",
@@ -20,6 +32,7 @@ dap.configurations.kotlin = {
         mainClass = function()
             local root = vim.fs.find(
                 "src",
+                ---@diagnostic disable-next-line: undefined-field
                 { path = vim.uv.cwd(), upward = true, stop = vim.env.HOME }
             )[1] or ""
             local fname = vim.api.nvim_buf_get_name(0)

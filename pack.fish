@@ -9,6 +9,7 @@ function trim
 end
 
 if test (count $argv) -eq 0
+    mkdir -p "$HOME/.config/nvim/pack/data/opt/"
     for pkg in (cat ./package.list)
         string match -rq '^(?<username>.+)/(?<repo>.+)$' -- $pkg
         git submodule add --force \
@@ -18,10 +19,7 @@ if test (count $argv) -eq 0
     return
 end
 
-if test $argv[1] = init
-    mkdir -p "$HOME/.config/nvim/pack/data/opt/"
-
-else if test $argv[1] = update
+if test $argv[1] = update
     git submodule sync
     git submodule update --recursive --remote
 end

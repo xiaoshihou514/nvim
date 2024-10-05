@@ -1,8 +1,6 @@
-vim.opt_local.tabstop = 2
-
 local ft = require("guard.filetype")
 
-ft("json"):fmt({
+ft("typescript"):fmt({
     cmd = "prettier",
     args = { "--stdin-filepath" },
     fname = true,

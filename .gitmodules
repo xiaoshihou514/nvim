@@ -1,6 +1,6 @@
 [submodule "pack/data/opt/guard"]
 	path = pack/data/opt/guard
-	url = https://github.com/nvimdev/guard.nvim
+	url = https://github.com/xiaoshihou514/guard.nvim
 [submodule "pack/data/opt/guard-collection"]
 	path = pack/data/opt/guard-collection
 	url = https://github.com/nvimdev/guard-collection
