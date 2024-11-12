@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 local api = vim.api
 
 local opts = {
@@ -20,6 +21,7 @@ local eza_cmd = {
     "--icons=always",
     "--color=always",
     "--git",
+    "--git-ignore",
     "--long",
 }
 local eza_cmd_with_hidden = {
@@ -103,6 +105,7 @@ end
 
 -- quit
 bind("n", "q", vim.cmd.quit, { buffer = true })
+bind("n", "<Esc>", vim.cmd.quit, { buffer = true })
 
 -- open here
 bind("n", "<cr>", function()
@@ -348,6 +351,16 @@ bind("n", "G", function()
     end
     api.nvim_feedkeys(count - 1 .. "gj", "n", false)
 end, { buffer = true })
+
+bind("n", "/", function()
+    local target = vim.fn.getcwd()
+    vim.cmd.quit()
+    local save = vim.fn.getcwd()
+    vim.cmd.lcd(target)
+    vim.cmd("Fzf files-cwd")
+    vim.cmd.lcd(save)
+end, { buffer = true })
+
 disable("n", "i")
 disable("n", "a")
 disable("n", "A")

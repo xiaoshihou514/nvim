@@ -50,7 +50,7 @@ autocmd("BufEnter", {
         -- or if it's some wierd filtype try to get root from lsp
         vim.tbl_map(function(client)
             local filetypes, root = client.config.filetypes, client.config.root_dir
-            if filetypes and vim.fn.index(filetypes, vim.bo.ft) ~= -1 and root then
+            if filetypes and vim.fn.index(filetypes, vim.bo.ft) ~= -1 and root and root ~= "" then
                 vim.cmd.lcd(root)
                 return
             end
@@ -78,6 +78,19 @@ autocmd("VimLeavePre", {
             if vim.bo[buf].ft == "scala" then
                 api.nvim_command("silent! !kill (psa bloop | awk '{print $2}')")
             end
+        end
+    end,
+})
+
+autocmd("User", {
+    desc = "dirty fix for neovim bug",
+    pattern = "GuardFmt",
+    callback = function(opt)
+        if opt.data.status ~= "done" then
+            return
+        end
+        if vim.lsp.get_clients({ bufnr = 0 }) then
+            vim.diagnostic.show(nil, 0, nil, nil)
         end
     end,
 })

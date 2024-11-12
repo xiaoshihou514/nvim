@@ -1,12 +1,18 @@
+local loaded
+
 return {
     init = function()
-        local metals = require("metals")
+        if not loaded then
+            vim.cmd.packadd("plenary")
+            vim.cmd.packadd("metals")
+            loaded = true
+        end
 
+        local metals = require("metals")
         local metals_config = metals.bare_config()
+
         metals_config.tvp = {
-            icons = {
-                enabled = true,
-            },
+            icons = { enabled = true },
         }
 
         metals_config.settings = {

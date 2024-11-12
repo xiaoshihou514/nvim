@@ -13,29 +13,29 @@ vim.g.loaded_remote_plugins = 1
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_tutor_mode_plugin = 1
 
-local rocks_config = { rocks_path = vim.fn.stdpath("data") .. "/rocks" }
-vim.g.rocks_nvim = rocks_config
-local luarocks_path = {
-    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?.lua"),
-    vim.fs.joinpath(rocks_config.rocks_path, "share", "lua", "5.1", "?", "init.lua"),
-}
-package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
-local luarocks_cpath = {
-    -- Don't add these windows dlls
-    vim.fs.joinpath(rocks_config.rocks_path, "lib", "lua", "5.1", "?.so"),
-    vim.fs.joinpath(rocks_config.rocks_path, "lib64", "lua", "5.1", "?.so"),
-}
-package.cpath = package.cpath .. ";" .. table.concat(luarocks_cpath, ";")
-vim.opt.runtimepath:append(
-    vim.fs.joinpath(
-        rocks_config.rocks_path,
-        "lib",
-        "luarocks",
-        "rocks-5.1",
-        "rocks.nvim",
-        "*"
-    )
-)
+local packpath = vim.fn.stdpath("config") .. "/pack"
+vim.opt.packpath:append(packpath)
+local plugins = packpath .. "/data/opt/"
+
+vim.api.nvim_create_autocmd("BufRead", {
+    callback = function()
+        local uv = vim.uv
+        ---@diagnostic disable: undefined-field
+        local handle = assert(uv.fs_opendir(plugins, nil, 4096))
+        for _, t in ipairs(uv.fs_readdir(handle, nil)) do
+            if t.type == "directory" then
+                vim.cmd.packadd(t.name)
+                local ok, result = pcall(require, "plugins." .. t.name)
+                if not ok and not result:match("module 'plugins%.(.+)' not found:") then
+                    error(result, vim.log.levels.ERROR)
+                end
+            end
+        end
+    end,
+})
+
+vim.cmd.colorscheme("moonlight")
+-- vim.cmd.colorscheme("twilight")
 
 -- show dashboard after init
 vim.api.nvim_create_autocmd("UIEnter", {

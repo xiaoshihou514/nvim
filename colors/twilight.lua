@@ -1,19 +1,22 @@
+-- TODO
+
 ---@diagnostic disable-next-line: inject-field
-vim.g.colors_name = "moonlight"
-vim.o.background = "dark"
+vim.g.colors_name = "twilight"
+vim.o.background = "light"
 
 -- palette
 local p = {
+    -- moonlight, light inverted, with a few tweaks
     -- design: low saturation, use lightness to create contrast
     --                             H   S L
-    bg = "#1F2224", -- OKHSL: 237,6,15
-    shade_1 = "#323639", -- OKHSL: 237,6,23
-    shade_2 = "#44494c", -- OKHSL: 237,6,31
-    shade_3 = "#575c61", -- OKHSL: 237,6,39
-    shade_4 = "#6a7175", -- OKHSL: 237,6,47
+    bg = "#eff1f2", -- OKHSL: 237,6,95
+    shade_1 = "#d7dbdd", -- OKHSL: 237,6,87
+    shade_2 = "#bfc5c8", -- OKHSL: 237,6,79
+    shade_3 = "#a9afb4", -- OKHSL: 237,6,71
+    shade_4 = "#939a9f", -- OKHSL: 237,6,63
     shade_5 = "#7e858a", -- OKHSL: 237,6,55
-    shade_6 = "#939a9f", -- OKHSL: 237,6,63
-    fg = "#a8aeb4", -- OKHSL: 237,6,71
+    shade_6 = "#6a7175", -- OKHSL: 237,6,47
+    fg = "#575c61", -- OKHSL: 237,6,39
 
     -- brighter warning colors (high lightness)
     yellow = "#c9bb7f", -- OKHSL: 97,49,76

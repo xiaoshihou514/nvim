@@ -1,0 +1,30 @@
+[submodule "pack/data/opt/guard"]
+	path = pack/data/opt/guard
+	url = https://github.com/nvimdev/guard.nvim
+[submodule "pack/data/opt/guard-collection"]
+	path = pack/data/opt/guard-collection
+	url = https://github.com/nvimdev/guard-collection
+[submodule "pack/data/opt/indentmini"]
+	path = pack/data/opt/indentmini
+	url = https://github.com/nvimdev/indentmini.nvim
+[submodule "pack/data/opt/mini-hipatterns"]
+	path = pack/data/opt/mini-hipatterns
+	url = https://github.com/echasnovski/mini.hipatterns
+[submodule "pack/data/opt/plenary"]
+	path = pack/data/opt/plenary
+	url = https://github.com/nvim-lua/plenary.nvim
+[submodule "pack/data/opt/squirrel"]
+	path = pack/data/opt/squirrel
+	url = https://github.com/xiaoshihou514/squirrel.nvim
+[submodule "pack/data/opt/lspconfig"]
+	path = pack/data/opt/lspconfig
+	url = https://github.com/neovim/nvim-lspconfig
+[submodule "pack/data/opt/treesitter"]
+	path = pack/data/opt/treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter
+[submodule "pack/data/opt/metals"]
+	path = pack/data/opt/metals
+	url = https://github.com/scalameta/nvim-metals
+[submodule "pack/data/opt/typescript-tools"]
+	path = pack/data/opt/typescript-tools
+	url = https://github.com/pmizio/typescript-tools.nvim

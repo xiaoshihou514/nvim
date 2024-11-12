@@ -1,0 +1,10 @@
+nvimdev/guard.nvim
+nvimdev/guard-collection
+nvimdev/indentmini.nvim
+echasnovski/mini.hipatterns
+nvim-lua/plenary.nvim
+xiaoshihou514/squirrel.nvim
+neovim/nvim-lspconfig
+nvim-treesitter/nvim-treesitter
+scalameta/nvim-metals
+pmizio/typescript-tools.nvim

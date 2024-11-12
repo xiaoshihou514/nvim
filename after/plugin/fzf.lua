@@ -36,14 +36,21 @@ local function open_ivy_win()
 end
 
 local fd = exepath("fd")
+if fd == "" then
+    fd = exepath("fdfind")
+end
 local fzf = exepath("fzf")
 local bat = exepath("bat")
+if bat == "" then
+    bat = exepath("batcat")
+end
 
 local function execute(cmd, data)
     local win, buf = open_ivy_win()
     local id = vim.fn.termopen(cmd, {
         clear_env = true,
-        env = { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" },
+        env = fd ~= ""
+            and { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" },
         on_exit = function()
             local ok, lines = pcall(api.nvim_buf_get_lines, buf, 0, -1, false)
             if not ok then
@@ -128,6 +135,15 @@ local cmds = {
         ]]):format(fzf),
             api.nvim_exec2("buffers", { output = true }).output
         )
+    end,
+    ["files-cwd"] = function()
+        local cwd = vim.fn.getcwd()
+        execute(([[%s . --maxdepth 1 --type f | ]]):format(fd) .. default .. ([[
+    --bind "ctrl-x:become:echo 'vsplit %s/{1}'"\
+    --bind "ctrl-o:become:echo 'split %s/{1}'"\
+    --bind "ctrl-t:become:echo 'tabe %s/{1}'"\
+    --bind "enter:become:echo 'edit %s/{1}'"
+]]):format(cwd, cwd, cwd, cwd))
     end,
 }
 

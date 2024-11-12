@@ -2,14 +2,17 @@ local api = vim.api
 
 api.nvim_create_user_command("Dired", function(opts)
     local cwd = opts.fargs[1] and vim.fn.expand(opts.fargs[1]) or vim.fn.getcwd()
-    local height, width = vim.o.lines, vim.o.columns
-    local pad_top = math.ceil(height * 0.1)
+    local screen_height, screen_width = vim.o.lines, vim.o.columns
+    local height = math.floor(screen_height * 0.8)
+    local width = math.max(math.ceil(screen_width * 0.6), 65)
+    local pad_top = math.ceil((screen_height - height) / 2)
+    local pad_side = math.floor((screen_width - width) / 2)
     api.nvim_open_win(api.nvim_create_buf(false, true), true, {
         relative = "editor",
         row = pad_top,
-        col = math.floor(width * 0.2),
-        height = height - pad_top * 2,
-        width = math.ceil(width * 0.6),
+        col = pad_side,
+        height = height,
+        width = width,
         border = "single",
     })
     api.nvim_command("silent! lcd " .. cwd)

@@ -61,6 +61,3 @@ bind("n", "<leader>;", "<cmd>source ~/.config/nvim/lua/personal/dashboard.lua<cr
 
 bind("n", "<leader>a", "<cmd>$tabnew<cr>")
 bind("n", "<leader>l", "<cmd>source %<cr>")
-
-bind("n", "<leader>t", "<cmd>FloatTerm<cr>")
-bind("n", "<leader>tt", "<cmd>FloatTerm!<cr>")

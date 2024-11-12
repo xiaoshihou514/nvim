@@ -16,5 +16,9 @@ lspconfig.lua_ls.setup({
         Lua = {},
     },
 })
+lspconfig.hls.setup(lsp_default_config)
 lspconfig.zls.setup(lsp_default_config)
 lspconfig.clangd.setup(lsp_default_config)
+lspconfig.jdtls.setup(lsp_default_config)
+lspconfig.basedpyright.setup(lsp_default_config)
+lspconfig.kotlin_language_server.setup(lsp_default_config)
