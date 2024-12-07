@@ -1,4 +1,7 @@
 local lspconfig = require("lspconfig")
+local function use(server)
+    lspconfig[server].setup(lsp_default_config)
+end
 
 lspconfig.lua_ls.setup({
     on_init = function(client)
@@ -16,9 +19,19 @@ lspconfig.lua_ls.setup({
         Lua = {},
     },
 })
-lspconfig.hls.setup(lsp_default_config)
-lspconfig.zls.setup(lsp_default_config)
-lspconfig.clangd.setup(lsp_default_config)
-lspconfig.jdtls.setup(lsp_default_config)
-lspconfig.basedpyright.setup(lsp_default_config)
-lspconfig.kotlin_language_server.setup(lsp_default_config)
+
+lspconfig.eslint.setup({
+    settings = {
+        workingDirectories = { mode = "auto" },
+        experimental = {
+            useFlatConfig = true,
+        },
+    },
+})
+
+use("hls")
+use("zls")
+use("clangd")
+use("jdtls")
+use("basedpyright")
+use("kotlin_language_server")

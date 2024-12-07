@@ -121,6 +121,23 @@ local cmds = {
         --bind "enter:become:echo 'edit {1} | {2}'"
         ]]):format(fzf, bat))
     end,
+    cword = function()
+        execute(
+            ([[echo 'Type to start grepping' | %s \
+        --layout=reverse \
+        --disabled --ansi \
+        --border=sharp \
+        --delimiter : \
+        --preview='%s --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
+        --preview-window '+{2}/2' \
+        --bind "change:reload:rg --column --color=always {q} || :" \
+        --bind "ctrl-x:become:echo 'vsplit {1} | {2}'"\
+        --bind "ctrl-o:become:echo 'split {1} | {2}'"\
+        --bind "enter:become:echo 'edit {1} | {2}'"
+        ]]):format(fzf, bat),
+            vim.fn.expand("<cword>")
+        )
+    end,
     files = function()
         execute(default .. file_bind)
     end,
@@ -165,5 +182,6 @@ end, {
 
 bind("n", "<leader>r", "<cmd>Fzf oldfiles<cr>", { silent = true })
 bind("n", "<leader>g", "<cmd>Fzf grep<cr>", { silent = true })
+bind("n", "<leader>s", "<cmd>Fzf cword<cr>", { silent = true })
 bind("n", "<leader>f", "<cmd>Fzf files<cr>", { silent = true })
 bind("n", "<leader>b", "<cmd>Fzf buffers<cr>", { silent = true })

@@ -8,10 +8,7 @@ function trim
     echo $temp
 end
 
-set github "https://github.com"
-# set github "https://ghp.ci/https://github.com"
-
-if test (count $argv) -eq 0
+function setup
     rm -rf pack .gitmodules
     touch .gitmodules
     git add .gitmodules
@@ -19,24 +16,44 @@ if test (count $argv) -eq 0
     for pkg in (cat ./package.list)
         string match -rq '^(?<username>[^/]+)/(?<repo>[^/]+)$' -- $pkg
         if test $status -eq 0
-            git submodule add --force \
-                $github/$username/$repo \
+            # determine default branch
+            set url $github/$username/$repo
+            set branch master
+            if test (git ls-remote --heads $url main | wc -l) -gt 0
+                set branch main
+            end
+
+            git submodule add -b $branch --force \
+                $url \
                 pack/data/opt/(trim $repo)
         else
             echo Cannot parse package $pkg
         end
     end
+end
+
+function update
+    git submodule sync
+    git submodule update --recursive --remote
+    git add -A
+end
+
+set github "https://github.com"
+# set github "https://ghp.ci/https://github.com"
+
+if test (count $argv) -eq 0
+    setup
     return
 end
 
 if test $argv[1] = update
-    git submodule sync
-    git submodule update --recursive --remote
-    git add -A
+    update
     return
 end
 
 if test $argv[1] = nuke
     rm -rf pack/ .gitmodules
+    setup
+    update
     return
 end

@@ -103,6 +103,18 @@ local function system(cmd, cwd, view, errormsg, f)
     )
 end
 
+local function edit_in(where)
+    local selected, tp = get_selected()
+    if not selected then
+        return
+    end
+    if tp == "." then
+        -- file
+        api.nvim_command("silent! quit!")
+        api.nvim_command(where .. " " .. selected)
+    end
+end
+
 -- quit
 bind("n", "q", vim.cmd.quit, { buffer = true })
 bind("n", "<Esc>", vim.cmd.quit, { buffer = true })
@@ -125,28 +137,17 @@ end, { buffer = true })
 
 -- open in vsplit
 bind("n", "<C-x>", function()
-    local selected, tp = get_selected()
-    if not selected then
-        return
-    end
-    if tp == "." then
-        -- file
-        api.nvim_command("silent! quit!")
-        api.nvim_command("vsplit " .. selected)
-    end
+    edit_in("vsplit")
 end, { buffer = true })
 
 -- open in split
 bind("n", "<C-o>", function()
-    local selected, tp = get_selected()
-    if not selected then
-        return
-    end
-    if tp == "." then
-        -- file
-        api.nvim_command("silent! quit!")
-        api.nvim_command("split " .. selected)
-    end
+    edit_in("split")
+end, { buffer = true })
+
+-- open in new tab
+bind("n", "<C-t>", function()
+    edit_in("tabedit")
 end, { buffer = true })
 
 -- goto parent

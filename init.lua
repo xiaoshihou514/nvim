@@ -13,6 +13,7 @@ vim.g.loaded_remote_plugins = 1
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_tutor_mode_plugin = 1
 
+vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
 local packpath = vim.fn.stdpath("config") .. "/pack"
 vim.opt.packpath:append(packpath)
 local plugins = packpath .. "/data/opt/"
