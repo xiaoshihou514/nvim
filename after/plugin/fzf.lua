@@ -35,20 +35,15 @@ local function open_ivy_win()
     return win, buf
 end
 
-local fd = exepath("fd")
-if fd == "" then
-    fd = exepath("fdfind")
-end
+local fd = exepath("fd") == "" and exepath("fdfind") or exepath("fd")
 local fzf = exepath("fzf")
-local bat = exepath("bat")
-if bat == "" then
-    bat = exepath("batcat")
-end
+local bat = exepath("bat") == "" and exepath("batcat") or exepath("bat")
 
-local function execute(cmd, data)
+local function execute(cmd, data, cwd)
     local win, buf = open_ivy_win()
     local id = vim.fn.termopen(cmd, {
         clear_env = true,
+        cwd = cwd,
         env = fd ~= ""
             and { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" },
         on_exit = function()
@@ -88,6 +83,10 @@ local file_bind = [[
     --bind "enter:become:echo 'edit {1}'"
 ]]
 
+local function get_history_file(purpose)
+    return vim.fn.stdpath("data") .. "/" .. purpose .. ".history"
+end
+
 local cmds = {
     oldfiles = function()
         execute(
@@ -115,11 +114,12 @@ local cmds = {
         --delimiter : \
         --preview='%s --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
         --preview-window '+{2}/2' \
+        --history %s \
         --bind "change:reload:rg --column --color=always {q} || :" \
         --bind "ctrl-x:become:echo 'vsplit {1} | {2}'"\
         --bind "ctrl-o:become:echo 'split {1} | {2}'"\
         --bind "enter:become:echo 'edit {1} | {2}'"
-        ]]):format(fzf, bat))
+        ]]):format(fzf, bat, get_history_file("fzf_grep")))
     end,
     cword = function()
         execute(
@@ -154,6 +154,7 @@ local cmds = {
         )
     end,
     ["files-cwd"] = function()
+        -- local cwd = vim.fs.dirname(api.nvim_buf_get_name(0))
         local cwd = vim.fn.getcwd()
         execute(([[%s . --maxdepth 1 --type f | ]]):format(fd) .. default .. ([[
     --bind "ctrl-x:become:echo 'vsplit %s/{1}'"\
@@ -180,8 +181,8 @@ end, {
     end,
 })
 
-bind("n", "<leader>r", "<cmd>Fzf oldfiles<cr>", { silent = true })
-bind("n", "<leader>g", "<cmd>Fzf grep<cr>", { silent = true })
-bind("n", "<leader>s", "<cmd>Fzf cword<cr>", { silent = true })
-bind("n", "<leader>f", "<cmd>Fzf files<cr>", { silent = true })
-bind("n", "<leader>b", "<cmd>Fzf buffers<cr>", { silent = true })
+bind("n", "<leader>r", "<cmd>Fzf oldfiles<cr>")
+bind("n", "<leader>g", "<cmd>Fzf grep<cr>")
+bind("n", "<leader>s", "<cmd>Fzf cword<cr>")
+bind("n", "<leader>f", "<cmd>Fzf files<cr>")
+bind("n", "<leader>b", "<cmd>Fzf buffers<cr>")

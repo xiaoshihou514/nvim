@@ -38,4 +38,5 @@ vim.opt.pumblend = 0 -- no transparency
 vim.opt.foldtext = "" -- forget about the boring default foldtext
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folds
+vim.opt.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" -- and for indents
 vim.opt.fillchars = "eob: ,fold: " -- no annoying ~ at end of buffer
