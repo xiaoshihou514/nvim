@@ -258,5 +258,8 @@ return function(p)
 
         -- Lang: Cpp
         ["@lsp.type.macro.cpp"] = { link = "Special" },
+
+        -- Lang: CMake
+        ["@function.builtin.cmake"] = { link = "Function" },
     }
 end

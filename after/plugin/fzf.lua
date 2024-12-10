@@ -120,6 +120,11 @@ local cmds = {
         --bind "ctrl-o:become:echo 'split {1} | {2}'"\
         --bind "enter:become:echo 'edit {1} | {2}'"
         ]]):format(fzf, bat, get_history_file("fzf_grep")))
+        -- HACK: fix the keybinds at the neovim level...
+        bind("t", "<C-p>", "<Up>", { buffer = true })
+        bind("t", "<C-n>", "<Down>", { buffer = true })
+        bind("t", "<Up>", "<C-p>", { buffer = true })
+        bind("t", "<Down>", "<C-n>", { buffer = true })
     end,
     cword = function()
         execute(

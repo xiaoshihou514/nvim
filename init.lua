@@ -3,6 +3,7 @@ vim.loader.enable()
 vim.g.loaded_fzf = 1
 vim.g.loaded_gzip = 1
 vim.g.loaded_matchit = 1
+vim.g.c_syntax_for_h = 1
 vim.g.loaded_tarPlugin = 1
 vim.g.loaded_zipPlugin = 1
 vim.g.loaded_netrwPlugin = 1
