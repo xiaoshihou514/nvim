@@ -16,6 +16,8 @@ return function(p)
         PmenuKindSel = { bg = p.blue, fg = p.yellow },
         PmenuSbar = { bg = p.shade_1 },
         PmenuThumb = { bg = p.shade_2 },
+        PmenuMatch = { fg = p.cyan },
+        PmenuMatchSel = { bg = p.blue, fg = p.bg, bold = true },
         TabLine = { bg = p.bg },
         TabLineSel = { bg = p.shade_2 },
         WinBar = { bg = p.bg, fg = p.shade_4, bold = true },

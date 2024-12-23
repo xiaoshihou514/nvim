@@ -123,8 +123,8 @@ local cmds = {
         -- HACK: fix the keybinds at the neovim level...
         bind("t", "<C-p>", "<Up>", { buffer = true })
         bind("t", "<C-n>", "<Down>", { buffer = true })
-        bind("t", "<Up>", "<C-p>", { buffer = true })
-        bind("t", "<Down>", "<C-n>", { buffer = true })
+        bind("t", "<C-k>", "<C-p>", { buffer = true })
+        bind("t", "<C-j>", "<C-n>", { buffer = true })
     end,
     cword = function()
         execute(
