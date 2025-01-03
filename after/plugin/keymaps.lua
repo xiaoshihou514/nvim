@@ -9,8 +9,10 @@ bind("n", "<C-Left>", "<C-w>>")
 bind("n", "j", "gj")
 bind("n", "k", "gk")
 -- Move text up and down
-bind({ "n", "v" }, "<A-j>", ":m .+1<CR>==")
-bind({ "n", "v" }, "<A-k>", ":m .-2<CR>==")
+bind("n", "<A-j>", ":m .+1<CR>==")
+bind("n", "<A-k>", ":m .-2<CR>==")
+bind("x", "<A-j>", ":move '>+1<CR>gv-gv")
+bind("x", "<A-k>", ":move '<-2<CR>gv-gv")
 -- Faster indent
 bind("n", ">", ">>")
 bind("n", "<", "<<")
@@ -26,16 +28,13 @@ bind({ "i", "c" }, "<C-p>", "<Up>")
 bind({ "i", "c" }, "<C-f>", "<Right>")
 bind({ "i", "c" }, "<C-b>", "<Left>")
 bind({ "i", "c" }, "<C-a>", "<Home>")
+bind({ "i", "c" }, "<C-e>", "<End>")
 bind("i", "<A-f>", "<Esc>wa")
 bind("i", "<A-b>", "<Esc>bi")
-bind("i", "<C-e>", "<End>")
 -- better indent
 bind("v", "<", "<gv")
 bind("v", ">", ">gv")
--- Move text up and down
-bind("x", "<A-j>", ":move '>+1<CR>gv-gv")
-bind("x", "<A-k>", ":move '<-2<CR>gv-gv")
--- better escape imo
+-- better escape
 bind("i", "qi", "<ESC>")
 bind("v", "qv", "<ESC>")
 bind("t", "qt", "<C-\\><C-n>")
@@ -52,12 +51,11 @@ vim.cmd.cnoreabbrev("E edit")
 bind("v", "p", '"_dP') -- paste without replacing clipboard contents
 bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
-bind("c", "<C-e>", "<C-f>") -- edit commands is now <C-e>
+bind("c", "<C-i>", "<C-f>")
 
 bind({ "n", "x", "t" }, "<leader>q", "<cmd>quit<cr>")
-bind("n", "<leader>w", ":write<cr>")
-bind("n", "<leader>h", "<cmd>noh<cr>")
+bind("n", "<leader>w", "<cmd>write<cr>")
+bind("n", "<leader>h", "<cmd>nohlsearch<cr>")
 bind("n", "<leader>;", "<cmd>source ~/.config/nvim/lua/personal/dashboard.lua<cr>")
-
 bind("n", "<leader>a", "<cmd>$tabnew<cr>")
 bind("n", "<leader>l", "<cmd>source %<cr>")
