@@ -51,7 +51,6 @@ vim.cmd.cnoreabbrev("E edit")
 bind("v", "p", '"_dP') -- paste without replacing clipboard contents
 bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
-bind("c", "<C-i>", "<C-f>")
 
 bind({ "n", "x", "t" }, "<leader>q", "<cmd>quit<cr>")
 bind("n", "<leader>w", "<cmd>write<cr>")

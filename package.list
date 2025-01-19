@@ -1,10 +1,10 @@
-nvimdev/guard.nvim
-nvimdev/guard-collection
-nvimdev/indentmini.nvim
 echasnovski/mini.hipatterns
-nvim-lua/plenary.nvim
-xiaoshihou514/squirrel.nvim
 neovim/nvim-lspconfig
+nvim-lua/plenary.nvim
 nvim-treesitter/nvim-treesitter
+nvimdev/guard-collection
+nvimdev/guard.nvim
+nvimdev/indentmini.nvim
+nvimdev/phoenix.nvim
 scalameta/nvim-metals
-pmizio/typescript-tools.nvim
+xiaoshihou514/squirrel.nvim

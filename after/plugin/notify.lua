@@ -133,6 +133,6 @@ vim.notify = function(msg, level, _)
     return buf
 end
 
-api.nvim_create_user_command("Messages", function ()
+api.nvim_create_user_command("Messages", function()
     vim.print(table.concat(history, "\n\n"))
 end, {})

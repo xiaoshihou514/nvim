@@ -51,7 +51,7 @@ if test $argv[1] = update
     return
 end
 
-if test $argv[1] = nuke
+if test $argv[1] = sync
     rm -rf pack/ .gitmodules
     setup
     update
