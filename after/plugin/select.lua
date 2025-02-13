@@ -31,15 +31,21 @@ vim.ui.select = function(items, opts, on_choice)
     for opt, val in pairs(bufopts) do
         api.nvim_set_option_value(opt, val, { scope = "local" })
     end
+    api.nvim_set_option_value(
+        "winbar",
+        opts.prompt and ("%%=%s%%="):format(opts.prompt),
+        { scope = "local" }
+    )
     local fmt = opts.format_item or function(x)
         return x
     end
     local formatted = vim.tbl_map(fmt, items)
-    local id = vim.fn.termopen(
+    local id = vim.fn.jobstart(
         [[cat | fzf \
         --layout=reverse --border=sharp
     ]],
         {
+            term = true,
             clear_env = true,
             env = { FZF_DEFAULT_COMMAND = "fd -H --type f --strip-cwd-prefix" },
             on_exit = function(_, code, _)

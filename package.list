@@ -6,5 +6,6 @@ nvimdev/guard-collection
 nvimdev/guard.nvim
 nvimdev/indentmini.nvim
 nvimdev/phoenix.nvim
+pmizio/typescript-tools.nvim
 scalameta/nvim-metals
 xiaoshihou514/squirrel.nvim

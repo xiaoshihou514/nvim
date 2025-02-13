@@ -370,7 +370,8 @@ disable("t", "l")
 
 local cwd = getcwd()
 vim.schedule(function()
-    vim.fn.termopen(vim.g.dired_show_hidden and eza_cmd_with_hidden or eza_cmd, {
+    vim.fn.jobstart(vim.g.dired_show_hidden and eza_cmd_with_hidden or eza_cmd, {
+        term = true,
         cwd = cwd,
         on_exit = function()
             vim.cmd([[syntax match ExitCode "\[Process exited \d\+\]" conceal]])

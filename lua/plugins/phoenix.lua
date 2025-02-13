@@ -1,1 +1,1 @@
-require("phoenix").setup()
+require("phoenix").register()

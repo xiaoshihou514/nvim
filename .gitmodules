@@ -30,6 +30,10 @@
 	path = pack/data/opt/phoenix
 	url = https://github.com/nvimdev/phoenix.nvim
 	branch = main
+[submodule "pack/data/opt/typescript-tools"]
+	path = pack/data/opt/typescript-tools
+	url = https://github.com/pmizio/typescript-tools.nvim
+	branch = master
 [submodule "pack/data/opt/metals"]
 	path = pack/data/opt/metals
 	url = https://github.com/scalameta/nvim-metals

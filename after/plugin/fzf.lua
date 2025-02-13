@@ -41,7 +41,8 @@ local bat = exepath("bat") == "" and exepath("batcat") or exepath("bat")
 
 local function execute(cmd, data, cwd)
     local win, buf = open_ivy_win()
-    local id = vim.fn.termopen(cmd, {
+    local id = vim.fn.jobstart(cmd, {
+        term = true,
         clear_env = true,
         cwd = cwd,
         env = fd ~= ""

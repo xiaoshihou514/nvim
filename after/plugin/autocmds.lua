@@ -1,5 +1,6 @@
 local api = vim.api
 local augroup = api.nvim_create_augroup("Xiaoshihou", {})
+local osc52 = require("vim.ui.clipboard.osc52")
 local function autocmd(ev, opts)
     opts.group = augroup
     api.nvim_create_autocmd(ev, opts)
@@ -9,6 +10,8 @@ autocmd("TextYankPost", {
     desc = "Highlight yanking region when yanking inplicitly using y*",
     callback = function()
         vim.highlight.on_yank({ higroup = "OnYank" })
+        osc52.copy("+")(vim.v.event.regcontents)
+        osc52.copy("*")(vim.v.event.regcontents)
     end,
 })
 
@@ -68,23 +71,6 @@ autocmd("BufWritePost", {
     desc = "Automatically compile spell files",
     pattern = "spell/*.add",
     command = "silent! mkspell! %",
-})
-
-autocmd("BufWritePost", {
-    desc = "autosource colorschme",
-    pattern = "colors/*.lua",
-    command = "source %",
-})
-
-autocmd("VimLeavePre", {
-    desc = "clean up after metals",
-    callback = function()
-        for _, buf in ipairs(api.nvim_list_bufs()) do
-            if vim.bo[buf].ft == "scala" then
-                api.nvim_command("silent! !kill (psa bloop | awk '{print $2}')")
-            end
-        end
-    end,
 })
 
 autocmd("User", {
