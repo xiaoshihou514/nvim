@@ -1,3 +1,12 @@
+-- leader stuff
+bind({ "n", "x", "t" }, "<leader>q", "<cmd>quit<cr>")
+bind("n", "<leader>w", "<cmd>write<cr>")
+bind("n", "<leader>h", "<cmd>nohlsearch<cr>")
+bind("n", "<leader>;", "<cmd>source ~/.config/nvim/lua/personal/dashboard.lua<cr>")
+bind("n", "<leader>a", "<cmd>$tabnew<cr>")
+bind("n", "<leader>l", "<cmd>source %<cr>")
+bind("n", "<leader>c", "gcc", { remap = true })
+bind("x", "<leader>c", "gc", { remap = true })
 -- Quicker window manipulation
 bind("n", "<C-h>", "<C-w>h")
 bind("n", "<C-l>", "<C-w>l")
@@ -51,10 +60,3 @@ vim.cmd.cnoreabbrev("E edit")
 bind("v", "p", '"_dP') -- paste without replacing clipboard contents
 bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
-
-bind({ "n", "x", "t" }, "<leader>q", "<cmd>quit<cr>")
-bind("n", "<leader>w", "<cmd>write<cr>")
-bind("n", "<leader>h", "<cmd>nohlsearch<cr>")
-bind("n", "<leader>;", "<cmd>source ~/.config/nvim/lua/personal/dashboard.lua<cr>")
-bind("n", "<leader>a", "<cmd>$tabnew<cr>")
-bind("n", "<leader>l", "<cmd>source %<cr>")

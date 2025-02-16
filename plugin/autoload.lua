@@ -18,9 +18,7 @@ _G.lsp_default_config = {
     capabilities = vim.lsp.protocol.make_client_capabilities(),
 }
 
-_G.bind = function(mode, key, binding, opts)
-    vim.keymap.set(mode, key, binding, opts or {})
-end
+_G.bind = vim.keymap.set
 
 ---@diagnostic disable: inject-field
 vim.g.mapleader = " "

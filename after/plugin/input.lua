@@ -49,7 +49,7 @@ vim.ui.input = function(opts, on_confirm)
                 api.nvim_buf_clear_namespace(opt.buf, ns, 0, -1)
                 if hls then
                     for _, hl in ipairs(hls) do
-                        api.nvim_buf_add_highlight(opt.buf, ns, hl[3], 0, hl[1], hl[2])
+                        vim.hl.range(opt.buf, ns, hl[3], { 0, hl[1] }, { 0, hl[2] })
                     end
                 end
             end,

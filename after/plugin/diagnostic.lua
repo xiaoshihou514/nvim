@@ -1,9 +1,7 @@
 vim.diagnostic.config({
-    float = { border = "single" },
     severity_sort = true,
-    underline = true,
     update_in_insert = false,
-    virtual_text = false,
+    virtual_lines = true,
     signs = {
         text = {
             [vim.diagnostic.severity.ERROR] = "",
@@ -24,3 +22,7 @@ bind("n", "gl", vim.diagnostic.open_float)
 bind("n", "gs", vim.lsp.buf.signature_help)
 bind("n", "gdl", "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>")
 bind("n", "gdj", "<cmd>split | lua vim.lsp.buf.definition()<cr>")
+
+vim.api.nvim_create_user_command("LspFmt", function()
+    vim.lsp.buf.format({ async = true })
+end, {})

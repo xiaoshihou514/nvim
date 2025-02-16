@@ -267,6 +267,6 @@ end
 api.nvim_buf_set_lines(buf, 0, -1, false, buftext)
 api.nvim_win_set_cursor(win, pos)
 vim.tbl_map(function(hl)
-    api.nvim_buf_add_highlight(buf, ns, hl[1], hl[2], hl[3], hl[4])
+    vim.hl.range(buf, ns, hl[1], { hl[2], hl[3] }, { hl[2], hl[4] })
 end, hls)
 api.nvim_set_option_value("modifiable", false, { buf = 0 })

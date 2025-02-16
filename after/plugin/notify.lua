@@ -123,7 +123,7 @@ vim.notify = function(msg, level, _)
 
     -- add highlights
     for i = 0, #formatted - 1, 1 do
-        api.nvim_buf_add_highlight(buf, ns, hls[level] or "NotifyInfo", i, 0, -1)
+        vim.hl.range(buf, ns, hls[level] or "NotifyInfo", { i, 0 }, { i, -1 })
     end
     api.nvim_set_option_value("winhl", "Normal:Normal", { win = win })
 
