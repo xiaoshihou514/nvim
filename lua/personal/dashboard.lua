@@ -36,35 +36,6 @@ local shortcuts = {
             api.nvim_command("Fzf files")
         end,
     },
-    {
-        desc = " Projects",
-        key = "p",
-        action = function()
-            local base = vim.env.HOME .. "/Playground/"
-            local items = vim.iter(vim.fn.uniq(vim.fs.find(patterns, {
-                path = base,
-                type = "directory",
-                limit = math.huge,
-            })))
-                :map(function(path)
-                    return path:sub(1, -6)
-                end)
-                :totable()
-            vim.ui.select(items, {
-                prompt = "Projects",
-                format_item = function(path)
-                    local split = vim.split(path, "/")
-                    return "  " .. split[#split]
-                end,
-            }, function(item)
-                if not item then
-                    return
-                end
-                vim.cmd.lcd(item)
-                api.nvim_command("Fzf files")
-            end)
-        end,
-    },
     { desc = "󰿅 Quit", key = "q", action = vim.cmd.quit },
 }
 local footer = {
