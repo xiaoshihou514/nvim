@@ -11,15 +11,6 @@ local is_formatting = false
 local function statusline(data)
     local ft = vim.bo.ft
 
-    if ft == "dashboard" then
-        -- empty string blended into bg
-        return string.format(
-            "%%#%s#%s %%*",
-            "StatusLine",
-            string.rep(" ", vim.o.columns - 1)
-        )
-    end
-
     local s = { val = "" }
     function s:append(text, hl)
         self.val = self.val .. string.format("%%#%s#%s %%* ", hl or "StatusLine", text)

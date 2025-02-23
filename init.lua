@@ -38,13 +38,3 @@ vim.api.nvim_create_autocmd("BufRead", {
 
 vim.cmd.colorscheme("moonlight")
 -- vim.cmd.colorscheme("twilight")
-
--- show dashboard after init
-vim.api.nvim_create_autocmd("UIEnter", {
-    callback = function()
-        if vim.fn.argc() == 0 then
-            vim.cmd.rshada()
-            require("personal.dashboard")
-        end
-    end,
-})

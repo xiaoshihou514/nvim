@@ -22,7 +22,6 @@ vim.ui.select = function(items, opts, on_choice)
         relativenumber = false,
         spell = false,
         swapfile = false,
-        filetype = "dashboard",
         wrap = false,
         signcolumn = "no",
         scrolloff = 0,
