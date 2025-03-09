@@ -152,9 +152,9 @@ local cmds = {
                     "split {1} | {2}",
                     "tabe {1} | {2}",
                     "edit {1} | {2}"
-                )
+                ),
+            vim.fn.expand("<cword>")
         )
-        vim.fn.expand("<cword>")
     end,
     files = function()
         execute(default .. file_bind)

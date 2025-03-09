@@ -95,6 +95,7 @@ return function(p)
         NotifyInfo = { link = "Text" },
         NotifyTrace = { link = "Text" },
         NotifyOff = { fg = p.shade_2 },
+        Hide = { fg = "bg", bg = "bg" },
 
         -- Plugins
         Indentline = { fg = p.shade_2 },
