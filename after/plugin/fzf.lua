@@ -77,12 +77,16 @@ local default = ([[%s --layout=reverse \
     --preview='%s --theme=moonlight-ansi --color=always -pp {}'\
 ]]):format(fzf, bat)
 
-local file_bind = [[
-    --bind "ctrl-x:become:echo 'vsplit {1}'"\
-    --bind "ctrl-o:become:echo 'split {1}'"\
-    --bind "ctrl-t:become:echo 'tabe {1}'"\
-    --bind "enter:become:echo 'edit {1}'"
-]]
+local function make_bindings(...)
+    return ([[
+    --bind "ctrl-x:become:echo '%s'"\
+    --bind "ctrl-o:become:echo '%s'"\
+    --bind "ctrl-t:become:echo '%s'"\
+    --bind "enter:become:echo '%s'"
+    ]]):format(...)
+end
+
+local file_bind = make_bindings("vsplit {1}", "split {1}", "tabe {1}", "edit {1}")
 
 local function get_history_file(purpose)
     return vim.fn.stdpath("data") .. "/" .. purpose .. ".history"
@@ -108,7 +112,8 @@ local cmds = {
         )
     end,
     grep = function()
-        execute(([[echo 'Type to start grepping' | %s \
+        execute(
+            ([[echo 'Type to start grepping' | %s \
         --layout=reverse \
         --disabled --ansi \
         --border=sharp \
@@ -117,10 +122,14 @@ local cmds = {
         --preview-window '+{2}/2' \
         --history %s \
         --bind "change:reload:rg --column --color=always {q} || :" \
-        --bind "ctrl-x:become:echo 'vsplit {1} | {2}'"\
-        --bind "ctrl-o:become:echo 'split {1} | {2}'"\
-        --bind "enter:become:echo 'edit {1} | {2}'"
-        ]]):format(fzf, bat, get_history_file("fzf_grep")))
+        ]]):format(fzf, bat, get_history_file("fzf_grep"))
+                .. make_bindings(
+                    "vsplit {1} | {2}",
+                    "split {1} | {2}",
+                    "tabe {1} | {2}",
+                    "edit {1} | {2}"
+                )
+        )
         -- HACK: fix the keybinds at the neovim level...
         bind("t", "<C-p>", "<Up>", { buffer = true })
         bind("t", "<C-n>", "<Down>", { buffer = true })
@@ -137,37 +146,113 @@ local cmds = {
         --preview='%s --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
         --preview-window '+{2}/2' \
         --bind "change:reload:rg --column --color=always {q} || :" \
-        --bind "ctrl-x:become:echo 'vsplit {1} | {2}'"\
-        --bind "ctrl-o:become:echo 'split {1} | {2}'"\
-        --bind "enter:become:echo 'edit {1} | {2}'"
-        ]]):format(fzf, bat),
-            vim.fn.expand("<cword>")
+        ]]):format(fzf, bat)
+                .. make_bindings(
+                    "vsplit {1} | {2}",
+                    "split {1} | {2}",
+                    "tabe {1} | {2}",
+                    "edit {1} | {2}"
+                )
         )
+        vim.fn.expand("<cword>")
     end,
     files = function()
         execute(default .. file_bind)
     end,
     buffers = function()
         execute(
-            ([[
-        cat | %s \
-        --border=sharp \
-        --bind "enter:become:echo 'buffer {1}'"\
-        --bind "ctrl-x:become:echo 'vnew | buffer {1}'"\
-        --bind "ctrl-o:become:echo 'new | buffer {1}'"\
-        ]]):format(fzf),
+            ([[ cat | %s --border=sharp \ ]]):format(fzf)
+                .. make_bindings(
+                    "vnew | buffer {1}",
+                    "new | buffer {1}",
+                    "tabnew | buffer {1}",
+                    "buffer {1}"
+                ),
             api.nvim_exec2("buffers", { output = true }).output
         )
     end,
     ["files-cwd"] = function()
-        -- local cwd = vim.fs.dirname(api.nvim_buf_get_name(0))
         local cwd = vim.fn.getcwd()
-        execute(([[%s . --maxdepth 1 --type f | ]]):format(fd) .. default .. ([[
-    --bind "ctrl-x:become:echo 'vsplit %s/{1}'"\
-    --bind "ctrl-o:become:echo 'split %s/{1}'"\
-    --bind "ctrl-t:become:echo 'tabe %s/{1}'"\
-    --bind "enter:become:echo 'edit %s/{1}'"
-]]):format(cwd, cwd, cwd, cwd))
+        execute(
+            ([[%s . --maxdepth 1 --type f | ]]):format(fd)
+                .. default
+                .. make_bindings(
+                    "vsplit %s/{1}",
+                    "split %s/{1}",
+                    "tabe %s/{1}",
+                    "edit %s/{1}"
+                ):format(cwd)
+        )
+    end,
+    ["lsp-symbols"] = function()
+        local significant = {
+            5, -- Class
+            6, -- Method
+            10, -- Enum
+            11, -- Interface
+            12, -- Function
+            23, -- Struct
+        }
+
+        local function collect_toplevel(map, results)
+            vim.iter(results)
+                :filter(function(it)
+                    return vim.tbl_contains(significant, it.kind)
+                end)
+                :each(function(it)
+                    table.insert(
+                        map,
+                        table.concat({
+                            it.range["start"].line + 1,
+                            it.name,
+                        }, ":")
+                    )
+                end)
+
+            vim.iter(results):each(function(it)
+                if it.children then
+                    collect_toplevel(map, it.children)
+                end
+            end)
+        end
+        local bufnr = vim.api.nvim_get_current_buf()
+        local params = { textDocument = vim.lsp.util.make_text_document_params(bufnr) }
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
+        if vim.tbl_isempty(clients) then
+            vim.notify("Failed to fetch documentSymbol from lsp", vim.log.levels.WARN)
+        end
+        local err, results = nil, nil
+
+        local success = clients[1]:request(
+            "textDocument/documentSymbol",
+            params,
+            function(...)
+                err, results, _ = ...
+            end,
+            bufnr
+        )
+
+        vim.wait(5000, function()
+            return results ~= nil
+        end, 100)
+
+        if not success or err then
+            vim.notify("Failed to fetch documentSymbol from lsp", vim.log.levels.WARN)
+            return
+        end
+
+        local map = {}
+        collect_toplevel(map, results)
+
+        execute(
+            ([[cat | %s --layout=reverse \
+            --border=sharp \
+            --delimiter : \
+            --preview='%s --theme=moonlight-ansi --color=always -pp --line-range {1}: --highlight-line {1} %s'\
+    ]]):format(fzf, bat, vim.fn.expand("%f"))
+                .. make_bindings("vsplit | {1} | ", "split | {1}", "tabe %% | {1}", "{1}"),
+            table.concat(map, "\n")
+        )
     end,
 }
 
@@ -193,3 +278,4 @@ bind("n", "<leader>s", "<cmd>Fzf cword<cr>")
 bind("n", "<leader>f", "<cmd>Fzf files<cr>")
 bind("n", "<leader>;", "<cmd>enew | lcd ~/.config/nvim/ | Fzf files<cr>")
 bind("n", "<leader>b", "<cmd>Fzf buffers<cr>")
+bind("n", "<leader>t", "<cmd>Fzf lsp-symbols<cr>")

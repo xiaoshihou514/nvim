@@ -59,3 +59,4 @@ vim.cmd.cnoreabbrev("E edit")
 bind("v", "p", '"_dP') -- paste without replacing clipboard contents
 bind("n", "??", ":vert help <C-r><C-w><cr>") -- Open help for current word
 bind("n", "!!", ":<Up><cr>") -- Run last command
+bind("n", "<C-n>", "<cmd>set number!<cr>")

@@ -19,8 +19,6 @@ vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.shiftwidth = 4 -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 4 -- insert 4 spaces for a tab
 vim.opt.cursorline = true -- highlight the current line
-vim.opt.number = true -- line numbers
-vim.opt.relativenumber = true -- relative line numbers
 vim.opt.wrap = false -- display lines as one long line
 vim.opt.cmdheight = 0 -- disable cmdheight until used
 vim.opt.shortmess:append("WcCF") -- less noisy notifications
