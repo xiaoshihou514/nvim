@@ -217,42 +217,48 @@ local cmds = {
         end
         local bufnr = vim.api.nvim_get_current_buf()
         local params = { textDocument = vim.lsp.util.make_text_document_params(bufnr) }
-        local clients = vim.lsp.get_clients({ bufnr = bufnr })
-        if vim.tbl_isempty(clients) then
-            vim.notify("Failed to fetch documentSymbol from lsp", vim.log.levels.WARN)
+        local client = vim.iter(vim.lsp.get_clients({ bufnr = bufnr })):find(function(it)
+            return it:supports_method("textDocument/documentSymbol", bufnr)
+        end)
+        if not client then
+            vim.notify("No lsp with documentSymbol capability found", vim.log.levels.WARN)
         end
-        local err, results = nil, nil
+        coroutine.resume(coroutine.create(function()
+            local co = assert(coroutine.running())
+            local success = client:request(
+                "textDocument/documentSymbol",
+                params,
+                function(...)
+                    coroutine.resume(co, ...)
+                end,
+                bufnr
+            )
 
-        local success = clients[1]:request(
-            "textDocument/documentSymbol",
-            params,
-            function(...)
-                err, results, _ = ...
-            end,
-            bufnr
-        )
+            local err, results = coroutine.yield()
 
-        vim.wait(5000, function()
-            return results ~= nil
-        end, 100)
+            if not success or err then
+                vim.notify("Failed to fetch documentSymbol from lsp", vim.log.levels.WARN)
+                return
+            end
 
-        if not success or err then
-            vim.notify("Failed to fetch documentSymbol from lsp", vim.log.levels.WARN)
-            return
-        end
+            local map = {}
+            collect_toplevel(map, results)
 
-        local map = {}
-        collect_toplevel(map, results)
-
-        execute(
-            ([[cat | %s --layout=reverse \
+            execute(
+                ([[cat | %s --layout=reverse \
             --border=sharp \
             --delimiter : \
             --preview='%s --theme=moonlight-ansi --color=always -pp --line-range {1}: --highlight-line {1} %s'\
-    ]]):format(fzf, bat, vim.fn.expand("%f"))
-                .. make_bindings("vsplit | {1} | ", "split | {1}", "tabe %% | {1}", "{1}"),
-            table.concat(map, "\n")
-        )
+            ]]):format(fzf, bat, vim.fn.expand("%f"))
+                    .. make_bindings(
+                        "vsplit | {1} | ",
+                        "split | {1}",
+                        "tabe %% | {1}",
+                        "{1}"
+                    ),
+                table.concat(map, "\n")
+            )
+        end))
     end,
 }
 
