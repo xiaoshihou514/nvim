@@ -161,7 +161,7 @@ local cmds = {
     end,
     buffers = function()
         execute(
-            ([[ cat | %s --border=sharp \ ]]):format(fzf)
+            ([[ cat | %s --border=sharp ]]):format(fzf)
                 .. make_bindings(
                     "vnew | buffer {1}",
                     "new | buffer {1}",
@@ -181,7 +181,7 @@ local cmds = {
                     "split %s/{1}",
                     "tabe %s/{1}",
                     "edit %s/{1}"
-                ):format(cwd)
+                ):format(cwd, cwd, cwd, cwd)
         )
     end,
     ["lsp-symbols"] = function()
