@@ -27,6 +27,11 @@ local p = {
     keyword  = "#51849e", -- OKHSL: 231,44,52
     info     = "#42868d", -- OKHSL: 205,54,51 saturation high for better contrast with keyword
     string   = "#738b58", -- OKHSL: 129,45,54
+
+    -- diffs
+    difftext   = "#364427", -- OKHSL: 129,45,27
+    diffadd    = "#23404f", -- OKHSL: 231,44,26
+    diffdel    = "#743f4d", -- OKHSL: 4,43,35
 }
 -- stylua: ignore end
 

@@ -6,11 +6,11 @@ require("git-conflict").setup({
 vim.api.nvim_create_autocmd("User", {
     pattern = "GitConflictDetected",
     callback = function()
-        bind("n", "go", "<Plug>(git-conflict-ours)", { force = true })
-        bind("n", "gt", "<Plug>(git-conflict-theirs)", { force = true })
-        bind("n", "gb", "<Plug>(git-conflict-both)", { force = true })
-        bind("n", "gn", "<Plug>(git-conflict-none)", { force = true })
-        bind("n", "[x", "<Plug>(git-conflict-prev-conflict)", { force = true })
-        bind("n", "]x", "<Plug>(git-conflict-next-conflict)", { force = true })
+        bind("n", "go", "<Plug>(git-conflict-ours)")
+        bind("n", "gt", "<Plug>(git-conflict-theirs)")
+        bind("n", "gb", "<Plug>(git-conflict-both)")
+        bind("n", "gn", "<Plug>(git-conflict-none)")
+        bind("n", "[x", "<Plug>(git-conflict-prev-conflict)")
+        bind("n", "]x", "<Plug>(git-conflict-next-conflict)")
     end,
 })

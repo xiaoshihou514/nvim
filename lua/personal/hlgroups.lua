@@ -57,10 +57,12 @@ return function(p)
         Question = { fg = p.info },
         Conceal = { bg = p.shade_1 },
         Underlined = { fg = p.info, underline = true },
-        DiffAdd = { bg = p.keyword, fg = p.shade_1, bold = true },
-        DiffDelete = { bg = p.constant, fg = p.shade_1, bold = true },
-        DiffText = { bg = p.error, fg = p.shade_1, bold = true },
-        DiffChange = { bg = p.info, fg = p.shade_1, bold = true },
+
+        DiffText = { bg = p.difftext },
+        DiffAdd = { bg = p.diffadd },
+        DiffChange = {},
+        DiffDelete = { bg = p.diffdel },
+
         Ignore = { fg = p.shade_1 },
         LspCodeLens = { fg = p.shade_5 },
         WinSeparator = { fg = p.shade_4 },
@@ -100,6 +102,10 @@ return function(p)
         -- Plugins
         Indentline = { fg = p.shade_2 },
         IndentlineCurrent = { fg = p.shade_4 },
+        GitConflictCurrent = { bg = p.difftext },
+        GitConflictIncoming = { bg = p.diffadd },
+        GitConflictCurrentLabel = { bg = p.string, fg = p.bg, bold = true },
+        GitConflictIncomingLabel = { bg = p.keyword, fg = p.bg, bold = true },
 
         -- syntax
         Keyword = { fg = p.keyword },
