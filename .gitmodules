@@ -1,3 +1,7 @@
+[submodule "pack/data/opt/git-conflict"]
+	path = pack/data/opt/git-conflict
+	url = https://github.com/akinsho/git-conflict.nvim
+	branch = main
 [submodule "pack/data/opt/mini-hipatterns"]
 	path = pack/data/opt/mini-hipatterns
 	url = https://github.com/echasnovski/mini.hipatterns
