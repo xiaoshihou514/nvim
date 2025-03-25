@@ -1,7 +1,7 @@
 local api = vim.api
 
 local function create_padwin(direction)
-    local padrate = 0.2
+    local padrate = 0.15
     local win = api.nvim_open_win(api.nvim_create_buf(false, true), false, {
         style = "minimal",
         split = direction,

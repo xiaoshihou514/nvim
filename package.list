@@ -1,4 +1,3 @@
-akinsho/git-conflict.nvim
 echasnovski/mini.hipatterns
 neovim/nvim-lspconfig
 nvim-lua/plenary.nvim
@@ -9,4 +8,5 @@ nvimdev/indentmini.nvim
 nvimdev/phoenix.nvim
 pmizio/typescript-tools.nvim
 scalameta/nvim-metals
+xiaoshihou514/git-conflict.nvim
 xiaoshihou514/squirrel.nvim

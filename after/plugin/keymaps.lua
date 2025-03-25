@@ -50,7 +50,9 @@ bind("t", "qt", "<C-\\><C-n>")
 bind("i", "<C-v>", '<C-r>"')
 -- C-a is taken by kitty
 bind("n", "=", "<C-a>")
+bind("x", "=", "g<C-a>")
 bind("n", "-", "<C-x>")
+bind("x", "-", "g<C-x>")
 -- abbreviates
 vim.cmd.cnoreabbrev("h vert help")
 vim.cmd.cnoreabbrev("E edit")

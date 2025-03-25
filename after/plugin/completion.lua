@@ -22,7 +22,7 @@ local function auto_trigger(bufnr, client)
                 vim.v.char:match("[%w_]")
                 and not vim.list_contains(triggerchars, vim.v.char)
             then
-                vim.schedule(completion.trigger)
+                vim.schedule(completion.get)
             end
         end,
     })

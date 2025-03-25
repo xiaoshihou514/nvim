@@ -1,7 +1,3 @@
-[submodule "pack/data/opt/git-conflict"]
-	path = pack/data/opt/git-conflict
-	url = https://github.com/akinsho/git-conflict.nvim
-	branch = main
 [submodule "pack/data/opt/mini-hipatterns"]
 	path = pack/data/opt/mini-hipatterns
 	url = https://github.com/echasnovski/mini.hipatterns
@@ -41,6 +37,10 @@
 [submodule "pack/data/opt/metals"]
 	path = pack/data/opt/metals
 	url = https://github.com/scalameta/nvim-metals
+	branch = main
+[submodule "pack/data/opt/git-conflict"]
+	path = pack/data/opt/git-conflict
+	url = https://github.com/xiaoshihou514/git-conflict.nvim
 	branch = main
 [submodule "pack/data/opt/squirrel"]
 	path = pack/data/opt/squirrel

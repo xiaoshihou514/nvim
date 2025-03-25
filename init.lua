@@ -37,4 +37,3 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 vim.cmd.colorscheme("moonlight")
--- vim.cmd.colorscheme("twilight")
