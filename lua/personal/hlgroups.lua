@@ -55,7 +55,7 @@ return function(p)
         helpHeader = { fg = p.special, bold = true },
         helpSectionDelim = { fg = p.shade_3 },
         Question = { fg = p.info },
-        Conceal = { bg = p.shade_1 },
+        Conceal = { bg = p.bg },
         Underlined = { fg = p.info, underline = true },
 
         DiffText = { bg = p.difftext },

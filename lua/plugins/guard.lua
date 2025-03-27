@@ -4,6 +4,7 @@ if loaded then
 end
 loaded = true
 
+vim.cmd.packadd("guard")
 vim.cmd.packadd("guard-collection")
 
 _G.ft = require("guard.filetype")
