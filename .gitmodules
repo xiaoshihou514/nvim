@@ -2,10 +2,6 @@
 	path = pack/data/opt/mini-hipatterns
 	url = https://github.com/echasnovski/mini.hipatterns
 	branch = main
-[submodule "pack/data/opt/lspconfig"]
-	path = pack/data/opt/lspconfig
-	url = https://github.com/neovim/nvim-lspconfig
-	branch = master
 [submodule "pack/data/opt/plenary"]
 	path = pack/data/opt/plenary
 	url = https://github.com/nvim-lua/plenary.nvim
@@ -30,10 +26,6 @@
 	path = pack/data/opt/phoenix
 	url = https://github.com/nvimdev/phoenix.nvim
 	branch = main
-[submodule "pack/data/opt/typescript-tools"]
-	path = pack/data/opt/typescript-tools
-	url = https://github.com/pmizio/typescript-tools.nvim
-	branch = master
 [submodule "pack/data/opt/metals"]
 	path = pack/data/opt/metals
 	url = https://github.com/scalameta/nvim-metals

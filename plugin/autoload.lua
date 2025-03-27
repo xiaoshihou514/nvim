@@ -1,22 +1,27 @@
-_G.root_patterns = {
-    ".git",
-    ".editorconfig",
-    "build.sbt",
-    "project.scala",
-    "build.zig",
-    "Cargo.toml",
-    "stylua.toml",
-    "*.cabal",
-    "CMakeList.txt",
-    "Makefile",
-    "pubspec.yaml",
-    "package.json",
-    "go.mod",
-}
-
-_G.lsp_default_config = {
-    capabilities = vim.lsp.protocol.make_client_capabilities(),
-}
+_G.root_patterns = setmetatable({
+    ["*"] = { ".git", ".editorconfig" },
+    scala = { "build.sbt", "project.scala" },
+    zig = { "build.zig" },
+    rust = { "Cargo.toml" },
+    lua = { "stylua.toml" },
+    haskell = { "*.cabal" },
+    cpp = { "CMakeList.txt", "Makefile" },
+    c = { "Makefile" },
+    dart = { "pubspec.yaml" },
+    javascript = { "package.json" },
+    python = { "pyproject.toml", "requirements.txt" },
+}, {
+    __index = function(t, k_)
+        local ks = vim.islist(k_) and k_ or { k_ }
+        local v = vim.iter(ks)
+            :map(function(k)
+                return rawget(t, k)
+            end)
+            :flatten()
+            :totable()
+        return vim.list_extend(v, rawget(t, "*"))
+    end,
+})
 
 _G.bind = vim.keymap.set
 

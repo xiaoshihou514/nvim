@@ -35,15 +35,15 @@ autocmd("BufWinEnter", {
 
 autocmd("BufEnter", {
     desc = "Go to project root",
-    callback = function()
-        local bufname = api.nvim_buf_get_name(0)
+    callback = function(opt)
+        local bufname = api.nvim_buf_get_name(opt.buf)
         ---@diagnostic disable-next-line: undefined-field
         if not vim.uv.fs_stat(bufname) then
             return
         end
         local cwd = vim.fs.dirname(bufname)
         -- try to find a file that's supposed to be in the root
-        local patterns = root_patterns
+        local patterns = root_patterns[vim.bo[opt.buf].ft]
         local result =
             vim.fs.find(patterns, { path = cwd, upward = true, stop = vim.env.HOME })
         if not vim.tbl_isempty(result) then
