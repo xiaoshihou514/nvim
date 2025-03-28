@@ -290,7 +290,8 @@ local cmds = {
 
             local lines = table.concat(
                 vim.tbl_map(function(it)
-                    return vim.uri_to_fname(it.uri) .. ":" .. (it.range["start"].line + 1)
+                    local file = vim.fn.fnamemodify(vim.uri_to_fname(it.uri), ":~:.")
+                    return file .. ":" .. (it.range["start"].line + 1)
                 end, results),
                 "\n"
             )
