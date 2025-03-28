@@ -7,9 +7,21 @@ bind("n", "gs", vim.lsp.buf.signature_help)
 bind("n", "gdl", "<cmd>vsplit | lua vim.lsp.buf.definition()<cr>")
 bind("n", "gdj", "<cmd>split | lua vim.lsp.buf.definition()<cr>")
 
-vim.api.nvim_create_user_command("LspFmt", function()
+local function command(name, f)
+    vim.api.nvim_create_user_command(name, f, {})
+end
+
+command("LspFmt", function()
     vim.lsp.buf.format({ async = true })
-end, {})
+end)
+
+command("LspLog", function()
+    vim.cmd("tabedit " .. vim.fn.stdpath("state") .. "/lsp.log")
+end)
+
+command("LspInfo", function()
+    vim.cmd("checkhealth vim.lsp")
+end)
 
 vim.lsp.config("*", {
     capabilities = vim.lsp.protocol.make_client_capabilities(),

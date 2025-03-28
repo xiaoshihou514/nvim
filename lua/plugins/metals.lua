@@ -26,9 +26,7 @@ return {
             icons = "unicode",
         }
 
-        metals_config.on_attach = lsp_default_config.on_attach
-
-        metals_config.capabilities = lsp_default_config.capabilities
+        metals_config.capabilities = vim.lsp.protocol.make_client_capabilities()
 
         metals.initialize_or_attach(metals_config)
     end,

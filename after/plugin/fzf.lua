@@ -1,4 +1,4 @@
-local api = vim.api
+local api, lsp = vim.api, vim.lsp
 local exepath = vim.fn.exepath
 
 local function open_ivy_win()
@@ -38,6 +38,7 @@ end
 local fd = exepath("fd") == "" and exepath("fdfind") or exepath("fd")
 local fzf = exepath("fzf")
 local bat = exepath("bat") == "" and exepath("batcat") or exepath("bat")
+local batopts = "--theme=moonlight-ansi --color=always -pp"
 
 local function execute(cmd, data, cwd)
     local win, buf = open_ivy_win()
@@ -72,11 +73,6 @@ local function execute(cmd, data, cwd)
     end, 10)
 end
 
-local default = ([[%s --layout=reverse \
-    --border=sharp \
-    --preview='%s --theme=moonlight-ansi --color=always -pp {}'\
-]]):format(fzf, bat)
-
 local function make_bindings(...)
     return ([[
     --bind "ctrl-x:become:echo '%s'"\
@@ -86,10 +82,33 @@ local function make_bindings(...)
     ]]):format(...)
 end
 
-local file_bind = make_bindings("vsplit {1}", "split {1}", "tabe {1}", "edit {1}")
-
 local function get_history_file(purpose)
     return vim.fn.stdpath("data") .. "/" .. purpose .. ".history"
+end
+
+local default = ([[%s --layout=reverse \
+    --border=sharp \
+    --preview='%s %s {}'\
+]]):format(fzf, bat, batopts)
+local file_bind = make_bindings("vsplit {1}", "split {1}", "tabe {1}", "edit {1}")
+
+local function collect(map, nodes, significant)
+    -- stylua: ignore start
+    vim.iter(nodes):filter(function(it)
+        return vim.tbl_contains(significant, it.kind)
+    end):each(function(it)
+        table.insert(
+            map,
+            (it.range["start"].line + 1) .. ":" .. it.name
+        )
+    end)
+    -- stylua: ignore end
+
+    for _, it in ipairs(nodes) do
+        if it.children then
+            collect(map, it.children, significant)
+        end
+    end
 end
 
 local cmds = {
@@ -118,11 +137,11 @@ local cmds = {
         --disabled --ansi \
         --border=sharp \
         --delimiter : \
-        --preview='%s --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
+        --preview='%s %s --highlight-line {2} {1}'\
         --preview-window '+{2}/2' \
         --history %s \
         --bind "change:reload:rg --column --color=always {q} || :" \
-        ]]):format(fzf, bat, get_history_file("fzf_grep"))
+        ]]):format(fzf, bat, batopts, get_history_file("fzf_grep"))
                 .. make_bindings(
                     "vsplit {1} | {2}",
                     "split {1} | {2}",
@@ -143,10 +162,10 @@ local cmds = {
         --disabled --ansi \
         --border=sharp \
         --delimiter : \
-        --preview='%s --theme=moonlight-ansi --color=always -pp --highlight-line {2} {1}'\
+        --preview='%s %s --highlight-line {2} {1}'\
         --preview-window '+{2}/2' \
         --bind "change:reload:rg --column --color=always {q} || :" \
-        ]]):format(fzf, bat)
+        ]]):format(fzf, bat, batopts)
                 .. make_bindings(
                     "vsplit {1} | {2}",
                     "split {1} | {2}",
@@ -194,62 +213,41 @@ local cmds = {
             23, -- Struct
         }
 
-        local function collect_toplevel(map, results)
-            vim.iter(results)
-                :filter(function(it)
-                    return vim.tbl_contains(significant, it.kind)
-                end)
-                :each(function(it)
-                    table.insert(
-                        map,
-                        table.concat({
-                            it.range["start"].line + 1,
-                            it.name,
-                        }, ":")
-                    )
-                end)
-
-            vim.iter(results):each(function(it)
-                if it.children then
-                    collect_toplevel(map, it.children)
-                end
-            end)
-        end
         local bufnr = vim.api.nvim_get_current_buf()
-        local params = { textDocument = vim.lsp.util.make_text_document_params(bufnr) }
-        local client = vim.iter(vim.lsp.get_clients({ bufnr = bufnr })):find(function(it)
-            return it:supports_method("textDocument/documentSymbol", bufnr)
-        end)
+        local _, client = next(
+            lsp.get_clients({ method = "textDocument/documentSymbol", bufnr = bufnr })
+        )
         if not client then
             vim.notify("No lsp with documentSymbol capability found", vim.log.levels.WARN)
+            return
         end
         coroutine.resume(coroutine.create(function()
             local co = assert(coroutine.running())
             local success = client:request(
                 "textDocument/documentSymbol",
-                params,
+                { textDocument = lsp.util.make_text_document_params(bufnr) },
                 function(...)
                     coroutine.resume(co, ...)
-                end,
-                bufnr
+                end
             )
 
             local err, results = coroutine.yield()
-
             if not success or err then
                 vim.notify("Failed to fetch documentSymbol from lsp", vim.log.levels.WARN)
                 return
             end
+            coroutine.resume(co, results)
 
             local map = {}
-            collect_toplevel(map, results)
+            collect(map, results, significant)
 
             execute(
                 ([[cat | %s --layout=reverse \
             --border=sharp \
             --delimiter : \
-            --preview='%s --theme=moonlight-ansi --color=always -pp --line-range {1}: --highlight-line {1} %s'\
-            ]]):format(fzf, bat, vim.fn.expand("%f"))
+            --preview='%s %s --highlight-line {1} %s'\
+            --preview-window '+{1}/2' \
+            ]]):format(fzf, bat, batopts, vim.fn.expand("%f"))
                     .. make_bindings(
                         "vsplit | {1} | ",
                         "split | {1}",
@@ -257,6 +255,60 @@ local cmds = {
                         "{1}"
                     ),
                 table.concat(map, "\n")
+            )
+        end))
+    end,
+    ["refs"] = function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local win = api.nvim_get_current_win()
+        local _, client =
+            next(lsp.get_clients({ method = "textDocument/references", bufnr = bufnr }))
+        if not client then
+            vim.notify("No lsp with references capability found", vim.log.levels.WARN)
+            return
+        end
+
+        local params = lsp.util.make_position_params(win, client.offset_encoding)
+        ---@diagnostic disable-next-line: inject-field
+        params.context = {}
+
+        coroutine.resume(coroutine.create(function()
+            local co = assert(coroutine.running())
+            local success = client:request(
+                "textDocument/references",
+                params,
+                function(...)
+                    coroutine.resume(co, ...)
+                end
+            )
+
+            local err, results = coroutine.yield()
+            if not success or err then
+                vim.notify("Failed to fetch references from lsp", vim.log.levels.WARN)
+                return
+            end
+
+            local lines = table.concat(
+                vim.tbl_map(function(it)
+                    return vim.uri_to_fname(it.uri) .. ":" .. (it.range["start"].line + 1)
+                end, results),
+                "\n"
+            )
+
+            execute(
+                ([[cat | %s --layout=reverse \
+            --border=sharp \
+            --delimiter : \
+            --preview='%s %s --highlight-line {2} {1}'\
+            --preview-window '+{2}/2' \
+            ]]):format(fzf, bat, batopts)
+                    .. make_bindings(
+                        "vsplit {1} | {2} | ",
+                        "split {1} | {2}",
+                        "tabe {1} | {2}",
+                        "edit {1} | {2}"
+                    ),
+                lines
             )
         end))
     end,
@@ -278,7 +330,7 @@ end, {
     end,
 })
 
-bind("n", "<leader>r", "<cmd>Fzf oldfiles<cr>")
+bind("n", "<leader>r", "<cmd>Fzf refs<cr>")
 bind("n", "<leader>g", "<cmd>Fzf grep<cr>")
 bind("n", "<leader>s", "<cmd>Fzf cword<cr>")
 bind("n", "<leader>f", "<cmd>Fzf files<cr>")
