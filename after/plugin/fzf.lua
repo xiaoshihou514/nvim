@@ -270,7 +270,7 @@ local cmds = {
 
         local params = lsp.util.make_position_params(win, client.offset_encoding)
         ---@diagnostic disable-next-line: inject-field
-        params.context = {}
+        params.context = { includeDeclaration = true }
 
         coroutine.resume(coroutine.create(function()
             local co = assert(coroutine.running())

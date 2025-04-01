@@ -118,7 +118,9 @@ local events = {
     "User GuardFmt",
 }
 local stl_group = api.nvim_create_augroup("StatusLine", {})
-vim.o.laststatus = 3
+vim.o.laststatus = 3 -- global statusline
+vim.opt.showtabline = 0 -- disable tabline
+vim.opt.winbar = "%=%r %f %m%=" -- winbar
 for _, ev in ipairs(events) do
     local tmp = ev
     local pattern

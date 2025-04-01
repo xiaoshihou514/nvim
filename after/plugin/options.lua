@@ -13,7 +13,6 @@ vim.opt.swapfile = false -- no swap file
 vim.opt.termguicolors = true -- set term gui colors (most terminals support this)
 vim.opt.timeoutlen = 200 -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.undofile = true -- enable persistent undo
-vim.opt.updatetime = 300 -- faster completion (4000ms default)
 vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 vim.opt.expandtab = true -- convert tabs to spaces
 vim.opt.shiftwidth = 4 -- the number of spaces inserted for each indentation
@@ -24,15 +23,10 @@ vim.opt.cmdheight = 0 -- disable cmdheight until used
 vim.opt.shortmess:append("WcCF") -- less noisy notifications
 vim.opt.scrolloff = 5 -- keep cursor within sight
 vim.opt.foldenable = false -- do not autofold
-vim.opt.pumheight = 15 -- prevents massive pummenu
 vim.opt.virtualedit = "block" -- select whatever in visual block mode
 vim.opt.shell = "fish" -- shell
-vim.opt.stal = 0 -- disable tabline
 vim.opt.foldlevelstart = 999 -- do not collapse my folds
-vim.opt.winbar = "%=%r %f %m%=" -- winbar
-vim.opt.smoothscroll = true -- some wrapping bs
-vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup,noselect" -- pum settings
-vim.opt.pumblend = 0 -- no transparency
+vim.opt.wildoptions = "pum,fuzzy"
 vim.opt.foldtext = "" -- forget about the boring default foldtext
 vim.opt.foldmethod = "manual"
 vim.opt.fillchars = "eob: ,fold: " -- no annoying ~ at end of buffer
