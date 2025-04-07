@@ -10,7 +10,6 @@ local opts = {
     conceallevel = 2,
     concealcursor = "nc",
 }
-
 for opt, val in pairs(opts) do
     api.nvim_set_option_value(opt, val, { win = 0 })
 end
@@ -33,12 +32,19 @@ local eza_cmd_with_hidden = {
     "--all",
     "--long",
 }
+local binfts = {
+    "pdf",
+    "mp4",
+    "mkv",
+    "png",
+    "svg",
+}
 local ns = api.nvim_create_namespace("Dired")
 local getcwd = vim.fn.getcwd
 
 local function get_file(line)
-    local file_patt_git = "%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+(.+)"
-    local file_patt = "%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+%S+%s+(.+)"
+    local file_patt_git = string.rep("%S+%s+", 8) .. "(.+)"
+    local file_patt = string.rep("%S+%s+", 7) .. "(.+)"
     local file = line:match(file_patt_git) or line:match(file_patt)
     if not file then
         return nil
@@ -49,7 +55,7 @@ local function get_file(line)
     return file
 end
 
-local function get_selected()
+local function get_cur_line()
     local line = api.nvim_get_current_line()
     local file = get_file(line)
     if not file then
@@ -85,9 +91,7 @@ end
 local function system(cmd, cwd, view, errormsg, f)
     vim.system(
         cmd,
-        {
-            cwd = cwd,
-        },
+        { cwd = cwd },
         vim.schedule_wrap(function(status)
             if status.code ~= 0 then
                 vim.notify(errormsg, 3)
@@ -104,7 +108,7 @@ local function system(cmd, cwd, view, errormsg, f)
 end
 
 local function edit_in(where)
-    local selected, tp = get_selected()
+    local selected, tp = get_cur_line()
     if not selected then
         return
     end
@@ -121,14 +125,18 @@ bind("n", "<Esc>", vim.cmd.quit, { buffer = true })
 
 -- open here
 bind("n", "<cr>", function()
-    local selected, tp = get_selected()
+    local selected, tp = get_cur_line()
     if not selected then
         return
     end
     if tp == "." then
         -- file
         api.nvim_command("silent! quit!")
-        api.nvim_command("edit " .. selected)
+        if vim.tbl_contains(binfts, vim.fn.fnamemodify(selected, ":e")) then
+            vim.ui.open(selected)
+        else
+            api.nvim_command("edit " .. selected)
+        end
     else
         -- directory
         refresh(selected)
@@ -163,7 +171,7 @@ end, { buffer = true })
 
 -- rename
 bind("n", "r", function()
-    local selected, _ = get_selected()
+    local selected, _ = get_cur_line()
     if not selected then
         return
     end
@@ -204,7 +212,7 @@ end, { buffer = true })
 
 -- select
 bind("n", "<Tab>", function()
-    local selected, _ = get_selected()
+    local selected, _ = get_cur_line()
     if not selected then
         return
     end
