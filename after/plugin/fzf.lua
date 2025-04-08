@@ -32,6 +32,10 @@ local function open_ivy_win()
     for opt, val in pairs(opts) do
         api.nvim_set_option_value(opt, val, { scope = "local" })
     end
+    -- HACK
+    bind("t", "<Esc>", function()
+        vim.cmd("bd!")
+    end)
     return win, buf
 end
 

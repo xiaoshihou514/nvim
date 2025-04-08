@@ -45,7 +45,13 @@ local getcwd = vim.fn.getcwd
 local function get_file(line)
     local file_patt_git = string.rep("%S+%s+", 8) .. "(.+)"
     local file_patt = string.rep("%S+%s+", 7) .. "(.+)"
+
     local file = line:match(file_patt_git) or line:match(file_patt)
+    -- handle 'dir with spaces'
+    if file and vim.endswith(file, "'") and not vim.startswith(file, "'") then
+        file = line:match(file_patt)
+    end
+
     if not file then
         return nil
     end
