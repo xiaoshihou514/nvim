@@ -59,8 +59,12 @@ local function execute(opts)
             api.nvim_win_close(win, true)
             api.nvim_buf_delete(buf, { force = true })
             local qf_items = {}
+            local no_success = true
             cmds:each(function(c)
-                if not pcall(api.nvim_cmd, c) and opts.qf then
+                if pcall(api.nvim_command, c) then
+                    no_success = false
+                end
+                if no_success and opts.qf then
                     table.insert(qf_items, c)
                 end
             end)
@@ -138,7 +142,7 @@ end
 local cmds = {
     oldfiles = function()
         execute({
-            cmd = "cat |" .. default .. file_bind,
+            cmd = "cat | " .. default .. file_bind,
             data = vim.tbl_filter(function(f)
                 ---@diagnostic disable-next-line: undefined-field
                 return vim.uv.fs_stat(f) ~= nil
