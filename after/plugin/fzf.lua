@@ -40,12 +40,11 @@ local fzf = exepath("fzf")
 local bat = exepath("bat") == "" and exepath("batcat") or exepath("bat")
 local batopts = "--theme=moonlight-ansi --color=always -pp"
 
-local function execute(cmd, data, cwd)
+local function execute(opts)
     local win, buf = open_ivy_win()
-    local id = vim.fn.jobstart(cmd, {
+    local id = vim.fn.jobstart(opts.cmd, {
         term = true,
         clear_env = true,
-        cwd = cwd,
         env = fd ~= ""
             and { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" },
         on_exit = function()
@@ -54,16 +53,31 @@ local function execute(cmd, data, cwd)
                 return
             end
             -- HACK
-            local line = vim.iter(lines):rev():find(function(ln)
+            local cmds = vim.iter(lines):rev():filter(function(ln)
                 return ln ~= "" and not ln:match("[[Process exited %d]]")
             end)
             api.nvim_win_close(win, true)
             api.nvim_buf_delete(buf, { force = true })
-            pcall(api.nvim_command, line)
+            local qf_items = {}
+            cmds:each(function(c)
+                if not pcall(api.nvim_cmd, c) and opts.qf then
+                    table.insert(qf_items, c)
+                end
+            end)
+
+            if opts.qf and not vim.tbl_isempty(qf_items) then
+                vim.fn.setqflist({}, "r", {
+                    items = vim.tbl_map(opts.qf, qf_items),
+                })
+                vim.cmd("botright copen")
+            end
         end,
     })
-    if data then
-        api.nvim_chan_send(id, type(data) == "table" and table.concat(data, "\n") or data)
+    if opts.data then
+        api.nvim_chan_send(
+            id,
+            type(opts.data) == "table" and table.concat(opts.data, "\n") or opts.data
+        )
         -- close stdin with C-d
         api.nvim_chan_send(id, "\n\x04")
     end
@@ -78,7 +92,8 @@ local function make_bindings(...)
     --bind "ctrl-x:become:echo '%s'"\
     --bind "ctrl-o:become:echo '%s'"\
     --bind "ctrl-t:become:echo '%s'"\
-    --bind "enter:become:echo '%s'"
+    --bind "enter:become:echo '%s'"\
+    --bind "ctrl-q:select-all+accept"
     ]]):format(...)
 end
 
@@ -87,6 +102,7 @@ local function get_history_file(purpose)
 end
 
 local default = ([[%s --layout=reverse \
+    --multi \
     --border=sharp \
     --preview='%s %s {}'\
 ]]):format(fzf, bat, batopts)
@@ -111,11 +127,19 @@ local function collect(map, nodes, significant)
     end
 end
 
+local function file_qf(item)
+    return { filename = item }
+end
+local function grep_qf(item)
+    local fname, row, col, preview = unpack(vim.split(item, ":"))
+    return { filename = fname, lnum = row, col = col, text = preview }
+end
+
 local cmds = {
     oldfiles = function()
-        execute(
-            "cat |" .. default .. file_bind,
-            vim.tbl_filter(function(f)
+        execute({
+            cmd = "cat |" .. default .. file_bind,
+            data = vim.tbl_filter(function(f)
                 ---@diagnostic disable-next-line: undefined-field
                 return vim.uv.fs_stat(f) ~= nil
                     and vim.iter({
@@ -127,14 +151,16 @@ local cmds = {
                     }):all(function(v, _)
                         return not f:match(v)
                     end)
-            end, vim.v.oldfiles)
-        )
+            end, vim.v.oldfiles),
+            qf = file_qf,
+        })
     end,
     grep = function()
-        execute(
-            ([[echo 'Type to start grepping' | %s \
+        execute({
+            cmd = ([[echo 'Type to start grepping' | %s \
         --layout=reverse \
         --disabled --ansi \
+        --multi \
         --border=sharp \
         --delimiter : \
         --preview='%s %s --highlight-line {2} {1}'\
@@ -147,8 +173,9 @@ local cmds = {
                     "split {1} | {2}",
                     "tabe {1} | {2}",
                     "edit {1} | {2}"
-                )
-        )
+                ),
+            qf = grep_qf,
+        })
         -- HACK: fix the keybinds at the neovim level...
         bind("t", "<C-p>", "<Up>", { buffer = true })
         bind("t", "<C-n>", "<Down>", { buffer = true })
@@ -156,52 +183,52 @@ local cmds = {
         bind("t", "<C-j>", "<C-n>", { buffer = true })
     end,
     cword = function()
-        execute(
-            ([[echo 'Type to start grepping' | %s \
+        execute({
+            cmd = ([[echo 'Type to start grepping' | %s \
         --layout=reverse \
+        --multi \
         --disabled --ansi \
         --border=sharp \
         --delimiter : \
         --preview='%s %s --highlight-line {2} {1}'\
         --preview-window '+{2}/2' \
         --bind "change:reload:rg --column --color=always {q} || :" \
-        ]]):format(fzf, bat, batopts)
-                .. make_bindings(
-                    "vsplit {1} | {2}",
-                    "split {1} | {2}",
-                    "tabe {1} | {2}",
-                    "edit {1} | {2}"
-                ),
-            vim.fn.expand("<cword>")
-        )
+        ]]):format(fzf, bat, batopts) .. make_bindings(
+                "vsplit {1} | {2}",
+                "split {1} | {2}",
+                "tabe {1} | {2}",
+                "edit {1} | {2}"
+            ),
+            data = vim.fn.expand("<cword>"),
+        })
     end,
     files = function()
-        execute(default .. file_bind)
+        execute({ cmd = default .. file_bind, qf = file_qf })
     end,
     buffers = function()
-        execute(
-            ([[ cat | %s --border=sharp ]]):format(fzf)
-                .. make_bindings(
-                    "vnew | buffer {1}",
-                    "new | buffer {1}",
-                    "tabnew | buffer {1}",
-                    "buffer {1}"
-                ),
-            api.nvim_exec2("buffers", { output = true }).output
-        )
+        execute({
+            cmd = ([[ cat | %s --border=sharp ]]):format(fzf) .. make_bindings(
+                "vnew | buffer {1}",
+                "new | buffer {1}",
+                "tabnew | buffer {1}",
+                "buffer {1}"
+            ),
+            data = api.nvim_exec2("buffers", { output = true }).output,
+        })
     end,
     ["files-cwd"] = function()
         local cwd = vim.fn.getcwd()
-        execute(
-            ([[%s . --maxdepth 1 --type f | ]]):format(fd)
+        execute({
+            cmd = ([[%s . --maxdepth 1 --type f | ]]):format(fd)
                 .. default
                 .. make_bindings(
                     "vsplit %s/{1}",
                     "split %s/{1}",
                     "tabe %s/{1}",
                     "edit %s/{1}"
-                ):format(cwd, cwd, cwd, cwd)
-        )
+                ):format(cwd, cwd, cwd, cwd),
+            qf = file_qf,
+        })
     end,
     ["lsp-symbols"] = function()
         local significant = {
@@ -241,8 +268,9 @@ local cmds = {
             local map = {}
             collect(map, results, significant)
 
-            execute(
-                ([[cat | %s --layout=reverse \
+            local buf = api.nvim_get_current_buf()
+            execute({
+                cmd = ([[cat | %s --layout=reverse \
             --border=sharp \
             --delimiter : \
             --preview='%s %s --highlight-line {1} %s'\
@@ -254,8 +282,12 @@ local cmds = {
                         "tabe %% | {1}",
                         "{1}"
                     ),
-                table.concat(map, "\n")
-            )
+                data = table.concat(map, "\n"),
+                qf = function(item)
+                    local row, preview = unpack(vim.split(item, ":"))
+                    return { bufnr = buf, lnum = row, text = preview }
+                end,
+            })
         end))
     end,
     ["refs"] = function()
@@ -296,21 +328,24 @@ local cmds = {
                 "\n"
             )
 
-            execute(
-                ([[cat | %s --layout=reverse \
+            execute({
+                cmd = ([[cat | %s --layout=reverse \
             --border=sharp \
             --delimiter : \
             --preview='%s %s --highlight-line {2} {1}'\
             --preview-window '+{2}/2' \
-            ]]):format(fzf, bat, batopts)
-                    .. make_bindings(
-                        "vsplit {1} | {2} | ",
-                        "split {1} | {2}",
-                        "tabe {1} | {2}",
-                        "edit {1} | {2}"
-                    ),
-                lines
-            )
+            ]]):format(fzf, bat, batopts) .. make_bindings(
+                    "vsplit {1} | {2} | ",
+                    "split {1} | {2}",
+                    "tabe {1} | {2}",
+                    "edit {1} | {2}"
+                ),
+                data = lines,
+                qf = function(item)
+                    local fname, row = unpack(vim.split(item, ":"))
+                    return { filename = fname, lnum = row }
+                end,
+            })
         end))
     end,
 }

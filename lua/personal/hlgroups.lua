@@ -109,13 +109,9 @@ return function(p)
         DiredDirectory = { fg = p.keyword, bold = true },
         DiredSymlink = { fg = p.info, bold = true },
         DiredExecutable = { fg = p.string, bold = true },
-        DiredPermissions = { fg = p.shade_5 },
         DiredSize = { fg = p.shade_5 },
-        DiredUser = { fg = p.func },
         DiredDate = { fg = p.keyword },
-        DiredPrompt = { fg = p.fg },
-        DiredTitle = { fg = p.shade_1 },
-        DiredShort = { fg = p.shade_5 },
+        DiredPrompt = { fg = p.constant },
 
         -- syntax
         Keyword = { fg = p.keyword },
