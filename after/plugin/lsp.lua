@@ -4,6 +4,15 @@ vim.opt.pumheight = 15 -- prevents massive pummenu
 vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup,noselect" -- pum settings
 vim.opt.pumblend = 0 -- no transparency
 
+-- stylua: ignore start
+local ascii = {
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+}
+-- stylua: ignore end
+
 api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         -- setup keybind
@@ -28,11 +37,17 @@ api.nvim_create_autocmd("LspAttach", {
 
         local client = assert(lsp.get_client_by_id(args.data.client_id))
 
-        -- enable lsp completion
-        api.nvim_create_autocmd({ "TextChangedI" }, {
-            buffer = args.buf,
-            callback = lsp.completion.get,
-        })
+        -- trigger compl more often
+        local tcs = vim.tbl_get(
+            client,
+            "server_capabilities",
+            "completionProvider",
+            "triggerCharacters"
+        )
+        if tcs then
+            client.server_capabilities.completionProvider.triggerCharacters =
+                vim.tbl_extend("keep", tcs, ascii)
+        end
         lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 
         -- TODO: remove when this is in core

@@ -381,11 +381,4 @@ bind("n", "<leader>f", "<cmd>Fzf files<cr>")
 bind("n", "<leader>;", "<cmd>enew | lcd ~/.config/nvim/ | Fzf files<cr>")
 bind("n", "<leader>b", "<cmd>Fzf buffers<cr>")
 bind("n", "<leader>t", "<cmd>Fzf lsp-symbols<cr>")
-
-api.nvim_create_autocmd("UIEnter", {
-    callback = function()
-        if vim.fn.argc() == 0 then
-            vim.cmd("Fzf oldfiles")
-        end
-    end,
-})
+bind("n", "<leader>o", "<cmd>Fzf oldfiles<cr>")
