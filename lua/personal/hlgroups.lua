@@ -32,7 +32,7 @@ return function(p)
         FloatShadow = { fg = p.shade_1 },
         FloatThrough = { fg = p.shade_2 },
         ColorColumn = { bg = p.shade_2 },
-        Directory = { fg = p.keyword },
+        Directory = { fg = p.keyword, bold = true },
         ErrorMsg = { fg = p.error },
         Error = { bg = p.error, fg = p.shade_2 },
         Folded = { bg = p.shade_1 },
@@ -106,12 +106,6 @@ return function(p)
         GitConflictIncoming = { bg = p.diffadd },
         GitConflictCurrentLabel = { bg = p.string, fg = p.bg, bold = true },
         GitConflictIncomingLabel = { bg = p.keyword, fg = p.bg, bold = true },
-        DiredDirectory = { fg = p.keyword, bold = true },
-        DiredSymlink = { fg = p.info, bold = true },
-        DiredExecutable = { fg = p.string, bold = true },
-        DiredSize = { fg = p.shade_5 },
-        DiredDate = { fg = p.keyword },
-        DiredPrompt = { fg = p.constant },
 
         -- syntax
         Keyword = { fg = p.keyword },

@@ -19,10 +19,10 @@ local packpath = vim.fn.stdpath("config") .. "/pack"
 vim.opt.packpath:append(packpath)
 local plugins = packpath .. "/data/opt/"
 
+---@diagnostic disable: undefined-field, param-type-mismatch
 vim.api.nvim_create_autocmd("BufRead", {
     callback = function()
         local uv = vim.uv
-        ---@diagnostic disable: undefined-field
         local handle = assert(uv.fs_opendir(plugins, nil, 4096))
         for _, t in ipairs(uv.fs_readdir(handle, nil)) do
             if t.type == "directory" then

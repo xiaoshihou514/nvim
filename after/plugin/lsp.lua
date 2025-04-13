@@ -4,6 +4,7 @@ vim.opt.pumheight = 15 -- prevents massive pummenu
 vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup,noselect" -- pum settings
 vim.opt.pumblend = 0 -- no transparency
 
+local ignored_lsp = { "phoenix" }
 -- stylua: ignore start
 local ascii = {
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
@@ -36,6 +37,9 @@ api.nvim_create_autocmd("LspAttach", {
         )
 
         local client = assert(lsp.get_client_by_id(args.data.client_id))
+        if vim.tbl_contains(ignored_lsp, client.name) then
+            return
+        end
 
         -- trigger compl more often
         local tcs = vim.tbl_get(
@@ -46,7 +50,7 @@ api.nvim_create_autocmd("LspAttach", {
         )
         if tcs then
             client.server_capabilities.completionProvider.triggerCharacters =
-                vim.tbl_extend("keep", tcs, ascii)
+                vim.tbl_extend("keep", ascii, tcs)
         end
         lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
 
