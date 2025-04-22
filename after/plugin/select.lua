@@ -49,7 +49,7 @@ vim.ui.select = function(items, opts, on_choice)
             env = { FZF_DEFAULT_COMMAND = "fd -H --type f --strip-cwd-prefix" },
             on_exit = function(_, code, _)
                 if code ~= 0 then
-                    api.nvim_win_close(win, true)
+                    pcall(api.nvim_win_close, win, true)
                     on_choice(nil)
                     return
                 end

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "codeberg",
+    "url": "ssh://git@codeberg.org/xiaoshihou/nvim.git"
+  },
+  {
+    "name": "sourcehut",
+    "url": "git@git.sr.ht:~xiaoshihou/nvim"
+  },
+  {
+    "name": "gitlab",
+    "url": "git@gitlab.com:xiaoshihou/nvim.git"
+  }
+]

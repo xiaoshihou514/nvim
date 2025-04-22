@@ -40,6 +40,7 @@ return function(p)
         SignColumn = { bg = p.bg },
         MoreMsg = { fg = p.string },
         Macro = { fg = p.error },
+        ModeMsg = { fg = p.string },
         EndOfBuffer = { fg = p.fg },
         NonText = { fg = p.info },
         SpellBad = { undercurl = true, sp = p.error },
