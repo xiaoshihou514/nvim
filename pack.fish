@@ -38,8 +38,8 @@ function update
     git add -A
 end
 
-# set github "https://github.com"
-set github "https://ghfast.top/https://github.com"
+set github "https://github.com"
+# set github "https://ghfast.top/https://github.com"
 
 if test (count $argv) -eq 0
     setup

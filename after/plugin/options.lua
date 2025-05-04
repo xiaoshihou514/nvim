@@ -20,7 +20,7 @@ vim.opt.tabstop = 4 -- insert 4 spaces for a tab
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.wrap = false -- display lines as one long line
 vim.opt.cmdheight = 0 -- disable cmdheight until used
-vim.opt.shortmess:append("WcCF") -- less noisy notifications
+vim.opt.shortmess = "aoOstTWcCqS"
 vim.opt.scrolloff = 5 -- keep cursor within sight
 vim.opt.foldenable = false -- do not autofold
 vim.opt.virtualedit = "block" -- select whatever in visual block mode
