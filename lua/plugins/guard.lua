@@ -7,6 +7,10 @@ loaded = true
 vim.cmd.packadd("guard")
 vim.cmd.packadd("guard-collection")
 
+vim.g.guard_config = {
+    diagnostic_refresh = true,
+}
+
 _G.ft = require("guard.filetype")
 local lint = require("guard.lint")
 
@@ -59,3 +63,4 @@ ft("zig"):fmt({
 })
 
 ft("typst"):fmt("typstyle")
+ft("clojure"):fmt("cljfmt")

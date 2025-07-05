@@ -6,10 +6,10 @@ vim.ui.select = function(items, opts, on_choice)
     local buf = api.nvim_create_buf(false, true)
     local win = api.nvim_open_win(buf, true, {
         relative = "editor",
-        row = math.floor(height * 0.25),
-        col = math.floor(width * 0.25),
-        height = math.ceil(height * 0.5),
-        width = math.ceil(width * 0.5),
+        row = math.floor(height * 0.1),
+        col = math.floor(width * 0.1),
+        height = math.ceil(height * 0.8),
+        width = math.ceil(width * 0.8),
     })
     local bufopts = {
         bufhidden = "wipe",

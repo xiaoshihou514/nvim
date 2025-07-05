@@ -13,7 +13,13 @@ local function create_padwin(direction)
 end
 
 api.nvim_create_user_command("Zen", function()
-    if #api.nvim_tabpage_list_wins(api.nvim_get_current_tabpage()) ~= 1 then
+    if
+        #vim.iter(api.nvim_tabpage_list_wins(api.nvim_get_current_tabpage()))
+            :filter(function(win)
+                return api.nvim_win_get_config(win).relative == ""
+            end)
+            :totable() ~= 1
+    then
         vim.cmd.only()
         vim.wo.fillchars = "eob: ,fold: "
         return

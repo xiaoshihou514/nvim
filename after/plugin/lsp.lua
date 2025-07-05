@@ -120,7 +120,16 @@ lsp.config("*", {
     capabilities = lsp.protocol.make_client_capabilities(),
 })
 
-local lsps = { "basedpyright", "clangd", "hls", "nvim_luals", "rust_analyzer" }
+local lsps = {
+    "basedpyright",
+    "clangd",
+    "hls",
+    "nvim_luals",
+    "rust_analyzer",
+    "dartls",
+    "clojurelsp",
+    "tinymist",
+}
 
 for _, name in ipairs(lsps) do
     if vim.fn.executable(lsp.config[name].cmd[1]) == 1 then

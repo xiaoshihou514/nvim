@@ -1,6 +1,6 @@
 -- leader stuff
 bind({ "n", "x", "t" }, "<leader>q", "<cmd>quit<cr>")
-bind("n", "<leader>w", "<cmd>write<cr>")
+bind("n", "<leader>w", "<cmd>silent write<cr>")
 bind("n", "<leader>h", "<cmd>nohlsearch<cr>")
 bind("n", "<leader>a", "<cmd>$tabnew<cr>")
 bind("n", "<leader>l", "<cmd>source %<cr>")

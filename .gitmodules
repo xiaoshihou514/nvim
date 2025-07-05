@@ -1,40 +1,40 @@
 [submodule "pack/data/opt/mini-hipatterns"]
 	path = pack/data/opt/mini-hipatterns
-	url = https://ghfast.top/https://github.com/echasnovski/mini.hipatterns
+	url = https://github.com/echasnovski/mini.hipatterns
 	branch = main
 [submodule "pack/data/opt/plenary"]
 	path = pack/data/opt/plenary
-	url = https://ghfast.top/https://github.com/nvim-lua/plenary.nvim
+	url = https://github.com/nvim-lua/plenary.nvim
 	branch = master
 [submodule "pack/data/opt/treesitter"]
 	path = pack/data/opt/treesitter
-	url = https://ghfast.top/https://github.com/nvim-treesitter/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter
 	branch = main
 [submodule "pack/data/opt/guard-collection"]
 	path = pack/data/opt/guard-collection
-	url = https://ghfast.top/https://github.com/nvimdev/guard-collection
+	url = https://github.com/nvimdev/guard-collection
 	branch = main
 [submodule "pack/data/opt/guard"]
 	path = pack/data/opt/guard
-	url = https://ghfast.top/https://github.com/nvimdev/guard.nvim
+	url = https://github.com/nvimdev/guard.nvim
 	branch = main
 [submodule "pack/data/opt/indentmini"]
 	path = pack/data/opt/indentmini
-	url = https://ghfast.top/https://github.com/nvimdev/indentmini.nvim
+	url = https://github.com/nvimdev/indentmini.nvim
 	branch = main
 [submodule "pack/data/opt/phoenix"]
 	path = pack/data/opt/phoenix
-	url = https://ghfast.top/https://github.com/nvimdev/phoenix.nvim
+	url = https://github.com/nvimdev/phoenix.nvim
 	branch = main
 [submodule "pack/data/opt/metals"]
 	path = pack/data/opt/metals
-	url = https://ghfast.top/https://github.com/scalameta/nvim-metals
+	url = https://github.com/scalameta/nvim-metals
 	branch = main
 [submodule "pack/data/opt/git-conflict"]
 	path = pack/data/opt/git-conflict
-	url = https://ghfast.top/https://github.com/xiaoshihou514/git-conflict.nvim
+	url = https://github.com/xiaoshihou514/git-conflict.nvim
 	branch = main
 [submodule "pack/data/opt/squirrel"]
 	path = pack/data/opt/squirrel
-	url = https://ghfast.top/https://github.com/xiaoshihou514/squirrel.nvim
+	url = https://github.com/xiaoshihou514/squirrel.nvim
 	branch = main

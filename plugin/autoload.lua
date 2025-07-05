@@ -10,6 +10,7 @@ local patterns = {
     dart = { "pubspec.yaml" },
     javascript = { "package.json" },
     python = { "pyproject.toml", "requirements.txt" },
+    clojure = { "project.clj" },
 }
 
 _G.root_patterns = setmetatable({}, {

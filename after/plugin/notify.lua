@@ -2,33 +2,34 @@
 require("vim._extui").enable({
     enable = true,
     msg = {
-        ---@type 'box'|'cmd'
-        pos = "box",
-        box = { timeout = 4000 },
+        target = "msg",
+        timeout = 2000,
     },
 })
 
+local l = vim.log.levels
 local title = {
-    [vim.log.levels.DEBUG] = " Debug: ",
-    [vim.log.levels.ERROR] = " Error: ",
-    [vim.log.levels.INFO] = " Info: ",
-    [vim.log.levels.TRACE] = " Trace: ",
-    [vim.log.levels.WARN] = " Warning: ",
-    [vim.log.levels.OFF] = "󰂛 Off: ",
+    [l.DEBUG] = " Debug: ",
+    [l.ERROR] = " Error: ",
+    [l.INFO] = " Info: ",
+    [l.TRACE] = " Trace: ",
+    [l.WARN] = " Warning: ",
+    [l.OFF] = "󰂛 Off: ",
 }
 local hls = {
-    [vim.log.levels.DEBUG] = "NotifyDebug",
-    [vim.log.levels.ERROR] = "NotifyError",
-    [vim.log.levels.INFO] = "NotifyInfo",
-    [vim.log.levels.TRACE] = "NotifyTrace",
-    [vim.log.levels.WARN] = "NotifyWarn",
-    [vim.log.levels.OFF] = "NotifyOff",
+    [l.DEBUG] = "NotifyDebug",
+    [l.ERROR] = "NotifyError",
+    [l.INFO] = "NotifyInfo",
+    [l.TRACE] = "NotifyTrace",
+    [l.WARN] = "NotifyWarn",
+    [l.OFF] = "NotifyOff",
 }
 
 ---@param msg string
 ---@param level integer?
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.notify = function(msg, level, _)
+    level = level or l.INFO
     vim.api.nvim_echo(
         {
             { title[level], hls[level] },
@@ -36,7 +37,7 @@ vim.notify = function(msg, level, _)
         },
         true,
         {
-            err = level == vim.log.levels.ERROR,
+            err = level == l.ERROR,
         }
     )
 end
