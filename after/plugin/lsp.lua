@@ -3,16 +3,8 @@ local api, lsp = vim.api, vim.lsp
 vim.opt.pumheight = 15 -- prevents massive pummenu
 vim.opt.completeopt = "menu,menuone,noinsert,fuzzy,popup,noselect" -- pum settings
 vim.opt.pumblend = 0 -- no transparency
-
-local ignored_lsp = { "phoenix" }
--- stylua: ignore start
-local ascii = {
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-}
--- stylua: ignore end
+vim.opt.complete = ".,o,kspell"
+vim.opt.autocomplete = true
 
 api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
@@ -37,22 +29,17 @@ api.nvim_create_autocmd("LspAttach", {
         )
 
         local client = assert(lsp.get_client_by_id(args.data.client_id))
-        if vim.tbl_contains(ignored_lsp, client.name) then
-            return
-        end
-
-        -- trigger compl more often
-        local tcs = vim.tbl_get(
-            client,
-            "server_capabilities",
-            "completionProvider",
-            "triggerCharacters"
-        )
-        if tcs then
-            client.server_capabilities.completionProvider.triggerCharacters =
-                vim.tbl_extend("keep", ascii, tcs)
-        end
-        lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+        lsp.completion.enable(true, client.id, args.buf, {
+            convert = function(item)
+                local l = item.label or ""
+                local d = item.detail or ""
+                local max = 40
+                return {
+                    abbr = #l > max and l:sub(1, max - 1) .. "…" or l,
+                    menu = #d > max and d:sub(1, max - 1) .. "…" or d,
+                }
+            end,
+        })
 
         -- TODO: remove when this is in core
         local cancel_prev = function() end
