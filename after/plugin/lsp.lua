@@ -116,6 +116,7 @@ local lsps = {
     "dartls",
     "clojurelsp",
     "tinymist",
+    "csharpls",
 }
 
 for _, name in ipairs(lsps) do
