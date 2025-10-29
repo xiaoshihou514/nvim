@@ -107,16 +107,36 @@ lsp.config("*", {
     capabilities = lsp.protocol.make_client_capabilities(),
 })
 
+vim.lsp.config("lua_ls", {
+    on_init = function(client)
+        client.config.settings.Lua =
+            vim.tbl_deep_extend("force", client.config.settings.Lua, {
+                runtime = {
+                    version = "LuaJIT",
+                    path = {
+                        "lua/?.lua",
+                        "lua/?/init.lua",
+                    },
+                },
+                workspace = {
+                    checkThirdParty = false,
+                    library = { vim.env.VIMRUNTIME },
+                },
+            })
+    end,
+    settings = { Lua = {} },
+})
+
 local lsps = {
     "basedpyright",
     "clangd",
     "hls",
-    "nvim_luals",
+    "lua_ls",
     "rust_analyzer",
     "dartls",
-    "clojurelsp",
+    "clojure_lsp",
     "tinymist",
-    "csharpls",
+    "csharp_ls",
 }
 
 for _, name in ipairs(lsps) do

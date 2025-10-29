@@ -4,9 +4,6 @@ if loaded then
 end
 loaded = true
 
-vim.cmd.packadd("guard")
-vim.cmd.packadd("guard-collection")
-
 vim.g.guard_config = {
     diagnostic_refresh = true,
 }

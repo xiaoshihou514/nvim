@@ -3,8 +3,6 @@ local loaded
 return {
     init = function()
         if not loaded then
-            vim.cmd.packadd("plenary")
-            vim.cmd.packadd("metals")
             loaded = true
         end
 
