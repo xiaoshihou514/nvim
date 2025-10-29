@@ -1,43 +1,43 @@
 -- just leverage builtin ui attach
--- require("vim._extui").enable({
---     enable = true,
---     msg = {
---         target = "msg",
---         timeout = 2000,
---     },
--- })
---
--- local l = vim.log.levels
--- local title = {
---     [l.DEBUG] = " Debug: ",
---     [l.ERROR] = " Error: ",
---     [l.INFO] = " Info: ",
---     [l.TRACE] = " Trace: ",
---     [l.WARN] = " Warning: ",
---     [l.OFF] = "󰂛 Off: ",
--- }
--- local hls = {
---     [l.DEBUG] = "NotifyDebug",
---     [l.ERROR] = "NotifyError",
---     [l.INFO] = "NotifyInfo",
---     [l.TRACE] = "NotifyTrace",
---     [l.WARN] = "NotifyWarn",
---     [l.OFF] = "NotifyOff",
--- }
---
--- ---@param msg string
--- ---@param level integer?
--- ---@diagnostic disable-next-line: duplicate-set-field
--- vim.notify = function(msg, level, _)
---     level = level or l.INFO
---     vim.api.nvim_echo(
---         {
---             { title[level], hls[level] },
---             { msg },
---         },
---         true,
---         {
---             err = level == l.ERROR,
---         }
---     )
--- end
+require("vim._extui").enable({
+    enable = true,
+    msg = {
+        target = "msg",
+        timeout = 2000,
+    },
+})
+
+local l = vim.log.levels
+local title = {
+    [l.DEBUG] = " Debug: ",
+    [l.ERROR] = " Error: ",
+    [l.INFO] = " Info: ",
+    [l.TRACE] = " Trace: ",
+    [l.WARN] = " Warning: ",
+    [l.OFF] = "󰂛 Off: ",
+}
+local hls = {
+    [l.DEBUG] = "NotifyDebug",
+    [l.ERROR] = "NotifyError",
+    [l.INFO] = "NotifyInfo",
+    [l.TRACE] = "NotifyTrace",
+    [l.WARN] = "NotifyWarn",
+    [l.OFF] = "NotifyOff",
+}
+
+---@param msg string
+---@param level integer?
+---@diagnostic disable-next-line: duplicate-set-field
+vim.notify = function(msg, level, _)
+    level = level or l.INFO
+    vim.api.nvim_echo(
+        {
+            { title[level], hls[level] },
+            { msg },
+        },
+        true,
+        {
+            err = level == l.ERROR,
+        }
+    )
+end

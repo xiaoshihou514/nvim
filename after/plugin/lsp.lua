@@ -95,12 +95,6 @@ end
 command("LspFmt", function()
     lsp.buf.format({ async = true })
 end)
-command("LspLog", function()
-    vim.cmd("tabedit " .. vim.fn.stdpath("state") .. "/lsp.log")
-end)
-command("LspInfo", function()
-    vim.cmd("checkhealth lsp")
-end)
 
 -- lsp configuration
 lsp.config("*", {
