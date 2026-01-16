@@ -31,3 +31,4 @@ vim.opt.foldtext = "" -- forget about the boring default foldtext
 vim.opt.foldmethod = "manual"
 vim.opt.fillchars = "eob: ,fold: " -- no annoying ~ at end of buffer
 vim.opt.winborder = "single"
+vim.opt.exrc = true

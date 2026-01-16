@@ -26,6 +26,7 @@ vim.pack.add({
     "https://github.com/scalameta/nvim-metals",
     "https://github.com/xiaoshihou514/git-conflict.nvim",
     "https://github.com/xiaoshihou514/squirrel.nvim",
+    "https://github.com/Julian/lean.nvim",
 })
 
 vim.api.nvim_create_autocmd("BufRead", {

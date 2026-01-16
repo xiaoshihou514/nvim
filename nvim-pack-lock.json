@@ -1,47 +1,51 @@
 {
   "plugins": {
     "git-conflict.nvim": {
-      "rev": "fd2a3fb",
+      "rev": "fd2a3fb4a7e6bbbd24b84808e90172fb31b9e2e1",
       "src": "https://github.com/xiaoshihou514/git-conflict.nvim"
     },
     "guard-collection": {
-      "rev": "6bd5ad7",
+      "rev": "411971cb8b4eadfa8a4d5a64edbfda606ab30002",
       "src": "https://github.com/nvimdev/guard-collection"
     },
     "guard.nvim": {
-      "rev": "5fd971c",
+      "rev": "c1d2b668e0d1868e9be5757bb9aa278bc1f84c18",
       "src": "https://github.com/nvimdev/guard.nvim"
     },
     "indentmini.nvim": {
-      "rev": "e0f1e38",
+      "rev": "38572ce5a7a064a5deb89d6d861b7c40fc929ab1",
       "src": "https://github.com/nvimdev/indentmini.nvim"
     },
+    "lean.nvim": {
+      "rev": "41c695d6712be65250a27c4df241be31da434e22",
+      "src": "https://github.com/Julian/lean.nvim"
+    },
     "mini.hipatterns": {
-      "rev": "5629d5f",
+      "rev": "add8d8abad602787377ec5d81f6b248605828e0f",
       "src": "https://github.com/echasnovski/mini.hipatterns"
     },
     "nvim-lspconfig": {
-      "rev": "48a9b4d",
+      "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-metals": {
-      "rev": "40f7b9e",
+      "rev": "90dadd67bb1069ce1ba2a4dabf4e45da2807ba80",
       "src": "https://github.com/scalameta/nvim-metals"
     },
     "nvim-treesitter": {
-      "rev": "42fc28ba",
+      "rev": "5a7e5638e7d220575b1c22c8a2e099b52231886e",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "phoenix.nvim": {
-      "rev": "6335fd2",
+      "rev": "71ddba235c57fa8beb139ea554e7269900695abf",
       "src": "https://github.com/nvimdev/phoenix.nvim"
     },
     "plenary.nvim": {
-      "rev": "b9fd522",
+      "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "squirrel.nvim": {
-      "rev": "4f51ad8",
+      "rev": "4f51ad87b2d35d04aaacb4aaa7c8a13449cb3d1a",
       "src": "https://github.com/xiaoshihou514/squirrel.nvim"
     }
   }

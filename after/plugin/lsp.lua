@@ -122,19 +122,20 @@ vim.lsp.config("lua_ls", {
 })
 
 local lsps = {
-    "basedpyright",
-    "clangd",
-    "hls",
-    "lua_ls",
-    "rust_analyzer",
-    "dartls",
-    "clojure_lsp",
-    "tinymist",
-    "csharp_ls",
+    basedpyright = "basedpyright",
+    clangd = "clangd",
+    hls = "haskell-language-server-wrapper",
+    lua_ls = "lua-language-server",
+    rust_analyzer = "rust-analyzer",
+    dartls = "dart",
+    clojure_lsp = "clojure-lsp",
+    tinymist = "tinymist",
+    csharp_ls = "csharp-ls",
+    leanls = "lake"
 }
 
-for _, name in ipairs(lsps) do
-    if vim.fn.executable(lsp.config[name].cmd[1]) == 1 then
+for name, cmd in pairs(lsps) do
+    if vim.fn.executable(cmd) == 1 then
         lsp.enable(name)
     end
 end
