@@ -9,7 +9,7 @@
       "src": "https://github.com/nvimdev/guard-collection"
     },
     "guard.nvim": {
-      "rev": "c1d2b668e0d1868e9be5757bb9aa278bc1f84c18",
+      "rev": "8e72406479681db9e347d951759c7a14e7937e31",
       "src": "https://github.com/nvimdev/guard.nvim"
     },
     "indentmini.nvim": {
@@ -17,7 +17,7 @@
       "src": "https://github.com/nvimdev/indentmini.nvim"
     },
     "lean.nvim": {
-      "rev": "41c695d6712be65250a27c4df241be31da434e22",
+      "rev": "68ad9a01b7da30213441016667ad3f946d080fe8",
       "src": "https://github.com/Julian/lean.nvim"
     },
     "mini.hipatterns": {
@@ -25,15 +25,15 @@
       "src": "https://github.com/echasnovski/mini.hipatterns"
     },
     "nvim-lspconfig": {
-      "rev": "92ee7d42320edfbb81f3cad851314ab197fa324a",
+      "rev": "ff9c0af8f9b2097fdd2695058db7e04c193908aa",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-metals": {
-      "rev": "90dadd67bb1069ce1ba2a4dabf4e45da2807ba80",
+      "rev": "7ed47cd3095508e80423e30922385d5b9988f9d6",
       "src": "https://github.com/scalameta/nvim-metals"
     },
     "nvim-treesitter": {
-      "rev": "5a7e5638e7d220575b1c22c8a2e099b52231886e",
+      "rev": "f8bbc3177d929dc86e272c41cc15219f0a7aa1ac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "phoenix.nvim": {

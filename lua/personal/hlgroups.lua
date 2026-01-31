@@ -266,5 +266,8 @@ return function(p)
 
         -- Lang: CMake
         ["@function.builtin.cmake"] = { link = "Function" },
+
+        -- Lang: Lean
+        leanSorry = { fg = p.error }
     }
 end
