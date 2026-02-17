@@ -38,6 +38,7 @@ local binfts = {
     "mkv",
     "png",
     "svg",
+    "zip",
 }
 local ns = api.nvim_create_namespace("Dired")
 local getcwd = vim.fn.getcwd
@@ -230,6 +231,7 @@ bind("n", "<Tab>", function()
         -- add to selection
         table.insert(temp, selected)
 
+        ---@diagnostic disable-next-line: param-type-mismatch
         local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
         api.nvim_buf_set_extmark(0, ns, row - 1, 0, {
             end_col = #api.nvim_get_current_line(),
@@ -239,6 +241,7 @@ bind("n", "<Tab>", function()
         -- remove from selection
         table.remove(temp, idx + 1)
 
+        ---@diagnostic disable-next-line: param-type-mismatch
         local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
         local extmark =
             api.nvim_buf_get_extmarks(0, ns, { row - 1, 0 }, { row + 1, 0 }, {})[1]

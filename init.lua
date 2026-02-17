@@ -25,7 +25,6 @@ vim.pack.add({
     "https://github.com/nvimdev/phoenix.nvim",
     "https://github.com/scalameta/nvim-metals",
     "https://github.com/xiaoshihou514/git-conflict.nvim",
-    "https://github.com/xiaoshihou514/squirrel.nvim",
     "https://github.com/Julian/lean.nvim",
 })
 
