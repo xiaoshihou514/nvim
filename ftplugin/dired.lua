@@ -379,6 +379,10 @@ bind("n", "/", function()
     vim.cmd.lcd(save)
 end, { buffer = true })
 
+bind("n", "o", function()
+    vim.system({ "xdg-open", getcwd() })
+end, { buffer = true })
+
 disable("n", "i")
 disable("n", "a")
 disable("n", "A")
