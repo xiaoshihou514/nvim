@@ -41,6 +41,12 @@ end
 
 local fd = exepath("fd") == "" and exepath("fdfind") or exepath("fd")
 local fzf = exepath("fzf")
+if fzf == "" then
+    api.nvim_create_user_command("Fzf", function()
+        vim.notify("fzf not found, install fzf to use this command", vim.log.levels.ERROR)
+    end, { nargs = 1 })
+    return
+end
 local bat = exepath("bat") == "" and exepath("batcat") or exepath("bat")
 local batopts = "--theme=moonlight-ansi --color=always -pp"
 
@@ -50,7 +56,8 @@ local function execute(opts)
         term = true,
         clear_env = true,
         env = fd ~= ""
-            and { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" },
+            and { FZF_DEFAULT_COMMAND = fd .. " -H --type f --strip-cwd-prefix" }
+            or nil,
         on_exit = function()
             local ok, lines = pcall(api.nvim_buf_get_lines, buf, 0, -1, false)
             if not ok then

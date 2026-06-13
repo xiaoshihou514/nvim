@@ -1,15 +1,19 @@
 {
   "plugins": {
+    "dired.nvim": {
+      "rev": "054ce8dbb5068a2820f4af116a49d62d9942584c",
+      "src": "git@github.com:xiaoshihou514/dired.nvim.git"
+    },
     "git-conflict.nvim": {
       "rev": "fd2a3fb4a7e6bbbd24b84808e90172fb31b9e2e1",
       "src": "https://github.com/xiaoshihou514/git-conflict.nvim"
     },
     "guard-collection": {
-      "rev": "411971cb8b4eadfa8a4d5a64edbfda606ab30002",
+      "rev": "edf6c86c06badc972964dadb7fd469022690cbf0",
       "src": "https://github.com/nvimdev/guard-collection"
     },
     "guard.nvim": {
-      "rev": "8e72406479681db9e347d951759c7a14e7937e31",
+      "rev": "addb8d2f40662b8b62d60dd7d18f503beb2332e7",
       "src": "https://github.com/nvimdev/guard.nvim"
     },
     "indentmini.nvim": {
@@ -17,31 +21,31 @@
       "src": "https://github.com/nvimdev/indentmini.nvim"
     },
     "lean.nvim": {
-      "rev": "68ad9a01b7da30213441016667ad3f946d080fe8",
+      "rev": "999fab45a246478148ea54501f3bfc1e07a208a2",
       "src": "https://github.com/Julian/lean.nvim"
     },
     "mini.hipatterns": {
-      "rev": "add8d8abad602787377ec5d81f6b248605828e0f",
+      "rev": "9eff319bbe66adfaf781a0d0e174baa08ba94909",
       "src": "https://github.com/echasnovski/mini.hipatterns"
     },
     "nvim-lspconfig": {
-      "rev": "ff9c0af8f9b2097fdd2695058db7e04c193908aa",
+      "rev": "0e25d7445ba0d7cc0ad02a39aa843cc8b9d2525e",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-metals": {
-      "rev": "7ed47cd3095508e80423e30922385d5b9988f9d6",
+      "rev": "4cc98f07ec96bb748a8796831767538e0e4f9be4",
       "src": "https://github.com/scalameta/nvim-metals"
     },
     "nvim-treesitter": {
-      "rev": "f8bbc3177d929dc86e272c41cc15219f0a7aa1ac",
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "phoenix.nvim": {
-      "rev": "71ddba235c57fa8beb139ea554e7269900695abf",
+      "rev": "267f88ca76677abc1492df7cd267278472f84f2d",
       "src": "https://github.com/nvimdev/phoenix.nvim"
     },
     "plenary.nvim": {
-      "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "squirrel.nvim": {
